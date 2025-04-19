@@ -1,0 +1,57 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+
+@use '../abstracts' as *;
+
+// ===========================================
+// 🌗 Génération des variables CSS par thème
+// ===========================================
+
+@each $theme-name, $theme-vars in $themes {
+  [data-theme='#{$theme-name}'] {
+    --color-text: map-get($theme-vars, text);
+    --color-bg: map-get($theme-vars, background);
+    --color-primary: map-get($theme-vars, primary);
+  }
+}
+
+// ===========================================
+// 🧱 Base CSS globale
+// ===========================================
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+// ===========================================
+// 🔗 Liens
+// ===========================================
+
+a {
+  color: $brand-color;
+  text-decoration: none;
+
+  @include on-event {
+    color: $text-color;
+    text-decoration: underline;
+  }
+}
+
+// ===========================================
+// 🖋️ Styles du body (dépendant du thème actif)
+// ===========================================
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}

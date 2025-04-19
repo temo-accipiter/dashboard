@@ -1,0 +1,25 @@
+.lang-selector {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    padding: 0.3rem 0.6rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: 0.2s;
+
+    &.active {
+      border-color: var(--color-text);
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  button:hover {
+    border-color: var(--color-text);
+  }
+}

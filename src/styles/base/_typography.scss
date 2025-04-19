@@ -1,0 +1,74 @@
+// -----------------------------------------------------------------------------
+// Typography styles for all projects
+// -----------------------------------------------------------------------------
+@use '../abstracts' as *;
+
+body {
+  color: $text-color;
+  font: normal 125% / 1.4 $text-font-stack;
+}
+
+// Titres
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
+}
+
+// Paragraphes
+p {
+  margin-bottom: 1rem;
+}
+
+// Listes
+ul,
+ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.25rem;
+}
+
+// Liens
+a {
+  color: $brand-color;
+  text-decoration: none;
+
+  @include on-event {
+    text-decoration: underline;
+  }
+}
+
+// Citations
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid $brand-color;
+  background-color: #f9f9f9;
+  font-style: italic;
+}
+
+// Code inline
+code {
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+}
+
+// Code block
+pre {
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}

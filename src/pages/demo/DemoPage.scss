@@ -1,0 +1,30 @@
+.demo-page {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .demo-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 2rem 0;
+  }
+
+  .demo-section {
+    margin-top: 2rem;
+
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}
