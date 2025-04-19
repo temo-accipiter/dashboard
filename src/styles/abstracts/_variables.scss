@@ -4,11 +4,7 @@
 
 /// Font Stack
 $text-font-stack:
-  'Open Sans',
-  'Helvetica Neue Light',
-  'Helvetica Neue',
-  'Helvetica',
-  'Arial',
+  'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial',
   sans-serif !default;
 
 /// Largeur max du conteneur
@@ -26,4 +22,3 @@ $breakpoints: (
 
 /// URL des assets
 $base-url: '/assets/' !default;
-

@@ -1,17 +1,38 @@
+.site-header {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.site-header h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
 .nav {
   display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 1.5rem;
 }
 
 .nav a {
+  color: white;
   text-decoration: none;
-  color: var(--color-text);
   font-weight: 500;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.nav a:hover {
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .nav a.active {
-  border-bottom: 2px solid var(--color-text);
+  border-color: white;
 }
 
 .tools {
