@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+// 1. 💡 Variables Sass & outils
 @use './abstracts' as *;
+
+// 2. 📦 Librairies externes (normalize.css, etc.)
 @use './vendors' as *;
+
+// 3. 🎨 Variables CSS dynamiques (affecte le DOM via :root ou [data-theme])
+@use './themes/theme-vars.scss';
+
+// 4. 🧱 Styles de base (body, h1, liens, etc.)
 @use './base' as *;

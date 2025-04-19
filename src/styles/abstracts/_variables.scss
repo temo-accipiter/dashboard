@@ -1,55 +1,29 @@
 // -----------------------------------------------------------------------------
-// This file contains all application-wide Sass variables.
+// 🎨 Fichier central des variables Sass globales (non liées au thème JS)
 // -----------------------------------------------------------------------------
 
-/// Regular font family
-/// @type List
+/// Font Stack
 $text-font-stack:
-  'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial',
+  'Open Sans',
+  'Helvetica Neue Light',
+  'Helvetica Neue',
+  'Helvetica',
+  'Arial',
   sans-serif !default;
 
-/// Copy text color
-/// @type Color
-$text-color: rgb(34, 34, 34) !default;
+/// Largeur max du conteneur
+$max-width: 1200px !default;
 
-/// Breakpoints map
-/// @prop {String} keys - Keys are identifiers mapped to a given length
-/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+/// Couleur de marque (ex: boutons, liens) si besoin
+$brand-color: #646cff !default;
+
+/// Breakpoints
 $breakpoints: (
   'small': 320px,
   'medium': 768px,
   'large': 1024px,
 ) !default;
 
-/// Relative or absolute URL where all assets are served from
-/// @type String
-/// @example scss - When using a CDN
-///   $base-url: 'https://cdn.example.com/assets/';
+/// URL des assets
 $base-url: '/assets/' !default;
 
-$brand-color: #646cff !default;
-
-$max-width: 1200px !default;
-
-:root {
-  --color-bg: #ffffff;
-  --color-text: #222222;
-}
-
-[data-theme='dark'] {
-  --color-bg: #1a1a1a;
-  --color-text: #eeeeee;
-}
-
-$themes: (
-  light: (
-    text: #222,
-    background: #fff,
-    primary: #007bff,
-  ),
-  dark: (
-    text: #fff,
-    background: #121212,
-    primary: #1e90ff,
-  ),
-);

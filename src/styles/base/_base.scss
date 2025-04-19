@@ -5,18 +5,6 @@
 @use '../abstracts' as *;
 
 // ===========================================
-// 🌗 Génération des variables CSS par thème
-// ===========================================
-
-@each $theme-name, $theme-vars in $themes {
-  [data-theme='#{$theme-name}'] {
-    --color-text: map-get($theme-vars, text);
-    --color-bg: map-get($theme-vars, background);
-    --color-primary: map-get($theme-vars, primary);
-  }
-}
-
-// ===========================================
 // 🧱 Base CSS globale
 // ===========================================
 
@@ -35,11 +23,11 @@ html {
 // ===========================================
 
 a {
-  color: $brand-color;
+  color: var(--color-link);
   text-decoration: none;
 
   @include on-event {
-    color: $text-color;
+    color: var(--color-primary);
     text-decoration: underline;
   }
 }
