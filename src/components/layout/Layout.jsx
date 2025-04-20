@@ -1,15 +1,15 @@
-import Header from '@/components/header/Header'
 import Sidebar from '@/components/sidebar/Sidebar'
+import Navbar from '@/components/navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 import './Layout.scss'
 
 export default function Layout() {
   return (
     <div className="layout">
-      <Header />
-      <div className="layout-content">
-        <Sidebar />
-        <main className="main">
+      <Sidebar />
+      <div className="layout-main">
+        <Navbar />
+        <main>
           <Outlet />
         </main>
       </div>

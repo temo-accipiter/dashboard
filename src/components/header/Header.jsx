@@ -3,10 +3,10 @@
 // ==============================
 
 import { useTranslation } from 'react-i18next'
-import './Header.scss'
 import ThemeToggle from '../theme/ThemeToggle'
 import LangSelector from '../langSelector/LangSelector'
 import { NavLink } from 'react-router-dom'
+import './Header.scss'
 
 export default function Header() {
   const { t } = useTranslation('header') // ← on utilise le namespace "header"

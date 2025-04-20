@@ -1,0 +1,28 @@
+.todo-list {
+  background: var(--c-bg);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  h2 {
+    margin-bottom: 1rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      margin-bottom: 0.75rem;
+      label {
+        cursor: pointer;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      &.done {
+        label {
+          text-decoration: line-through;
+          color: var(--c-text-muted);
+        }
+      }
+    }
+  }
+}

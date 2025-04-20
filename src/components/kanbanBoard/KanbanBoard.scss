@@ -1,0 +1,27 @@
+.kanban-board {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  .kanban-column {
+    flex: 1;
+    background: var(--c-bg-secondary);
+    padding: 1rem;
+    border-radius: 1rem;
+    h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        background: var(--c-bg);
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+    }
+  }
+}

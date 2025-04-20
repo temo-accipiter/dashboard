@@ -7,7 +7,7 @@ import Home from '@/pages/home/Home'
 import About from '@/pages/about/About'
 import Taches from '@/pages/taches/Taches'
 import Rdv from '@/pages/rdv/Rdv'
-import Contact from '@/pages/contact/Contact'
+import Liens from '@/pages/liens/Liens'
 import NotFound from '@/pages/notfound/NotFound'
 import DemoPage from '@/pages/demo/DemoPage'
 import '@/i18n/i18n' // 🌍 Initialisation i18n
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       { path: 'about', element: <About /> },
       { path: 'taches', element: <Taches /> },
       { path: 'rdv', element: <Rdv /> },
-      { path: 'contact', element: <Contact /> },
+      { path: 'liens', element: <Liens /> },
       { path: 'demo', element: <DemoPage /> },
       { path: '*', element: <NotFound /> },
     ],
