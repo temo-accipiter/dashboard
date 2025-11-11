@@ -43,7 +43,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: localStorage.getItem('lang') || 'fr', // ← langue mémorisée ou "fr" par défaut
+  lng: (localStorage.getItem('lang') ?? 'fr') as string, // ← langue mémorisée ou "fr" par défaut
   fallbackLng: 'fr', // ← si la langue choisie est absente, on utilise le français
 
   interpolation: {

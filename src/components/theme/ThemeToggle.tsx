@@ -5,13 +5,15 @@
 import { useEffect, useState } from 'react'
 import './ThemeToggle.scss'
 
+type Theme = 'light' | 'dark'
+
 export default function ThemeToggle() {
   // 📦 État local pour stocker le thème actuel
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState<Theme>('light')
 
   // 🧠 Au premier chargement, on applique le thème sauvegardé (ou 'light' par défaut)
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light'
+    const savedTheme = (localStorage.getItem('theme') ?? 'light') as Theme
     document.documentElement.setAttribute('data-theme', savedTheme) // HTML : <html data-theme="...">
     setTheme(savedTheme)
   }, [])

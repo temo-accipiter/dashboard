@@ -1,14 +1,20 @@
 import { useState } from 'react'
 import './TodoList.scss'
 
+interface Task {
+  id: number
+  text: string
+  done: boolean
+}
+
 export default function TodoList() {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: 'Configurer l’authentification', done: false },
+  const [tasks, setTasks] = useState<Task[]>([
+    { id: 1, text: "Configurer l'authentification", done: false },
     { id: 2, text: 'Connecter Todoist', done: false },
     { id: 3, text: 'Créer une sauvegarde automatique', done: true },
   ])
 
-  const toggleTask = (id) => {
+  const toggleTask = (id: number) => {
     setTasks((prev) =>
       prev.map((task) =>
         task.id === id ? { ...task, done: !task.done } : task

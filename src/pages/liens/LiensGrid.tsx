@@ -36,10 +36,17 @@ import GDriveLogo from '@/assets/icons/gdrive.svg'
 import OneDriveLogo from '@/assets/icons/onedrive.svg'
 import YoutubeLogo from '@/assets/icons/youtube.svg'
 
-import PropTypes from 'prop-types'
+import { ReactNode } from 'react'
 import './LiensGrid.scss'
 
-const allCards = {
+interface CardInfo {
+  id: string
+  label: string
+  icon: string
+  href: string
+}
+
+const allCards: Record<string, CardInfo> = {
   airtable: {
     id: 'airtable',
     label: 'Airtable',
@@ -162,10 +169,17 @@ const allCards = {
   },
 }
 
-const generateSlots = (count, prefix) =>
+const generateSlots = (count: number, prefix: string) =>
   Array.from({ length: count }, (_, i) => `${prefix}${i + 1}`)
 
-const initialLayout = {
+type LayoutSection = Record<string, string | null>
+
+interface Layout {
+  social: LayoutSection
+  services: LayoutSection
+}
+
+const initialLayout: Layout = {
   social: {
     social1: 'gmail',
     social2: 'youtube',
@@ -197,24 +211,27 @@ const initialLayout = {
 }
 
 export default function LiensGrid() {
-  const [layout, setLayout] = useState(initialLayout)
+  const [layout, setLayout] = useState<Layout>(initialLayout)
   const sensors = useSensors(useSensor(PointerSensor))
 
-  const handleDragEnd = (event, section) => {
+  const handleDragEnd = (event: any, section: keyof Layout) => {
     const { active, over } = event
     if (!over || active.id === over.id) return
 
-    const fromSlot = Object.keys(layout[section]).find(
-      (key) => layout[section][key] === active.id
+    const currentSection = layout[section]
+    const fromSlot = Object.keys(currentSection).find(
+      (key) => currentSection[key] === active.id
     )
-    const toSlot = over.id
+    const toSlot = over.id as string
+
+    if (!fromSlot) return
 
     setLayout((prev) => {
       const updated = { ...prev }
       updated[section] = {
         ...updated[section],
         [fromSlot]: null,
-        [toSlot]: active.id,
+        [toSlot]: active.id as string,
       }
       return updated
     })
@@ -238,13 +255,22 @@ export default function LiensGrid() {
           onDragEnd={(e) => handleDragEnd(e, 'social')}
         >
           <div className="grid">
-            {generateSlots(12, 'social').map((slotId) => (
-              <DroppableSlot key={slotId} id={slotId}>
-                {layout.social[slotId] && (
-                  <DraggableCard {...allCards[layout.social[slotId]]} />
-                )}
-              </DroppableSlot>
-            ))}
+            {generateSlots(12, 'social').map((slotId) => {
+              const cardId = layout.social[slotId]
+              const card = cardId ? allCards[cardId] : null
+              return (
+                <DroppableSlot key={slotId} id={slotId}>
+                  {card && (
+                    <DraggableCard
+                      id={card.id}
+                      icon={card.icon}
+                      label={card.label}
+                      href={card.href}
+                    />
+                  )}
+                </DroppableSlot>
+              )
+            })}
           </div>
         </DndContext>
       </div>
@@ -267,13 +293,22 @@ export default function LiensGrid() {
           onDragEnd={(e) => handleDragEnd(e, 'services')}
         >
           <div className="grid">
-            {generateSlots(12, 'services').map((slotId) => (
-              <DroppableSlot key={slotId} id={slotId}>
-                {layout.services[slotId] && (
-                  <DraggableCard {...allCards[layout.services[slotId]]} />
-                )}
-              </DroppableSlot>
-            ))}
+            {generateSlots(12, 'services').map((slotId) => {
+              const cardId = layout.services[slotId]
+              const card = cardId ? allCards[cardId] : null
+              return (
+                <DroppableSlot key={slotId} id={slotId}>
+                  {card && (
+                    <DraggableCard
+                      id={card.id}
+                      icon={card.icon}
+                      label={card.label}
+                      href={card.href}
+                    />
+                  )}
+                </DroppableSlot>
+              )
+            })}
           </div>
         </DndContext>
       </div>
@@ -281,15 +316,21 @@ export default function LiensGrid() {
   )
 }
 
-function DraggableCard({ id, icon, label, href }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+interface DraggableCardProps {
+  id: string
+  icon: string
+  label: string
+  href: string
+}
+
+function DraggableCard({ id, icon, label, href }: DraggableCardProps) {
+  const { attributes, listeners, setNodeRef, transform } =
     useDraggable({ id })
   const style = {
     transform: transform
       ? `translate(${transform.x}px, ${transform.y}px)`
       : undefined,
-    transition,
-    touchAction: 'manipulation',
+    touchAction: 'manipulation' as const,
   }
 
   return (
@@ -299,23 +340,16 @@ function DraggableCard({ id, icon, label, href }) {
   )
 }
 
-function DroppableSlot({ id, children }) {
+interface DroppableSlotProps {
+  id: string
+  children?: ReactNode
+}
+
+function DroppableSlot({ id, children }: DroppableSlotProps) {
   const { setNodeRef, isOver } = useDroppable({ id })
   return (
     <div ref={setNodeRef} className={`slot${isOver ? ' over' : ''}`}>
       {children}
     </div>
   )
-}
-
-DraggableCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  href: PropTypes.string.isRequired,
-}
-
-DroppableSlot.propTypes = {
-  id: PropTypes.string.isRequired,
-  children: PropTypes.node,
 }

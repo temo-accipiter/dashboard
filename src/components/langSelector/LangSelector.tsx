@@ -10,7 +10,7 @@ export default function LangSelector() {
   const currentLang = i18n.language // Langue actuelle (ex: 'fr')
 
   // 🔁 Fonction pour changer de langue
-  const changeLanguage = (lang) => {
+  const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang) // Mise à jour via i18next
     localStorage.setItem('lang', lang) // Sauvegarde dans le localStorage
   }

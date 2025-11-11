@@ -8,7 +8,7 @@ import About from '@/pages/about/About'
 import Taches from '@/pages/taches/Taches'
 import Rdv from '@/pages/rdv/Rdv'
 import LiensGrid from '@/pages/liens/LiensGrid'
-import NotFound from '@/pages/notfound/NotFound'
+import NotFound from '@/pages/notFound/NotFound'
 import DemoPage from '@/pages/demo/DemoPage'
 import '@/i18n/i18n' // 🌍 Initialisation i18n
 import '@/styles/main.scss' // 🎨 Styles globaux
@@ -37,7 +37,12 @@ const router = createBrowserRouter([
 // 🚀 Rendu de l'application
 // ==============================
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root')
+if (!rootElement) {
+  throw new Error('Root element not found')
+}
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
