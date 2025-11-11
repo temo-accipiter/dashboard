@@ -1,15 +1,21 @@
 import './Card.scss'
-import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import { ReactNode } from 'react'
 
-export default function Card({ title, children, to }) {
+interface CardProps {
+  title: string
+  children: ReactNode
+  to?: string
+}
+
+export default function Card({ title, children, to }: CardProps) {
   const navigate = useNavigate()
 
   const handleClick = () => {
     if (to) navigate(to)
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (to && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault()
       navigate(to)
@@ -28,10 +34,4 @@ export default function Card({ title, children, to }) {
       <div className="card-content">{children}</div>
     </div>
   )
-}
-
-Card.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  to: PropTypes.string,
 }

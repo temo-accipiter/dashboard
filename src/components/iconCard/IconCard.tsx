@@ -1,7 +1,12 @@
 import './IconCard.scss'
-import PropTypes from 'prop-types'
 
-export default function IconCard({ icon, label, href }) {
+interface IconCardProps {
+  icon: string
+  label: string
+  href: string
+}
+
+export default function IconCard({ icon, label, href }: IconCardProps) {
   return (
     <a href={href} target="_blank" rel="noreferrer" className="icon-card">
       <div className="icon-wrapper">
@@ -10,10 +15,4 @@ export default function IconCard({ icon, label, href }) {
       <div className="label">{label}</div>
     </a>
   )
-}
-
-IconCard.propTypes = {
-  icon: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  href: PropTypes.string.isRequired,
 }

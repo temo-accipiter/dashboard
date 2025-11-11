@@ -1,6 +1,6 @@
 import './KanbanBoard.scss'
 
-const data = {
+const data: Record<string, string[]> = {
   todo: ['Créer un compte API Todoist', 'Lire la doc Notion API'],
   doing: ['Installer Husky & lint-staged'],
   done: ['Configurer ESLint + Prettier'],
