@@ -1,5 +1,7 @@
+'use client'
+
 import './Card.scss'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 
 interface CardProps {
@@ -9,16 +11,16 @@ interface CardProps {
 }
 
 export default function Card({ title, children, to }: CardProps) {
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const handleClick = () => {
-    if (to) navigate(to)
+    if (to) router.push(to)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (to && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault()
-      navigate(to)
+      router.push(to)
     }
   }
 

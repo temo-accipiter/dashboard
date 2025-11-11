@@ -1,3 +1,5 @@
+'use client'
+
 // ==============================
 // 🔝 En-tête principal du site
 // ==============================
@@ -5,35 +7,34 @@
 import { useTranslation } from 'react-i18next'
 import ThemeToggle from '../theme/ThemeToggle'
 import LangSelector from '../langSelector/LangSelector'
-import { NavLink } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import './Header.scss'
 
 export default function Header() {
   const { t } = useTranslation('header') // ← on utilise le namespace "header"
+  const pathname = usePathname()
 
   return (
     <header className="site-header">
       <h1>{t('title')}</h1>
 
       <nav className="nav">
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? 'active' : '')}
-        >
+        <Link href="/" className={pathname === '/' ? 'active' : ''}>
           {t('home')}
-        </NavLink>
-        <NavLink
-          to="/about"
-          className={({ isActive }) => (isActive ? 'active' : '')}
+        </Link>
+        <Link
+          href="/about"
+          className={pathname === '/about' ? 'active' : ''}
         >
           {t('about')}
-        </NavLink>
-        <NavLink
-          to="/contact"
-          className={({ isActive }) => (isActive ? 'active' : '')}
+        </Link>
+        <Link
+          href="/contact"
+          className={pathname === '/contact' ? 'active' : ''}
         >
           {t('contact')}
-        </NavLink>
+        </Link>
       </nav>
 
       <div className="tools">

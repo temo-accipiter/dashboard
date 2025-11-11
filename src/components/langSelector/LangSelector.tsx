@@ -1,3 +1,5 @@
+'use client'
+
 // ==============================
 // 🌍 Sélecteur de langue (fr / en)
 // ==============================
@@ -12,7 +14,9 @@ export default function LangSelector() {
   // 🔁 Fonction pour changer de langue
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang) // Mise à jour via i18next
-    localStorage.setItem('lang', lang) // Sauvegarde dans le localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lang', lang) // Sauvegarde dans le localStorage
+    }
   }
 
   return (

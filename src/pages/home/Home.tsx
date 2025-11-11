@@ -1,3 +1,5 @@
+'use client'
+
 import { useTranslation } from 'react-i18next'
 import PageContainer from '@/components/pageContainer/PageContainer'
 import SectionTitle from '@/components/sectionTitle/SectionTitle'

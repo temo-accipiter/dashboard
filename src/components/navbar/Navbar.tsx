@@ -1,3 +1,5 @@
+'use client'
+
 import ThemeToggle from '@/components/theme/ThemeToggle'
 import LangSelector from '@/components/langSelector/LangSelector'
 import './Navbar.scss'

@@ -41,9 +41,17 @@ const resources = {
 // 🚀 Initialisation de i18next avec React
 // ==============================
 
+// Fonction pour récupérer la langue de manière sécurisée (compatible SSR)
+const getSavedLanguage = () => {
+  if (typeof window !== 'undefined') {
+    return (localStorage.getItem('lang') ?? 'fr') as string
+  }
+  return 'fr'
+}
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: (localStorage.getItem('lang') ?? 'fr') as string, // ← langue mémorisée ou "fr" par défaut
+  lng: getSavedLanguage(), // ← langue mémorisée ou "fr" par défaut
   fallbackLng: 'fr', // ← si la langue choisie est absente, on utilise le français
 
   interpolation: {

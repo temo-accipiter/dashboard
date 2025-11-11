@@ -1,3 +1,5 @@
+'use client'
+
 // ==============================
 // 🎨 Bouton de bascule entre thème clair et sombre
 // ==============================
@@ -13,16 +15,20 @@ export default function ThemeToggle() {
 
   // 🧠 Au premier chargement, on applique le thème sauvegardé (ou 'light' par défaut)
   useEffect(() => {
-    const savedTheme = (localStorage.getItem('theme') ?? 'light') as Theme
-    document.documentElement.setAttribute('data-theme', savedTheme) // HTML : <html data-theme="...">
-    setTheme(savedTheme)
+    if (typeof window !== 'undefined') {
+      const savedTheme = (localStorage.getItem('theme') ?? 'light') as Theme
+      document.documentElement.setAttribute('data-theme', savedTheme) // HTML : <html data-theme="...">
+      setTheme(savedTheme)
+    }
   }, [])
 
   // 🔁 Fonction pour basculer entre clair et sombre
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light'
-    document.documentElement.setAttribute('data-theme', newTheme)
-    localStorage.setItem('theme', newTheme) // Mémorisation
+    if (typeof window !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', newTheme)
+      localStorage.setItem('theme', newTheme) // Mémorisation
+    }
     setTheme(newTheme)
   }
 
