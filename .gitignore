@@ -29,3 +29,15 @@ npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Test coverage
+coverage
+*.lcov
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Vitest
+.vitest
