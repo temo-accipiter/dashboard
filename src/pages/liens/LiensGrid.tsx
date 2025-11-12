@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   DndContext,
   closestCenter,
@@ -52,121 +52,121 @@ const allCards: Record<string, CardInfo> = {
   airtable: {
     id: 'airtable',
     label: 'Airtable',
-    icon: AirtableLogo,
+    icon: AirtableLogo.src,
     href: 'https://airtable.com',
   },
   clickup: {
     id: 'clickup',
     label: 'Clickup',
-    icon: ClickupLogo,
+    icon: ClickupLogo.src,
     href: 'https://clickup.com',
   },
   discord: {
     id: 'discord',
     label: 'Discord',
-    icon: DiscordLogo,
+    icon: DiscordLogo.src,
     href: 'https://discord.com/channels/@me',
   },
   figma: {
     id: 'figma',
     label: 'Figma',
-    icon: FigmaLogo,
+    icon: FigmaLogo.src,
     href: 'https://figma.com',
   },
   facebook: {
     id: 'facebook',
     label: 'Facebook',
-    icon: FacebookLogo,
+    icon: FacebookLogo.src,
     href: 'https://facebook.com',
   },
   gdrive: {
     id: 'gdrive',
     label: 'Google-drive',
-    icon: GDriveLogo,
+    icon: GDriveLogo.src,
     href: 'https://drive.google.com/',
   },
   github: {
     id: 'github',
     label: 'Github',
-    icon: GithubLogo,
+    icon: GithubLogo.src,
     href: 'https://github.com',
   },
   gmail: {
     id: 'gmail',
     label: 'Gmail',
-    icon: GmailLogo,
+    icon: GmailLogo.src,
     href: 'https://gmail.com',
   },
   linkedin: {
     id: 'linkedin',
     label: 'Linkedin',
-    icon: LinkedinLogo,
+    icon: LinkedinLogo.src,
     href: 'https://linkedin.com',
   },
   medium: {
     id: 'medium',
     label: 'Medium',
-    icon: MediumLogo,
+    icon: MediumLogo.src,
     href: 'https://medium.com',
   },
   miro: {
     id: 'miro',
     label: 'Miro',
-    icon: MiroLogo,
+    icon: MiroLogo.src,
     href: 'https://miro.com',
   },
   notion: {
     id: 'notion',
     label: 'Notion',
-    icon: NotionLogo,
+    icon: NotionLogo.src,
     href: 'https://notion.so',
   },
   onedrive: {
     id: 'onedrive',
     label: 'Onedrive',
-    icon: OneDriveLogo,
+    icon: OneDriveLogo.src,
     href: 'https://onedrive.com',
   },
   pocket: {
     id: 'pocket',
     label: 'Pocket',
-    icon: PocketLogo,
+    icon: PocketLogo.src,
     href: 'https://pocket.com',
   },
   reddit: {
     id: 'reddit',
     label: 'Reddit',
-    icon: RedditLogo,
+    icon: RedditLogo.src,
     href: 'https://reddit.com',
   },
   slack: {
     id: 'slack',
     label: 'Slack',
-    icon: SlackLogo,
+    icon: SlackLogo.src,
     href: 'https://slack.com',
   },
   telegram: {
     id: 'telegram',
     label: 'Telegram',
-    icon: TelegramLogo,
+    icon: TelegramLogo.src,
     href: 'https://telegram.com',
   },
   todoist: {
     id: 'todoist',
     label: 'Todoist',
-    icon: TodoistLogo,
+    icon: TodoistLogo.src,
     href: 'https://todoist.com',
   },
   x: {
     id: 'x',
     label: 'X',
-    icon: XLogo,
+    icon: XLogo.src,
     href: 'https://x.com',
   },
   youtube: {
     id: 'youtube',
     label: 'YouTube',
-    icon: YoutubeLogo,
+    icon: YoutubeLogo.src,
     href: 'https://youtube.com',
   },
 }
@@ -214,7 +214,13 @@ const initialLayout: Layout = {
 
 export default function LiensGrid() {
   const [layout, setLayout] = useState<Layout>(initialLayout)
+  const [isMounted, setIsMounted] = useState(false)
   const sensors = useSensors(useSensor(PointerSensor))
+
+  // Éviter l'hydration mismatch avec dnd-kit
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleDragEnd = (event: any, section: keyof Layout) => {
     const { active, over } = event
@@ -239,42 +245,57 @@ export default function LiensGrid() {
     })
   }
 
+  const renderGrid = (section: keyof Layout, slots: string[]) => {
+    const gridContent = (
+      <div className="grid">
+        {slots.map((slotId) => {
+          const cardId = layout[section][slotId]
+          const card = cardId ? allCards[cardId] : null
+          return (
+            <DroppableSlot key={slotId} id={slotId}>
+              {card && (
+                <DraggableCard
+                  id={card.id}
+                  icon={card.icon}
+                  label={card.label}
+                  href={card.href}
+                />
+              )}
+            </DroppableSlot>
+          )
+        })}
+      </div>
+    )
+
+    // Ne wrap avec DndContext que si monté côté client (évite hydration mismatch)
+    if (!isMounted) {
+      return gridContent
+    }
+
+    return (
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={(e) => handleDragEnd(e, section)}
+      >
+        {gridContent}
+      </DndContext>
+    )
+  }
+
   return (
     <section className="liens-grid-two">
       <div className="section social-section">
         <h2>
           {' '}
           <img
-            src={SocialNetworkLogo}
+            src={SocialNetworkLogo.src}
             alt="Réseaux sociaux"
             className="icon-title"
           />{' '}
           Réseaux sociaux{' '}
         </h2>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={(e) => handleDragEnd(e, 'social')}
-        >
-          <div className="grid">
-            {generateSlots(12, 'social').map((slotId) => {
-              const cardId = layout.social[slotId]
-              const card = cardId ? allCards[cardId] : null
-              return (
-                <DroppableSlot key={slotId} id={slotId}>
-                  {card && (
-                    <DraggableCard
-                      id={card.id}
-                      icon={card.icon}
-                      label={card.label}
-                      href={card.href}
-                    />
-                  )}
-                </DroppableSlot>
-              )
-            })}
-          </div>
-        </DndContext>
+        {renderGrid('social', generateSlots(12, 'social'))}
       </div>
 
       <div className="separator" />
@@ -283,36 +304,13 @@ export default function LiensGrid() {
         <h2>
           {' '}
           <img
-            src={ToolsLogo}
+            src={ToolsLogo.src}
             alt="Services & Outils"
             className="icon-title"
           />{' '}
           Services & Outils{' '}
         </h2>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={(e) => handleDragEnd(e, 'services')}
-        >
-          <div className="grid">
-            {generateSlots(12, 'services').map((slotId) => {
-              const cardId = layout.services[slotId]
-              const card = cardId ? allCards[cardId] : null
-              return (
-                <DroppableSlot key={slotId} id={slotId}>
-                  {card && (
-                    <DraggableCard
-                      id={card.id}
-                      icon={card.icon}
-                      label={card.label}
-                      href={card.href}
-                    />
-                  )}
-                </DroppableSlot>
-              )
-            })}
-          </div>
-        </DndContext>
+        {renderGrid('services', generateSlots(12, 'services'))}
       </div>
     </section>
   )

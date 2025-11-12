@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import '@/styles/main.scss'
 import { Providers } from './providers'
 
@@ -10,22 +10,23 @@ export const metadata: Metadata = {
   description: 'Dashboard personnalisé avec Next.js 16',
   authors: [{ name: 'Miminoshvili Temo' }],
   keywords: ['dashboard', 'nextjs', 'react', 'typescript'],
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
   robots: {
     index: true,
     follow: true,
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.png',
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+  ],
 }
 
 export default function RootLayout({
