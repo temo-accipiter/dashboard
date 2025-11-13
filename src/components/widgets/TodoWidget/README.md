@@ -18,6 +18,7 @@ TodoWidget/
 ├── TodoWidget.tsx       # Composant principal avec gestion d'état
 ├── TodoItem.tsx         # Composant d'affichage d'une tâche
 ├── TodoForm.tsx         # Formulaire d'ajout de tâche
+├── TodoFilters.tsx      # Composant de filtrage des tâches
 ├── TagSelector.tsx      # Sélecteur de tags multi-select
 ├── PrioritySelector.tsx # Sélecteur de priorité
 ├── useTodoStorage.ts    # Hook custom pour persistence localStorage
@@ -73,7 +74,8 @@ function App() {
 - ✅ Persistence localStorage (Phase 1B complétée)
 - ✅ Système de tags colorés (Phase 1C complétée)
 - ✅ Système de priorités avec tri automatique (Phase 1D complétée)
-- Pas de filtres pour l'instant
+- ✅ Filtres avancés (tout/actives/complétées + par tags) (Phase 1E complétée)
+- ✅ Édition inline double-clic (Phase 1F complétée)
 
 ## Phase 1B - Persistence localStorage
 
@@ -198,8 +200,105 @@ Composant de sélection de priorité intégré dans le formulaire :
 - Le champ `priority` est ajouté automatiquement aux anciennes tâches avec la valeur 'none'
 - Aucune action manuelle requise, la migration est transparente
 
+## Phase 1E - Système de Filtres
+
+### Filtrage des tâches
+
+Le système de filtres permet de visualiser différentes vues des tâches :
+
+- **Toutes** : Affiche toutes les tâches (par défaut)
+- **Actives** : Affiche uniquement les tâches non complétées
+- **Complétées** : Affiche uniquement les tâches terminées
+- **Par tags** : Filtre par un ou plusieurs tags (filtrage combiné)
+
+### Composants ajoutés
+
+#### `TodoFilters.tsx`
+
+Composant de filtrage avec deux sections :
+
+**Filtres de statut** :
+- 3 boutons : Toutes / Actives / Complétées
+- Bouton actif avec fond bleu
+- Compteurs de tâches actives et complétées (badges)
+
+**Filtres par tags** :
+- Sélection multiple de tags
+- Boutons colorés selon le tag (cohérent avec TagSelector)
+- Bouton "Effacer" pour réinitialiser les filtres de tags
+
+#### Modifications de `TodoWidget.tsx`
+
+- États `currentFilter` et `selectedTagFilters`
+- Fonction `getFilteredTasks()` qui :
+  - Filtre par statut (all/active/completed)
+  - Filtre par tags (affiche si la tâche a AU MOINS un tag sélectionné)
+  - Trie par priorité
+- Message différent si aucune tâche ne correspond aux filtres
+
+### Styles
+
+- **Container filtres** : Fond gris clair, padding, border-radius
+- **Boutons de statut** : Border, hover bleu, actif avec fond bleu
+- **Badges compteurs** : Fond bleu clair (actives), vert clair (complétées)
+- **Filtres tags** : Style cohérent avec TagSelector
+- **Responsive** : flex-wrap, adaptation mobile
+
+### Comportement
+
+- Les filtres se combinent (statut ET tags)
+- Le tri par priorité est maintenu après filtrage
+- Message "Aucune tâche ne correspond aux filtres" si résultat vide
+
+## Phase 1F - Édition Inline
+
+### Édition double-clic
+
+Permet de modifier le texte d'une tâche directement dans la liste :
+
+- **Double-clic** sur le texte d'une tâche → active le mode édition
+- **Input inline** remplace temporairement le texte
+- **Entrée** → sauvegarde les modifications
+- **Escape** → annule les modifications
+- **Blur** (clic ailleurs) → sauvegarde automatiquement
+
+#### Modifications de `TodoItem.tsx`
+
+- États `isEditing` et `editText` pour gérer l'édition
+- `useRef` pour focus automatique sur l'input
+- Handlers :
+  - `handleDoubleClick` : Active le mode édition
+  - `handleSave` : Sauvegarde si le texte a changé (trimmed)
+  - `handleCancel` : Restaure le texte original
+  - `handleKeyDown` : Gère Entrée et Escape
+  - `handleBlur` : Sauvegarde au blur
+- Affichage conditionnel : input si `isEditing`, span sinon
+- Title "Double-clic pour éditer" sur le span
+- Cursor pointer sur le texte
+
+#### Modifications de `TodoWidget.tsx`
+
+- Handler `handleEditTask(taskId, newText)` pour mettre à jour le texte
+- Prop `onEdit` passée à TodoItem
+
+### Styles
+
+- **Texte normal** : `cursor: pointer` pour indiquer l'interactivité
+- **Input édition** :
+  - Border bleu 2px
+  - Padding léger
+  - Box-shadow au focus
+  - Width 100%
+  - Transition douce
+
+### Accessibilité
+
+- `aria-label="Éditer la tâche"` sur l'input
+- Title "Double-clic pour éditer" sur le texte
+- Focus et sélection automatique du texte lors de l'entrée en édition
+
 ### Prochaines phases
 
-- **Phase 2** : Filtres et recherche
+- **Phase 2** : Recherche textuelle
 - **Phase 3** : Design avancé et thèmes
 - **Phase 4** : Statistiques et analytics
