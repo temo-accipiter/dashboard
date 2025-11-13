@@ -13,9 +13,9 @@ export const PrioritySelector: React.FC<PrioritySelectorProps> = ({
   const priorities: Priority[] = ['high', 'medium', 'low', 'none']
 
   return (
-    <div className="priority-selector">
-      <label className="priority-selector__label">Priorité:</label>
-      <div className="priority-selector__options">
+    <div className="priority-selector" role="group" aria-label="Sélection de la priorité">
+      <label className="priority-selector__label" id="priority-selector-label">Priorité:</label>
+      <div className="priority-selector__options" role="group" aria-labelledby="priority-selector-label">
         {priorities.map(priority => {
           const config = PRIORITY_CONFIG[priority]
           const isSelected = selectedPriority === priority
@@ -30,8 +30,10 @@ export const PrioritySelector: React.FC<PrioritySelectorProps> = ({
                 backgroundColor: isSelected ? config.color : 'transparent',
                 color: isSelected ? '#fff' : config.color,
               }}
+              aria-pressed={isSelected}
+              aria-label={`Priorité ${config.label}${isSelected ? ' (sélectionnée)' : ''}`}
             >
-              {config.icon && <span className="priority-selector__icon">{config.icon}</span>}
+              {config.icon && <span className="priority-selector__icon" aria-hidden="true">{config.icon}</span>}
               <span>{config.label}</span>
             </button>
           )

@@ -60,9 +60,9 @@ export const TodoItem: React.FC<TodoItemProps> = ({ task, onToggle, onDelete, on
   }
 
   return (
-    <div className="todo-item" style={{ borderLeftColor: priorityConfig.color }}>
+    <div className="todo-item" style={{ borderLeftColor: priorityConfig.color }} role="listitem">
       {task.priority !== 'none' && (
-        <div className="todo-item__priority" title={`Priorité: ${priorityConfig.label}`}>
+        <div className="todo-item__priority" title={`Priorité: ${priorityConfig.label}`} aria-label={`Priorité: ${priorityConfig.label}`}>
           <span className="todo-item__priority-icon">{priorityConfig.icon}</span>
         </div>
       )}

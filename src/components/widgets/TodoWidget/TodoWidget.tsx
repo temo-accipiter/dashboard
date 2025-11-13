@@ -49,7 +49,11 @@ export const TodoWidget: React.FC = () => {
     ))
   }
 
-  // Filtrer les tâches selon le filtre actif et les tags sélectionnés
+  /**
+   * Filtre les tâches selon le filtre actif et les tags sélectionnés
+   * Applique également un tri par priorité (high → medium → low → none)
+   * @returns Tableau de tâches filtrées et triées
+   */
   const getFilteredTasks = () => {
     let filtered = [...tasks]
 
@@ -60,14 +64,14 @@ export const TodoWidget: React.FC = () => {
       filtered = filtered.filter(task => task.done)
     }
 
-    // Filtrage par tags
+    // Filtrage par tags (affiche si la tâche a AU MOINS un tag sélectionné)
     if (selectedTagFilters.length > 0) {
       filtered = filtered.filter(task =>
         selectedTagFilters.some(tagFilter => task.tags.includes(tagFilter))
       )
     }
 
-    // Trier par priorité
+    // Trier par priorité (high → medium → low → none)
     return filtered.sort((a, b) => {
       const priorityOrder = { high: 0, medium: 1, low: 2, none: 3 }
       return priorityOrder[a.priority] - priorityOrder[b.priority]
@@ -79,13 +83,13 @@ export const TodoWidget: React.FC = () => {
   const completedCount = tasks.filter(t => t.done).length
 
   return (
-    <div className="todo-widget">
-      <div className="todo-widget__header">
+    <section className="todo-widget" aria-label="Widget de gestion de tâches">
+      <header className="todo-widget__header">
         <h2 className="todo-widget__title">Mes Tâches</h2>
-        <span className="todo-widget__count">
+        <span className="todo-widget__count" aria-label={`${activeCount} tâches actives sur ${tasks.length} au total`}>
           {activeCount} / {tasks.length}
         </span>
-      </div>
+      </header>
 
       <TodoForm onAdd={handleAddTask} />
 
@@ -98,11 +102,11 @@ export const TodoWidget: React.FC = () => {
         onTagFilterChange={setSelectedTagFilters}
       />
 
-      <div className="todo-widget__list">
+      <div className="todo-widget__list" role="list" aria-label="Liste des tâches">
         {tasks.length === 0 ? (
-          <p className="todo-widget__empty">Aucune tâche pour le moment</p>
+          <p className="todo-widget__empty" role="status">Aucune tâche pour le moment</p>
         ) : filteredTasks.length === 0 ? (
-          <p className="todo-widget__empty">Aucune tâche ne correspond aux filtres</p>
+          <p className="todo-widget__empty" role="status">Aucune tâche ne correspond aux filtres</p>
         ) : (
           filteredTasks.map(task => (
             <TodoItem
@@ -116,6 +120,6 @@ export const TodoWidget: React.FC = () => {
           ))
         )}
       </div>
-    </div>
+    </section>
   )
 }

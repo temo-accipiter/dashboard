@@ -33,7 +33,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="todo-form">
+    <form onSubmit={handleSubmit} className="todo-form" aria-label="Formulaire d'ajout de tâche">
       <div className="todo-form__input-row">
         <input
           type="text"
@@ -41,8 +41,16 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Ajouter une tâche..."
           className="todo-form__input"
+          aria-label="Texte de la nouvelle tâche"
+          id="new-task-input"
+          autoComplete="off"
         />
-        <button type="submit" className="todo-form__button">
+        <button
+          type="submit"
+          className="todo-form__button"
+          aria-label="Ajouter la tâche"
+          disabled={!inputValue.trim()}
+        >
           Ajouter
         </button>
       </div>

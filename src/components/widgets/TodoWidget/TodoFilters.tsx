@@ -35,9 +35,9 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
   }
 
   return (
-    <div className="todo-filters">
+    <div className="todo-filters" role="region" aria-label="Filtres des tâches">
       <div className="todo-filters__main">
-        <div className="todo-filters__buttons">
+        <div className="todo-filters__buttons" role="group" aria-label="Filtres par statut">
           {filters.map(filter => (
             <button
               key={filter.type}
@@ -45,6 +45,8 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
               className={`todo-filters__button ${
                 currentFilter === filter.type ? 'todo-filters__button--active' : ''
               }`}
+              aria-pressed={currentFilter === filter.type}
+              aria-label={`Afficher les tâches ${filter.label.toLowerCase()}`}
             >
               {filter.label}
             </button>
@@ -65,8 +67,8 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
 
       {AVAILABLE_TAGS.length > 0 && (
         <div className="todo-filters__tags">
-          <span className="todo-filters__tags-label">Filtrer par tag:</span>
-          <div className="todo-filters__tags-list">
+          <span className="todo-filters__tags-label" id="tag-filters-label">Filtrer par tag:</span>
+          <div className="todo-filters__tags-list" role="group" aria-labelledby="tag-filters-label">
             {AVAILABLE_TAGS.map(tag => {
               const isSelected = selectedTags.includes(tag.name)
               return (
@@ -79,6 +81,8 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
                     backgroundColor: isSelected ? tag.color : 'transparent',
                     color: isSelected ? '#fff' : tag.color,
                   }}
+                  aria-pressed={isSelected}
+                  aria-label={`Filtrer par tag ${tag.name}${isSelected ? ' (actif)' : ''}`}
                 >
                   {tag.name}
                 </button>
@@ -88,6 +92,7 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
               <button
                 onClick={() => onTagFilterChange([])}
                 className="todo-filters__clear"
+                aria-label="Effacer tous les filtres par tag"
               >
                 Effacer
               </button>
