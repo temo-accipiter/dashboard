@@ -1,5 +1,5 @@
 import React from 'react'
-import { Task } from './types'
+import { Task, Priority } from './types'
 import { TodoForm } from './TodoForm'
 import { TodoItem } from './TodoItem'
 import { useTodoStorage } from './useTodoStorage'
@@ -8,13 +8,14 @@ import './TodoWidget.scss'
 export const TodoWidget: React.FC = () => {
   const [tasks, setTasks] = useTodoStorage()
 
-  const handleAddTask = (text: string, tags: string[]) => {
+  const handleAddTask = (text: string, tags: string[], priority: Priority) => {
     const newTask: Task = {
       id: crypto.randomUUID(),
       text,
       done: false,
       createdAt: new Date(),
       tags,
+      priority,
     }
     setTasks([...tasks, newTask])
   }
@@ -37,6 +38,12 @@ export const TodoWidget: React.FC = () => {
     ))
   }
 
+  // Trier les tâches par priorité : high → medium → low → none
+  const sortedTasks = [...tasks].sort((a, b) => {
+    const priorityOrder = { high: 0, medium: 1, low: 2, none: 3 }
+    return priorityOrder[a.priority] - priorityOrder[b.priority]
+  })
+
   return (
     <div className="todo-widget">
       <div className="todo-widget__header">
@@ -52,7 +59,7 @@ export const TodoWidget: React.FC = () => {
         {tasks.length === 0 ? (
           <p className="todo-widget__empty">Aucune tâche pour le moment</p>
         ) : (
-          tasks.map(task => (
+          sortedTasks.map(task => (
             <TodoItem
               key={task.id}
               task={task}

@@ -15,25 +15,29 @@ Widget de gestion de tâches simple avec fonctionnalités CRUD de base.
 
 ```
 TodoWidget/
-├── TodoWidget.tsx      # Composant principal avec gestion d'état
-├── TodoItem.tsx        # Composant d'affichage d'une tâche
-├── TodoForm.tsx        # Formulaire d'ajout de tâche
-├── TagSelector.tsx     # Sélecteur de tags multi-select
-├── useTodoStorage.ts   # Hook custom pour persistence localStorage
-├── types.ts            # Définition de l'interface Task et AVAILABLE_TAGS
-├── TodoWidget.scss     # Styles du widget
-└── README.md           # Ce fichier
+├── TodoWidget.tsx       # Composant principal avec gestion d'état
+├── TodoItem.tsx         # Composant d'affichage d'une tâche
+├── TodoForm.tsx         # Formulaire d'ajout de tâche
+├── TagSelector.tsx      # Sélecteur de tags multi-select
+├── PrioritySelector.tsx # Sélecteur de priorité
+├── useTodoStorage.ts    # Hook custom pour persistence localStorage
+├── types.ts             # Définition Task, AVAILABLE_TAGS, PRIORITY_CONFIG
+├── TodoWidget.scss      # Styles du widget
+└── README.md            # Ce fichier
 ```
 
 ### Types
 
 ```typescript
+type Priority = 'high' | 'medium' | 'low' | 'none'
+
 interface Task {
   id: string          // UUID généré avec crypto.randomUUID()
   text: string        // Texte de la tâche
   done: boolean       // État de complétion
   createdAt: Date     // Date de création
   tags: string[]      // Tags associés à la tâche
+  priority: Priority  // Niveau de priorité
 }
 
 const AVAILABLE_TAGS = [
@@ -42,6 +46,13 @@ const AVAILABLE_TAGS = [
   { name: 'urgent', color: '#ef4444' },    // rouge
   { name: 'learning', color: '#8b5cf6' },  // violet
 ]
+
+const PRIORITY_CONFIG = {
+  high: { label: 'Haute', color: '#ef4444', icon: '🔴' },
+  medium: { label: 'Moyenne', color: '#f59e0b', icon: '🟡' },
+  low: { label: 'Basse', color: '#10b981', icon: '🟢' },
+  none: { label: 'Aucune', color: '#6b7280', icon: '' },
+}
 ```
 
 ### Utilisation
@@ -61,7 +72,8 @@ function App() {
 - Hover states sur les boutons
 - ✅ Persistence localStorage (Phase 1B complétée)
 - ✅ Système de tags colorés (Phase 1C complétée)
-- Pas de filtres/priorités pour l'instant
+- ✅ Système de priorités avec tri automatique (Phase 1D complétée)
+- Pas de filtres pour l'instant
 
 ## Phase 1B - Persistence localStorage
 
@@ -132,8 +144,62 @@ Composant de sélection multi-tags intégré dans le formulaire :
 - **Responsive** : flex-wrap pour adaptation mobile
 - **Couleurs** : utilisation des couleurs définies dans AVAILABLE_TAGS
 
+## Phase 1D - Système de Priorités
+
+### Niveaux de priorité
+
+Le système de priorités permet d'assigner un niveau d'importance aux tâches :
+
+- **Haute (high)** : 🔴 Rouge - Tâches urgentes et importantes
+- **Moyenne (medium)** : 🟡 Orange - Tâches importantes
+- **Basse (low)** : 🟢 Vert - Tâches de faible urgence
+- **Aucune (none)** : Gris - Sans priorité définie (par défaut)
+
+### Composants ajoutés
+
+#### `PrioritySelector.tsx`
+
+Composant de sélection de priorité intégré dans le formulaire :
+- Boutons toggle pour chaque niveau de priorité
+- Icône colorée pour identification visuelle rapide
+- État sélectionné visible avec couleur de fond
+- État non-sélectionné avec bordure colorée
+- Valeur par défaut : "Aucune"
+
+#### Modifications de `TodoItem.tsx`
+
+- Indicateur de priorité avec icône colorée (🔴 🟡 🟢)
+- Bordure gauche colorée selon la priorité (4px solid)
+- Affichage conditionnel (masqué si priority = 'none')
+- Tooltip au hover affichant le niveau de priorité
+
+#### Modifications de `TodoForm.tsx`
+
+- Ajout du PrioritySelector après le TagSelector
+- Gestion de l'état selectedPriority avec valeur par défaut 'none'
+- Réinitialisation à 'none' après soumission
+
+#### Modifications de `TodoWidget.tsx`
+
+- Tri automatique des tâches par priorité : high → medium → low → none
+- Mise à jour de handleAddTask pour accepter le paramètre priority
+- Les tâches haute priorité apparaissent toujours en premier
+
+### Styles
+
+- **Indicateur visuel** : Bordure gauche colorée (border-left: 4px)
+- **Icônes émojis** : Identification rapide du niveau de priorité
+- **Boutons de sélection** : Style cohérent avec TagSelector
+- **Animations** : Transform au hover avec box-shadow
+- **Responsive** : Flex-wrap pour adaptation mobile
+
+### Migration
+
+- Le champ `priority` est ajouté automatiquement aux anciennes tâches avec la valeur 'none'
+- Aucune action manuelle requise, la migration est transparente
+
 ### Prochaines phases
 
-- **Phase 2** : Filtres et tri
-- **Phase 3** : Priorités
-- **Phase 4** : Design avancé
+- **Phase 2** : Filtres et recherche
+- **Phase 3** : Design avancé et thèmes
+- **Phase 4** : Statistiques et analytics

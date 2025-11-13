@@ -1,5 +1,5 @@
 import React from 'react'
-import { Task, AVAILABLE_TAGS } from './types'
+import { Task, AVAILABLE_TAGS, PRIORITY_CONFIG } from './types'
 
 interface TodoItemProps {
   task: Task
@@ -14,8 +14,15 @@ export const TodoItem: React.FC<TodoItemProps> = ({ task, onToggle, onDelete, on
     return tag?.color || '#999'
   }
 
+  const priorityConfig = PRIORITY_CONFIG[task.priority]
+
   return (
-    <div className="todo-item">
+    <div className="todo-item" style={{ borderLeftColor: priorityConfig.color }}>
+      {task.priority !== 'none' && (
+        <div className="todo-item__priority" title={`Priorité: ${priorityConfig.label}`}>
+          <span className="todo-item__priority-icon">{priorityConfig.icon}</span>
+        </div>
+      )}
       <label className="todo-item__label">
         <input
           type="checkbox"

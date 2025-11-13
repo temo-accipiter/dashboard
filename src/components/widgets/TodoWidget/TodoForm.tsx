@@ -1,22 +1,26 @@
 import React, { useState } from 'react'
+import { Priority } from './types'
 import { TagSelector } from './TagSelector'
+import { PrioritySelector } from './PrioritySelector'
 
 interface TodoFormProps {
-  onAdd: (text: string, tags: string[]) => void
+  onAdd: (text: string, tags: string[], priority: Priority) => void
 }
 
 export const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
   const [inputValue, setInputValue] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [selectedPriority, setSelectedPriority] = useState<Priority>('none')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const trimmedValue = inputValue.trim()
 
     if (trimmedValue) {
-      onAdd(trimmedValue, selectedTags)
+      onAdd(trimmedValue, selectedTags, selectedPriority)
       setInputValue('')
       setSelectedTags([])
+      setSelectedPriority('none')
     }
   }
 
@@ -43,6 +47,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
         </button>
       </div>
       <TagSelector selectedTags={selectedTags} onTagToggle={handleTagToggle} />
+      <PrioritySelector selectedPriority={selectedPriority} onPriorityChange={setSelectedPriority} />
     </form>
   )
 }
