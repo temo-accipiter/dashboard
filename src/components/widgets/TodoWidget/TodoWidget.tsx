@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Task } from './types'
 import { TodoForm } from './TodoForm'
 import { TodoItem } from './TodoItem'
+import { useTodoStorage } from './useTodoStorage'
 import './TodoWidget.scss'
 
 export const TodoWidget: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([])
+  const [tasks, setTasks] = useTodoStorage()
 
   const handleAddTask = (text: string) => {
     const newTask: Task = {

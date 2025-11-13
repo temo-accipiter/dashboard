@@ -18,6 +18,7 @@ TodoWidget/
 ├── TodoWidget.tsx      # Composant principal avec gestion d'état
 ├── TodoItem.tsx        # Composant d'affichage d'une tâche
 ├── TodoForm.tsx        # Formulaire d'ajout de tâche
+├── useTodoStorage.ts   # Hook custom pour persistence localStorage
 ├── types.ts            # Définition de l'interface Task
 ├── TodoWidget.scss     # Styles du widget
 └── README.md           # Ce fichier
@@ -49,12 +50,41 @@ function App() {
 - Design simple et propre
 - Responsive (mobile-friendly)
 - Hover states sur les boutons
-- Pas de persistance (localStorage à venir en Phase 1B)
+- ✅ Persistence localStorage (Phase 1B complétée)
 - Pas de filtres/tags/priorités pour l'instant
+
+## Phase 1B - Persistence localStorage
+
+### Hook custom `useTodoStorage`
+
+Le hook `useTodoStorage` gère automatiquement la sauvegarde et le chargement des tâches :
+
+- **Chargement automatique** : Les tâches sont chargées depuis localStorage au montage du composant
+- **Sauvegarde automatique** : Chaque modification des tâches est automatiquement sauvegardée
+- **Clé de stockage** : `personal-dashboard-todos`
+- **Gestion d'erreurs** : Les erreurs localStorage sont capturées et loggées dans la console
+- **Conversion des dates** : Les dates sont correctement désérialisées après JSON.parse
+
+### Utilisation
+
+Le hook remplace directement `useState` dans `TodoWidget.tsx` :
+
+```typescript
+import { useTodoStorage } from './useTodoStorage'
+
+const [tasks, setTasks] = useTodoStorage() // Au lieu de useState<Task[]>([])
+```
+
+### Test manuel
+
+1. Ajouter des tâches dans le widget
+2. Rafraîchir la page → les tâches doivent être présentes
+3. Ouvrir les DevTools > Application > Local Storage
+4. Vérifier la clé `personal-dashboard-todos`
+5. Vider localStorage → les tâches disparaissent
 
 ### Prochaines phases
 
-- **Phase 1B** : Ajout de la persistance localStorage
 - **Phase 2** : Filtres et tri
 - **Phase 3** : Tags et priorités
 - **Phase 4** : Design avancé
