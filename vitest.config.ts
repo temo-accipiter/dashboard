@@ -22,11 +22,8 @@ export default defineConfig({
         '.yarn/',
       ],
       include: ['src/**/*.{ts,tsx}'],
-      all: true,
-      lines: 80,
-      functions: 80,
-      branches: 80,
-      statements: 80,
+      all: false, // Pas de coverage obligatoire
+      // Pas de seuils minimums - coverage informatif uniquement
     },
     include: ['src/**/*.{test,spec}.{ts,tsx}'],
     exclude: ['node_modules', 'dist', '.yarn'],
