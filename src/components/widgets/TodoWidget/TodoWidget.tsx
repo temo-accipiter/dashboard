@@ -8,12 +8,13 @@ import './TodoWidget.scss'
 export const TodoWidget: React.FC = () => {
   const [tasks, setTasks] = useTodoStorage()
 
-  const handleAddTask = (text: string) => {
+  const handleAddTask = (text: string, tags: string[]) => {
     const newTask: Task = {
       id: crypto.randomUUID(),
       text,
       done: false,
       createdAt: new Date(),
+      tags,
     }
     setTasks([...tasks, newTask])
   }
@@ -26,6 +27,14 @@ export const TodoWidget: React.FC = () => {
 
   const handleDeleteTask = (id: string) => {
     setTasks(tasks.filter(task => task.id !== id))
+  }
+
+  const handleRemoveTag = (taskId: string, tagName: string) => {
+    setTasks(tasks.map(task =>
+      task.id === taskId
+        ? { ...task, tags: task.tags.filter(t => t !== tagName) }
+        : task
+    ))
   }
 
   return (
@@ -49,6 +58,7 @@ export const TodoWidget: React.FC = () => {
               task={task}
               onToggle={handleToggleTask}
               onDelete={handleDeleteTask}
+              onRemoveTag={handleRemoveTag}
             />
           ))
         )}

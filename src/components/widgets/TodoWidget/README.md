@@ -18,8 +18,9 @@ TodoWidget/
 ├── TodoWidget.tsx      # Composant principal avec gestion d'état
 ├── TodoItem.tsx        # Composant d'affichage d'une tâche
 ├── TodoForm.tsx        # Formulaire d'ajout de tâche
+├── TagSelector.tsx     # Sélecteur de tags multi-select
 ├── useTodoStorage.ts   # Hook custom pour persistence localStorage
-├── types.ts            # Définition de l'interface Task
+├── types.ts            # Définition de l'interface Task et AVAILABLE_TAGS
 ├── TodoWidget.scss     # Styles du widget
 └── README.md           # Ce fichier
 ```
@@ -32,7 +33,15 @@ interface Task {
   text: string        // Texte de la tâche
   done: boolean       // État de complétion
   createdAt: Date     // Date de création
+  tags: string[]      // Tags associés à la tâche
 }
+
+const AVAILABLE_TAGS = [
+  { name: 'work', color: '#3b82f6' },      // bleu
+  { name: 'personal', color: '#10b981' },  // vert
+  { name: 'urgent', color: '#ef4444' },    // rouge
+  { name: 'learning', color: '#8b5cf6' },  // violet
+]
 ```
 
 ### Utilisation
@@ -51,7 +60,8 @@ function App() {
 - Responsive (mobile-friendly)
 - Hover states sur les boutons
 - ✅ Persistence localStorage (Phase 1B complétée)
-- Pas de filtres/tags/priorités pour l'instant
+- ✅ Système de tags colorés (Phase 1C complétée)
+- Pas de filtres/priorités pour l'instant
 
 ## Phase 1B - Persistence localStorage
 
@@ -83,8 +93,47 @@ const [tasks, setTasks] = useTodoStorage() // Au lieu de useState<Task[]>([])
 4. Vérifier la clé `personal-dashboard-todos`
 5. Vider localStorage → les tâches disparaissent
 
+## Phase 1C - Système de Tags
+
+### Tags colorés
+
+Le système de tags permet de catégoriser les tâches avec des badges colorés :
+
+- **Sélection multi-tags** : Sélectionnez plusieurs tags lors de la création d'une tâche
+- **Tags disponibles** : work (bleu), personal (vert), urgent (rouge), learning (violet)
+- **Affichage visuel** : Badges colorés arrondis avec le nom du tag
+- **Suppression individuelle** : Bouton ✕ sur chaque tag pour le retirer d'une tâche
+
+### Composants ajoutés
+
+#### `TagSelector.tsx`
+
+Composant de sélection multi-tags intégré dans le formulaire :
+- Boutons toggle pour chaque tag disponible
+- État sélectionné visible avec couleur de fond
+- État non-sélectionné avec bordure colorée
+
+#### Modifications de `TodoItem.tsx`
+
+- Affichage des tags sous le texte de la tâche
+- Badge coloré pour chaque tag avec bouton de suppression
+- Animation au hover (scale 1.05)
+
+#### Modifications de `TodoForm.tsx`
+
+- Ajout du TagSelector sous l'input
+- Gestion de l'état selectedTags
+- Réinitialisation des tags après soumission
+
+### Styles
+
+- **Badges compacts** : padding réduit, border-radius 12px
+- **Animations** : transform au hover, transitions douces
+- **Responsive** : flex-wrap pour adaptation mobile
+- **Couleurs** : utilisation des couleurs définies dans AVAILABLE_TAGS
+
 ### Prochaines phases
 
 - **Phase 2** : Filtres et tri
-- **Phase 3** : Tags et priorités
+- **Phase 3** : Priorités
 - **Phase 4** : Design avancé

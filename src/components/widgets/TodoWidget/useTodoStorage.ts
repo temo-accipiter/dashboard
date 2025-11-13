@@ -15,9 +15,11 @@ export function useTodoStorage(): [Task[], React.Dispatch<React.SetStateAction<T
       if (stored) {
         const parsed = JSON.parse(stored)
         // Reconvertir les dates qui sont en string après JSON.parse
+        // Ajouter le champ tags si absent (migration des anciennes tâches)
         return parsed.map((task: Task) => ({
           ...task,
           createdAt: new Date(task.createdAt),
+          tags: task.tags || [],
         }))
       }
     } catch (error) {
