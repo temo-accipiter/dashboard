@@ -45,35 +45,53 @@ export const PomodoroWidget: React.FC = () => {
   const { playSound, previewSound } = usePomodoroSound(settings.sounds)
 
   // Timer callbacks
-  const handleSessionComplete = useCallback((session: any) => {
-    saveSession(session)
-  }, [saveSession])
+  const handleSessionComplete = useCallback(
+    (session: any) => {
+      saveSession(session)
+    },
+    [saveSession]
+  )
 
-  const handleTimerEnd = useCallback((mode: any) => {
-    // Play sound
-    if (mode === 'focus') {
-      playSound(settings.sounds.focusEnd)
-    } else {
-      playSound(settings.sounds.breakEnd)
-    }
-
-    // Send notification
-    if (settings.notifications.enabled && settings.notifications.showAtEnd) {
+  const handleTimerEnd = useCallback(
+    (mode: any) => {
+      // Play sound
       if (mode === 'focus') {
-        notifyFocusEnd()
-      } else if (mode === 'shortBreak') {
-        notifyShortBreakEnd()
-      } else if (mode === 'longBreak') {
-        notifyLongBreakEnd()
+        playSound(settings.sounds.focusEnd)
+      } else {
+        playSound(settings.sounds.breakEnd)
       }
-    }
-  }, [settings, playSound, notifyFocusEnd, notifyShortBreakEnd, notifyLongBreakEnd])
 
-  const handleHalfway = useCallback((mode: any, timeLeft: number) => {
-    if (settings.notifications.enabled && settings.notifications.showAtHalfway) {
-      notifyHalfway(mode, String(timeLeft))
-    }
-  }, [settings, notifyHalfway])
+      // Send notification
+      if (settings.notifications.enabled && settings.notifications.showAtEnd) {
+        if (mode === 'focus') {
+          notifyFocusEnd()
+        } else if (mode === 'shortBreak') {
+          notifyShortBreakEnd()
+        } else if (mode === 'longBreak') {
+          notifyLongBreakEnd()
+        }
+      }
+    },
+    [
+      settings,
+      playSound,
+      notifyFocusEnd,
+      notifyShortBreakEnd,
+      notifyLongBreakEnd,
+    ]
+  )
+
+  const handleHalfway = useCallback(
+    (mode: any, timeLeft: number) => {
+      if (
+        settings.notifications.enabled &&
+        settings.notifications.showAtHalfway
+      ) {
+        notifyHalfway(mode, String(timeLeft))
+      }
+    },
+    [settings, notifyHalfway]
+  )
 
   // Timer hook
   const {
@@ -101,7 +119,10 @@ export const PomodoroWidget: React.FC = () => {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       // Don't trigger if typing in input
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      ) {
         return
       }
 
@@ -117,7 +138,11 @@ export const PomodoroWidget: React.FC = () => {
       switch (e.key) {
         case ' ':
           e.preventDefault()
-          status === 'running' ? pause() : start()
+          if (status === 'running') {
+            pause()
+          } else {
+            start()
+          }
           break
         case 'r':
         case 'R':
@@ -146,7 +171,8 @@ export const PomodoroWidget: React.FC = () => {
   }, [status, showStats, showSettings, start, pause, reset, skip, changeMode])
 
   // Calculate sessions until long break
-  const sessionsUntilLongBreak = settings.timerConfig.longBreakInterval - sessionCount
+  const sessionsUntilLongBreak =
+    settings.timerConfig.longBreakInterval - sessionCount
 
   return (
     <div className="pomodoro-widget">
@@ -202,10 +228,12 @@ export const PomodoroWidget: React.FC = () => {
           </div>
           {mode === 'focus' && (
             <div className="session-progress">
-              Session {sessionCount + 1}/{settings.timerConfig.longBreakInterval}
+              Session {sessionCount + 1}/
+              {settings.timerConfig.longBreakInterval}
               {sessionsUntilLongBreak > 0 && (
                 <span className="sessions-remaining">
-                  {' '}• {sessionsUntilLongBreak} avant pause longue
+                  {' '}
+                  • {sessionsUntilLongBreak} avant pause longue
                 </span>
               )}
             </div>
@@ -227,35 +255,20 @@ export const PomodoroWidget: React.FC = () => {
       <div className="pomodoro-stats">
         <h3>Statistiques du jour</h3>
         <div className="stats-grid">
-          <StatCard
-            emoji="🍅"
-            value={stats.sessionsToday}
-            label="Sessions"
-          />
+          <StatCard emoji="🍅" value={stats.sessionsToday} label="Sessions" />
           <StatCard
             emoji="⏱️"
             value={formatDuration(stats.todayFocusTime)}
             label="Temps focus"
           />
-          <StatCard
-            emoji="🔥"
-            value={stats.currentStreak}
-            label="Streak"
-          />
-          <StatCard
-            emoji="📈"
-            value={stats.longestStreak}
-            label="Record"
-          />
+          <StatCard emoji="🔥" value={stats.currentStreak} label="Streak" />
+          <StatCard emoji="📈" value={stats.longestStreak} label="Record" />
         </div>
       </div>
 
       {/* Stats panel */}
       {showStats && (
-        <StatsPanel
-          stats={stats}
-          onClose={() => setShowStats(false)}
-        />
+        <StatsPanel stats={stats} onClose={() => setShowStats(false)} />
       )}
 
       {/* Settings panel */}

@@ -32,7 +32,7 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({ stats, onClose }) => {
             className={`tab ${activeTab === 'today' ? 'active' : ''}`}
             onClick={() => setActiveTab('today')}
           >
-            Aujourd'hui
+            Aujourd&apos;hui
           </button>
           <button
             className={`tab ${activeTab === 'week' ? 'active' : ''}`}
@@ -106,11 +106,14 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({ stats, onClose }) => {
                 <p className="week-summary">
                   {stats.sessionsThisWeek > 0 ? (
                     <>
-                      Vous avez complété <strong>{stats.sessionsThisWeek} sessions</strong> cette semaine
-                      pour un total de <strong>{formatDuration(stats.weekFocusTime)}</strong> de temps focus.
+                      Vous avez complété{' '}
+                      <strong>{stats.sessionsThisWeek} sessions</strong> cette
+                      semaine pour un total de{' '}
+                      <strong>{formatDuration(stats.weekFocusTime)}</strong> de
+                      temps focus.
                     </>
                   ) : (
-                    "Aucune session cette semaine. Lancez-vous !"
+                    'Aucune session cette semaine. Lancez-vous !'
                   )}
                 </p>
               </div>

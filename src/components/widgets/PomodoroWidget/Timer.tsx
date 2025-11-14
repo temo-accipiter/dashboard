@@ -61,7 +61,8 @@ export const Timer: React.FC<TimerProps> = ({
           style={{
             transform: 'rotate(-90deg)',
             transformOrigin: '50% 50%',
-            transition: status === 'running' ? 'stroke-dashoffset 1s linear' : 'none',
+            transition:
+              status === 'running' ? 'stroke-dashoffset 1s linear' : 'none',
           }}
         />
 

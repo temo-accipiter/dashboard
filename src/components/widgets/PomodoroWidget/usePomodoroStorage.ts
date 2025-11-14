@@ -80,9 +80,12 @@ export const usePomodoroStorage = () => {
 
   // Save a new session
   const saveSession = useCallback((session: PomodoroSession) => {
-    setSessions(prevSessions => {
+    setSessions((prevSessions) => {
       // Add new session and keep only last MAX_SESSIONS_HISTORY
-      const newSessions = [session, ...prevSessions].slice(0, MAX_SESSIONS_HISTORY)
+      const newSessions = [session, ...prevSessions].slice(
+        0,
+        MAX_SESSIONS_HISTORY
+      )
 
       // Save to localStorage
       try {
@@ -96,20 +99,23 @@ export const usePomodoroStorage = () => {
   }, [])
 
   // Update settings
-  const updateSettings = useCallback((newSettings: Partial<PomodoroSettings>) => {
-    setSettings(prevSettings => {
-      const updated = { ...prevSettings, ...newSettings }
+  const updateSettings = useCallback(
+    (newSettings: Partial<PomodoroSettings>) => {
+      setSettings((prevSettings) => {
+        const updated = { ...prevSettings, ...newSettings }
 
-      // Save to localStorage
-      try {
-        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(updated))
-      } catch (error) {
-        console.error('Error saving settings:', error)
-      }
+        // Save to localStorage
+        try {
+          localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(updated))
+        } catch (error) {
+          console.error('Error saving settings:', error)
+        }
 
-      return updated
-    })
-  }, [])
+        return updated
+      })
+    },
+    []
+  )
 
   // Export data as JSON string
   const exportData = useCallback((): string => {
@@ -128,7 +134,10 @@ export const usePomodoroStorage = () => {
 
       if (data.settings) {
         setSettings({ ...DEFAULT_SETTINGS, ...data.settings })
-        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(data.settings))
+        localStorage.setItem(
+          STORAGE_KEYS.SETTINGS,
+          JSON.stringify(data.settings)
+        )
       }
 
       if (data.sessions && Array.isArray(data.sessions)) {
@@ -137,7 +146,10 @@ export const usePomodoroStorage = () => {
           completedAt: new Date(s.completedAt),
         }))
         setSessions(sessionsWithDates)
-        localStorage.setItem(STORAGE_KEYS.SESSIONS, JSON.stringify(sessionsWithDates))
+        localStorage.setItem(
+          STORAGE_KEYS.SESSIONS,
+          JSON.stringify(sessionsWithDates)
+        )
       }
 
       return true

@@ -6,12 +6,21 @@ interface TagSelectorProps {
   onTagToggle: (tagName: string) => void
 }
 
-export const TagSelector: React.FC<TagSelectorProps> = ({ selectedTags, onTagToggle }) => {
+export const TagSelector: React.FC<TagSelectorProps> = ({
+  selectedTags,
+  onTagToggle,
+}) => {
   return (
     <div className="tag-selector" role="group" aria-label="Sélection des tags">
-      <label className="tag-selector__label" id="tag-selector-label">Tags:</label>
-      <div className="tag-selector__options" role="group" aria-labelledby="tag-selector-label">
-        {AVAILABLE_TAGS.map(tag => {
+      <label className="tag-selector__label" id="tag-selector-label">
+        Tags:
+      </label>
+      <div
+        className="tag-selector__options"
+        role="group"
+        aria-labelledby="tag-selector-label"
+      >
+        {AVAILABLE_TAGS.map((tag) => {
           const isSelected = selectedTags.includes(tag.name)
           return (
             <button

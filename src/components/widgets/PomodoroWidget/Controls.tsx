@@ -90,7 +90,10 @@ export const Controls: React.FC<ControlsProps> = ({
         <div className="pomodoro-modal-overlay" onClick={cancelReset}>
           <div className="pomodoro-modal" onClick={(e) => e.stopPropagation()}>
             <h3>Confirmer la réinitialisation</h3>
-            <p>Vous avez déjà complété plus de 50% de cette session. Voulez-vous vraiment réinitialiser ?</p>
+            <p>
+              Vous avez déjà complété plus de 50% de cette session. Voulez-vous
+              vraiment réinitialiser ?
+            </p>
             <div className="modal-actions">
               <button className="btn-cancel" onClick={cancelReset}>
                 Annuler

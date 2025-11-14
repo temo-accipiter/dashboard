@@ -28,7 +28,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [importError, setImportError] = useState<string | null>(null)
 
-  const handleTimerConfigChange = (key: keyof PomodoroSettings['timerConfig'], value: number) => {
+  const handleTimerConfigChange = (
+    key: keyof PomodoroSettings['timerConfig'],
+    value: number
+  ) => {
     // Validate: 1-60 minutes
     const validated = Math.max(1, Math.min(60, value))
     onUpdateSettings({
@@ -39,7 +42,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
     })
   }
 
-  const handleSoundChange = (key: keyof PomodoroSettings['sounds'], value: boolean | SoundType | number) => {
+  const handleSoundChange = (
+    key: keyof PomodoroSettings['sounds'],
+    value: boolean | SoundType | number
+  ) => {
     onUpdateSettings({
       sounds: {
         ...settings.sounds,
@@ -48,7 +54,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
     })
   }
 
-  const handleNotificationChange = (key: keyof PomodoroSettings['notifications'], value: boolean) => {
+  const handleNotificationChange = (
+    key: keyof PomodoroSettings['notifications'],
+    value: boolean
+  ) => {
     onUpdateSettings({
       notifications: {
         ...settings.notifications,
@@ -89,7 +98,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
         } else {
           setImportError('Fichier JSON invalide')
         }
-      } catch (error) {
+      } catch (_error) {
         setImportError('Erreur lors de la lecture du fichier')
       }
     }
@@ -132,40 +141,66 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 min="1"
                 max="60"
                 value={settings.timerConfig.focus}
-                onChange={(e) => handleTimerConfigChange('focus', parseInt(e.target.value) || 1)}
+                onChange={(e) =>
+                  handleTimerConfigChange(
+                    'focus',
+                    parseInt(e.target.value) || 1
+                  )
+                }
               />
             </div>
             <div className="setting-row">
-              <label htmlFor="short-break-duration">Pause courte (minutes)</label>
+              <label htmlFor="short-break-duration">
+                Pause courte (minutes)
+              </label>
               <input
                 id="short-break-duration"
                 type="number"
                 min="1"
                 max="60"
                 value={settings.timerConfig.shortBreak}
-                onChange={(e) => handleTimerConfigChange('shortBreak', parseInt(e.target.value) || 1)}
+                onChange={(e) =>
+                  handleTimerConfigChange(
+                    'shortBreak',
+                    parseInt(e.target.value) || 1
+                  )
+                }
               />
             </div>
             <div className="setting-row">
-              <label htmlFor="long-break-duration">Pause longue (minutes)</label>
+              <label htmlFor="long-break-duration">
+                Pause longue (minutes)
+              </label>
               <input
                 id="long-break-duration"
                 type="number"
                 min="1"
                 max="60"
                 value={settings.timerConfig.longBreak}
-                onChange={(e) => handleTimerConfigChange('longBreak', parseInt(e.target.value) || 1)}
+                onChange={(e) =>
+                  handleTimerConfigChange(
+                    'longBreak',
+                    parseInt(e.target.value) || 1
+                  )
+                }
               />
             </div>
             <div className="setting-row">
-              <label htmlFor="long-break-interval">Sessions avant pause longue</label>
+              <label htmlFor="long-break-interval">
+                Sessions avant pause longue
+              </label>
               <input
                 id="long-break-interval"
                 type="number"
                 min="2"
                 max="10"
                 value={settings.timerConfig.longBreakInterval}
-                onChange={(e) => handleTimerConfigChange('longBreakInterval', parseInt(e.target.value) || 4)}
+                onChange={(e) =>
+                  handleTimerConfigChange(
+                    'longBreakInterval',
+                    parseInt(e.target.value) || 4
+                  )
+                }
               />
             </div>
             <button className="btn-secondary" onClick={handleRestoreDefaults}>
@@ -181,7 +216,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="checkbox"
                   checked={settings.sounds.enabled}
-                  onChange={(e) => handleSoundChange('enabled', e.target.checked)}
+                  onChange={(e) =>
+                    handleSoundChange('enabled', e.target.checked)
+                  }
                 />
                 Activer les sons
               </label>
@@ -192,7 +229,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <select
                   id="focus-end-sound"
                   value={settings.sounds.focusEnd}
-                  onChange={(e) => handleSoundChange('focusEnd', e.target.value as SoundType)}
+                  onChange={(e) =>
+                    handleSoundChange('focusEnd', e.target.value as SoundType)
+                  }
                   disabled={!settings.sounds.enabled}
                 >
                   <option value="bell">Bell</option>
@@ -203,7 +242,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <button
                   className="btn-icon"
                   onClick={() => onPreviewSound(settings.sounds.focusEnd)}
-                  disabled={!settings.sounds.enabled || settings.sounds.focusEnd === 'silent'}
+                  disabled={
+                    !settings.sounds.enabled ||
+                    settings.sounds.focusEnd === 'silent'
+                  }
                   aria-label="Test sound"
                 >
                   <Play size={16} />
@@ -216,7 +258,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <select
                   id="break-end-sound"
                   value={settings.sounds.breakEnd}
-                  onChange={(e) => handleSoundChange('breakEnd', e.target.value as SoundType)}
+                  onChange={(e) =>
+                    handleSoundChange('breakEnd', e.target.value as SoundType)
+                  }
                   disabled={!settings.sounds.enabled}
                 >
                   <option value="bell">Bell</option>
@@ -227,7 +271,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <button
                   className="btn-icon"
                   onClick={() => onPreviewSound(settings.sounds.breakEnd)}
-                  disabled={!settings.sounds.enabled || settings.sounds.breakEnd === 'silent'}
+                  disabled={
+                    !settings.sounds.enabled ||
+                    settings.sounds.breakEnd === 'silent'
+                  }
                   aria-label="Test sound"
                 >
                   <Play size={16} />
@@ -243,7 +290,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   min="0"
                   max="100"
                   value={settings.sounds.volume}
-                  onChange={(e) => handleSoundChange('volume', parseInt(e.target.value))}
+                  onChange={(e) =>
+                    handleSoundChange('volume', parseInt(e.target.value))
+                  }
                   disabled={!settings.sounds.enabled}
                 />
                 <span className="volume-label">{settings.sounds.volume}%</span>
@@ -254,7 +303,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="checkbox"
                   checked={settings.sounds.tickingSound}
-                  onChange={(e) => handleSoundChange('tickingSound', e.target.checked)}
+                  onChange={(e) =>
+                    handleSoundChange('tickingSound', e.target.checked)
+                  }
                   disabled={!settings.sounds.enabled}
                 />
                 Son de tic-tac pendant timer
@@ -273,7 +324,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="checkbox"
                   checked={settings.notifications.enabled}
-                  onChange={(e) => handleNotificationChange('enabled', e.target.checked)}
+                  onChange={(e) =>
+                    handleNotificationChange('enabled', e.target.checked)
+                  }
                   disabled={permissionState !== 'granted'}
                 />
                 Activer les notifications
@@ -284,7 +337,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="checkbox"
                   checked={settings.notifications.showAtEnd}
-                  onChange={(e) => handleNotificationChange('showAtEnd', e.target.checked)}
+                  onChange={(e) =>
+                    handleNotificationChange('showAtEnd', e.target.checked)
+                  }
                   disabled={!settings.notifications.enabled}
                 />
                 Notifier à la fin du timer
@@ -295,7 +350,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="checkbox"
                   checked={settings.notifications.showAtHalfway}
-                  onChange={(e) => handleNotificationChange('showAtHalfway', e.target.checked)}
+                  onChange={(e) =>
+                    handleNotificationChange('showAtHalfway', e.target.checked)
+                  }
                   disabled={!settings.notifications.enabled}
                 />
                 Notifier à mi-parcours
@@ -303,7 +360,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             </div>
             {permissionState === 'denied' && (
               <p className="help-text">
-                Les notifications sont bloquées. Vérifiez les paramètres de votre navigateur.
+                Les notifications sont bloquées. Vérifiez les paramètres de
+                votre navigateur.
               </p>
             )}
           </section>
@@ -316,7 +374,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="checkbox"
                   checked={settings.autoStartBreaks}
-                  onChange={(e) => onUpdateSettings({ autoStartBreaks: e.target.checked })}
+                  onChange={(e) =>
+                    onUpdateSettings({ autoStartBreaks: e.target.checked })
+                  }
                 />
                 Démarrer automatiquement les pauses
               </label>
@@ -326,7 +386,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <input
                   type="checkbox"
                   checked={settings.autoStartPomodoros}
-                  onChange={(e) => onUpdateSettings({ autoStartPomodoros: e.target.checked })}
+                  onChange={(e) =>
+                    onUpdateSettings({ autoStartPomodoros: e.target.checked })
+                  }
                 />
                 Démarrer automatiquement les sessions focus
               </label>
@@ -351,9 +413,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   style={{ display: 'none' }}
                 />
               </label>
-              {importError && (
-                <p className="error-text">{importError}</p>
-              )}
+              {importError && <p className="error-text">{importError}</p>}
               <button
                 className="btn-danger"
                 onClick={() => setShowResetConfirm(true)}
@@ -374,7 +434,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               Cette action est irréversible.
             </p>
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={() => setShowResetConfirm(false)}>
+              <button
+                className="btn-cancel"
+                onClick={() => setShowResetConfirm(false)}
+              >
                 Annuler
               </button>
               <button className="btn-confirm" onClick={handleResetAll}>

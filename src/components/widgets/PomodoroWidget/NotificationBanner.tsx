@@ -23,7 +23,11 @@ export const NotificationBanner: React.FC<NotificationBannerProps> = ({
         <button className="btn-enable" onClick={onEnable}>
           Activer
         </button>
-        <button className="btn-dismiss" onClick={onDismiss} aria-label="Dismiss">
+        <button
+          className="btn-dismiss"
+          onClick={onDismiss}
+          aria-label="Dismiss"
+        >
           <X size={18} />
         </button>
       </div>

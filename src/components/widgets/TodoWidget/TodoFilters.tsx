@@ -28,7 +28,7 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
 
   const handleTagToggle = (tagName: string) => {
     if (selectedTags.includes(tagName)) {
-      onTagFilterChange(selectedTags.filter(t => t !== tagName))
+      onTagFilterChange(selectedTags.filter((t) => t !== tagName))
     } else {
       onTagFilterChange([...selectedTags, tagName])
     }
@@ -37,13 +37,19 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
   return (
     <div className="todo-filters" role="region" aria-label="Filtres des tâches">
       <div className="todo-filters__main">
-        <div className="todo-filters__buttons" role="group" aria-label="Filtres par statut">
-          {filters.map(filter => (
+        <div
+          className="todo-filters__buttons"
+          role="group"
+          aria-label="Filtres par statut"
+        >
+          {filters.map((filter) => (
             <button
               key={filter.type}
               onClick={() => onFilterChange(filter.type)}
               className={`todo-filters__button ${
-                currentFilter === filter.type ? 'todo-filters__button--active' : ''
+                currentFilter === filter.type
+                  ? 'todo-filters__button--active'
+                  : ''
               }`}
               aria-pressed={currentFilter === filter.type}
               aria-label={`Afficher les tâches ${filter.label.toLowerCase()}`}
@@ -67,9 +73,15 @@ export const TodoFilters: React.FC<TodoFiltersProps> = ({
 
       {AVAILABLE_TAGS.length > 0 && (
         <div className="todo-filters__tags">
-          <span className="todo-filters__tags-label" id="tag-filters-label">Filtrer par tag:</span>
-          <div className="todo-filters__tags-list" role="group" aria-labelledby="tag-filters-label">
-            {AVAILABLE_TAGS.map(tag => {
+          <span className="todo-filters__tags-label" id="tag-filters-label">
+            Filtrer par tag:
+          </span>
+          <div
+            className="todo-filters__tags-list"
+            role="group"
+            aria-labelledby="tag-filters-label"
+          >
+            {AVAILABLE_TAGS.map((tag) => {
               const isSelected = selectedTags.includes(tag.name)
               return (
                 <button

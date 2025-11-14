@@ -24,29 +24,33 @@ export const TodoWidget: React.FC = () => {
   }
 
   const handleToggleTask = (id: string) => {
-    setTasks(tasks.map(task =>
-      task.id === id ? { ...task, done: !task.done } : task
-    ))
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    )
   }
 
   const handleDeleteTask = (id: string) => {
-    setTasks(tasks.filter(task => task.id !== id))
+    setTasks(tasks.filter((task) => task.id !== id))
   }
 
   const handleRemoveTag = (taskId: string, tagName: string) => {
-    setTasks(tasks.map(task =>
-      task.id === taskId
-        ? { ...task, tags: task.tags.filter(t => t !== tagName) }
-        : task
-    ))
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskId
+          ? { ...task, tags: task.tags.filter((t) => t !== tagName) }
+          : task
+      )
+    )
   }
 
   const handleEditTask = (taskId: string, newText: string) => {
-    setTasks(tasks.map(task =>
-      task.id === taskId
-        ? { ...task, text: newText }
-        : task
-    ))
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskId ? { ...task, text: newText } : task
+      )
+    )
   }
 
   /**
@@ -59,15 +63,15 @@ export const TodoWidget: React.FC = () => {
 
     // Filtrage par statut (all/active/completed)
     if (currentFilter === 'active') {
-      filtered = filtered.filter(task => !task.done)
+      filtered = filtered.filter((task) => !task.done)
     } else if (currentFilter === 'completed') {
-      filtered = filtered.filter(task => task.done)
+      filtered = filtered.filter((task) => task.done)
     }
 
     // Filtrage par tags (affiche si la tâche a AU MOINS un tag sélectionné)
     if (selectedTagFilters.length > 0) {
-      filtered = filtered.filter(task =>
-        selectedTagFilters.some(tagFilter => task.tags.includes(tagFilter))
+      filtered = filtered.filter((task) =>
+        selectedTagFilters.some((tagFilter) => task.tags.includes(tagFilter))
       )
     }
 
@@ -79,14 +83,17 @@ export const TodoWidget: React.FC = () => {
   }
 
   const filteredTasks = getFilteredTasks()
-  const activeCount = tasks.filter(t => !t.done).length
-  const completedCount = tasks.filter(t => t.done).length
+  const activeCount = tasks.filter((t) => !t.done).length
+  const completedCount = tasks.filter((t) => t.done).length
 
   return (
     <section className="todo-widget" aria-label="Widget de gestion de tâches">
       <header className="todo-widget__header">
         <h2 className="todo-widget__title">Mes Tâches</h2>
-        <span className="todo-widget__count" aria-label={`${activeCount} tâches actives sur ${tasks.length} au total`}>
+        <span
+          className="todo-widget__count"
+          aria-label={`${activeCount} tâches actives sur ${tasks.length} au total`}
+        >
           {activeCount} / {tasks.length}
         </span>
       </header>
@@ -102,13 +109,21 @@ export const TodoWidget: React.FC = () => {
         onTagFilterChange={setSelectedTagFilters}
       />
 
-      <div className="todo-widget__list" role="list" aria-label="Liste des tâches">
+      <div
+        className="todo-widget__list"
+        role="list"
+        aria-label="Liste des tâches"
+      >
         {tasks.length === 0 ? (
-          <p className="todo-widget__empty" role="status">Aucune tâche pour le moment</p>
+          <p className="todo-widget__empty" role="status">
+            Aucune tâche pour le moment
+          </p>
         ) : filteredTasks.length === 0 ? (
-          <p className="todo-widget__empty" role="status">Aucune tâche ne correspond aux filtres</p>
+          <p className="todo-widget__empty" role="status">
+            Aucune tâche ne correspond aux filtres
+          </p>
         ) : (
-          filteredTasks.map(task => (
+          filteredTasks.map((task) => (
             <TodoItem
               key={task.id}
               task={task}

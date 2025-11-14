@@ -2,13 +2,18 @@ import { useState, useEffect, useCallback } from 'react'
 import { TimerMode } from './types'
 import { STORAGE_KEYS } from './constants'
 
-export type NotificationPermissionState = 'granted' | 'denied' | 'default' | 'unsupported'
+export type NotificationPermissionState =
+  | 'granted'
+  | 'denied'
+  | 'default'
+  | 'unsupported'
 
 /**
  * Hook for managing browser notifications
  */
 export const useNotification = () => {
-  const [permissionState, setPermissionState] = useState<NotificationPermissionState>('default')
+  const [permissionState, setPermissionState] =
+    useState<NotificationPermissionState>('default')
   const [showBanner, setShowBanner] = useState(false)
 
   // Check if Notification API is supported
@@ -24,7 +29,9 @@ export const useNotification = () => {
     setPermissionState(Notification.permission as NotificationPermissionState)
 
     // Check if we've already asked for permission
-    const hasAsked = localStorage.getItem(STORAGE_KEYS.NOTIFICATION_PERMISSION_ASKED)
+    const hasAsked = localStorage.getItem(
+      STORAGE_KEYS.NOTIFICATION_PERMISSION_ASKED
+    )
     if (!hasAsked && Notification.permission === 'default') {
       setShowBanner(true)
     }
@@ -54,35 +61,38 @@ export const useNotification = () => {
   }, [])
 
   // Send a notification
-  const sendNotification = useCallback((title: string, body: string, icon?: string) => {
-    if (!isSupported) {
-      console.warn('Notifications not supported')
-      return
-    }
+  const sendNotification = useCallback(
+    (title: string, body: string, icon?: string) => {
+      if (!isSupported) {
+        console.warn('Notifications not supported')
+        return
+      }
 
-    if (Notification.permission !== 'granted') {
-      console.warn('Notification permission not granted')
-      return
-    }
+      if (Notification.permission !== 'granted') {
+        console.warn('Notification permission not granted')
+        return
+      }
 
-    try {
-      const notification = new Notification(title, {
-        body,
-        icon: icon || '🍅',
-        badge: '🍅',
-        tag: 'pomodoro-timer',
-        requireInteraction: false,
-        silent: false,
-      })
+      try {
+        const notification = new Notification(title, {
+          body,
+          icon: icon || '🍅',
+          badge: '🍅',
+          tag: 'pomodoro-timer',
+          requireInteraction: false,
+          silent: false,
+        })
 
-      // Auto-close after 5 seconds
-      setTimeout(() => {
-        notification.close()
-      }, 5000)
-    } catch (error) {
-      console.error('Error sending notification:', error)
-    }
-  }, [isSupported])
+        // Auto-close after 5 seconds
+        setTimeout(() => {
+          notification.close()
+        }, 5000)
+      } catch (error) {
+        console.error('Error sending notification:', error)
+      }
+    },
+    [isSupported]
+  )
 
   // Send mode-specific notifications
   const notifyFocusEnd = useCallback(() => {
@@ -109,19 +119,22 @@ export const useNotification = () => {
     )
   }, [sendNotification])
 
-  const notifyHalfway = useCallback((mode: TimerMode, timeLeft: string) => {
-    const modeLabels = {
-      focus: 'Session Focus',
-      shortBreak: 'Pause courte',
-      longBreak: 'Pause longue',
-    }
+  const notifyHalfway = useCallback(
+    (mode: TimerMode, timeLeft: string) => {
+      const modeLabels = {
+        focus: 'Session Focus',
+        shortBreak: 'Pause courte',
+        longBreak: 'Pause longue',
+      }
 
-    sendNotification(
-      `⏱️ Mi-${modeLabels[mode].toLowerCase()}`,
-      `Plus que ${timeLeft} minutes !`,
-      '⏱️'
-    )
-  }, [sendNotification])
+      sendNotification(
+        `⏱️ Mi-${modeLabels[mode].toLowerCase()}`,
+        `Plus que ${timeLeft} minutes !`,
+        '⏱️'
+      )
+    },
+    [sendNotification]
+  )
 
   return {
     permissionState,

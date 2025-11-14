@@ -7,7 +7,12 @@ interface StatCardProps {
   trend?: string
 }
 
-export const StatCard: React.FC<StatCardProps> = ({ emoji, value, label, trend }) => {
+export const StatCard: React.FC<StatCardProps> = ({
+  emoji,
+  value,
+  label,
+  trend,
+}) => {
   return (
     <div className="pomodoro-stat-card">
       <div className="stat-emoji">{emoji}</div>

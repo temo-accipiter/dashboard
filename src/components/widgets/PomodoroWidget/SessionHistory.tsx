@@ -12,7 +12,10 @@ export const SessionHistory: React.FC<SessionHistoryProps> = ({ sessions }) => {
   // Get last 20 sessions sorted by date (newest first)
   const recentSessions = sessions
     .slice()
-    .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime())
+    .sort(
+      (a, b) =>
+        new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+    )
     .slice(0, 20)
 
   const groupedSessions = groupSessionsByDay(recentSessions)
@@ -37,10 +40,16 @@ export const SessionHistory: React.FC<SessionHistoryProps> = ({ sessions }) => {
                 key={session.id}
                 className={`history-session ${session.interrupted ? 'interrupted' : 'completed'}`}
               >
-                <span className="session-emoji">{MODE_EMOJI[session.mode]}</span>
+                <span className="session-emoji">
+                  {MODE_EMOJI[session.mode]}
+                </span>
                 <div className="session-info">
-                  <span className="session-type">{MODE_LABELS[session.mode]}</span>
-                  <span className="session-duration">{session.duration}min</span>
+                  <span className="session-type">
+                    {MODE_LABELS[session.mode]}
+                  </span>
+                  <span className="session-duration">
+                    {session.duration}min
+                  </span>
                 </div>
                 <div className="session-status">
                   {session.interrupted ? (
@@ -50,12 +59,17 @@ export const SessionHistory: React.FC<SessionHistoryProps> = ({ sessions }) => {
                     </>
                   ) : (
                     <>
-                      <CheckCircle2 size={16} className="status-icon completed" />
+                      <CheckCircle2
+                        size={16}
+                        className="status-icon completed"
+                      />
                       <span>Terminé</span>
                     </>
                   )}
                 </div>
-                <span className="session-time">{formatRelativeTime(session.completedAt)}</span>
+                <span className="session-time">
+                  {formatRelativeTime(session.completedAt)}
+                </span>
               </div>
             ))}
           </div>

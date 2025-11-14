@@ -1,4 +1,9 @@
-import { TimerConfig, SoundSettings, NotificationSettings, PomodoroSettings } from './types'
+import {
+  TimerConfig,
+  SoundSettings,
+  NotificationSettings,
+  PomodoroSettings,
+} from './types'
 
 // Default timer durations (in minutes)
 export const DEFAULT_TIMER_CONFIG: TimerConfig = {
@@ -45,7 +50,8 @@ export const STORAGE_KEYS = {
   SESSIONS: 'personal-dashboard-pomodoro-sessions',
   STATS: 'personal-dashboard-pomodoro-stats',
   SETTINGS: 'personal-dashboard-pomodoro-settings',
-  NOTIFICATION_PERMISSION_ASKED: 'personal-dashboard-pomodoro-notification-asked',
+  NOTIFICATION_PERMISSION_ASKED:
+    'personal-dashboard-pomodoro-notification-asked',
 }
 
 // Maximum number of sessions to keep in history

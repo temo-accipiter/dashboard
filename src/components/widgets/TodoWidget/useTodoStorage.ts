@@ -7,7 +7,10 @@ const STORAGE_KEY = 'personal-dashboard-todos'
  * Hook custom pour gérer la persistence des tâches dans localStorage
  * @returns [tasks, setTasks] - État des tâches et setter
  */
-export function useTodoStorage(): [Task[], React.Dispatch<React.SetStateAction<Task[]>>] {
+export function useTodoStorage(): [
+  Task[],
+  React.Dispatch<React.SetStateAction<Task[]>>,
+] {
   const [tasks, setTasks] = useState<Task[]>(() => {
     // Charger les tâches depuis localStorage au montage
     try {
@@ -24,7 +27,10 @@ export function useTodoStorage(): [Task[], React.Dispatch<React.SetStateAction<T
         }))
       }
     } catch (error) {
-      console.error('Erreur lors du chargement des tâches depuis localStorage:', error)
+      console.error(
+        'Erreur lors du chargement des tâches depuis localStorage:',
+        error
+      )
     }
     return []
   })
@@ -34,7 +40,10 @@ export function useTodoStorage(): [Task[], React.Dispatch<React.SetStateAction<T
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks))
     } catch (error) {
-      console.error('Erreur lors de la sauvegarde des tâches dans localStorage:', error)
+      console.error(
+        'Erreur lors de la sauvegarde des tâches dans localStorage:',
+        error
+      )
     }
   }, [tasks])
 

@@ -83,7 +83,7 @@ export const usePomodoroTimer = ({
     setHalfwayNotified(false)
 
     intervalRef.current = setInterval(() => {
-      setTimeLeft(prev => {
+      setTimeLeft((prev) => {
         if (prev <= 1) {
           return 0
         }
@@ -115,9 +115,7 @@ export const usePomodoroTimer = ({
 
     // Save current session as interrupted if it was running/paused
     if ((status === 'running' || status === 'paused') && startTimeRef.current) {
-      const duration = Math.round(
-        (totalTime - timeLeft) / 60
-      ) // actual time spent in minutes
+      const duration = Math.round((totalTime - timeLeft) / 60) // actual time spent in minutes
 
       if (duration > 0) {
         const session: PomodoroSession = {
@@ -176,26 +174,29 @@ export const usePomodoroTimer = ({
   ])
 
   // Manually set mode (when idle only)
-  const changeMode = useCallback((newMode: TimerMode) => {
-    if (status !== 'idle') return
+  const changeMode = useCallback(
+    (newMode: TimerMode) => {
+      if (status !== 'idle') return
 
-    setMode(newMode)
-    onModeChange?.(newMode)
+      setMode(newMode)
+      onModeChange?.(newMode)
 
-    const newTime = (() => {
-      switch (newMode) {
-        case 'focus':
-          return timerConfig.focus * 60
-        case 'shortBreak':
-          return timerConfig.shortBreak * 60
-        case 'longBreak':
-          return timerConfig.longBreak * 60
-      }
-    })()
+      const newTime = (() => {
+        switch (newMode) {
+          case 'focus':
+            return timerConfig.focus * 60
+          case 'shortBreak':
+            return timerConfig.shortBreak * 60
+          case 'longBreak':
+            return timerConfig.longBreak * 60
+        }
+      })()
 
-    setTimeLeft(newTime)
-    setHalfwayNotified(false)
-  }, [status, timerConfig, onModeChange])
+      setTimeLeft(newTime)
+      setHalfwayNotified(false)
+    },
+    [status, timerConfig, onModeChange]
+  )
 
   // Handle timer completion
   useEffect(() => {
@@ -255,7 +256,7 @@ export const usePomodoroTimer = ({
         setStatus('running')
         startTimeRef.current = new Date()
         intervalRef.current = setInterval(() => {
-          setTimeLeft(prev => {
+          setTimeLeft((prev) => {
             if (prev <= 1) {
               return 0
             }

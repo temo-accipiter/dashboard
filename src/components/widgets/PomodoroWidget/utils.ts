@@ -45,18 +45,25 @@ export const isThisWeek = (date: Date): boolean => {
 /**
  * Calculate total focus time from sessions
  */
-export const calculateTotalFocusTime = (sessions: PomodoroSession[]): number => {
+export const calculateTotalFocusTime = (
+  sessions: PomodoroSession[]
+): number => {
   return sessions
-    .filter(s => s.mode === 'focus' && !s.interrupted)
+    .filter((s) => s.mode === 'focus' && !s.interrupted)
     .reduce((total, session) => total + session.duration, 0)
 }
 
 /**
  * Calculate focus time for today
  */
-export const calculateTodayFocusTime = (sessions: PomodoroSession[]): number => {
+export const calculateTodayFocusTime = (
+  sessions: PomodoroSession[]
+): number => {
   return sessions
-    .filter(s => s.mode === 'focus' && !s.interrupted && isToday(new Date(s.completedAt)))
+    .filter(
+      (s) =>
+        s.mode === 'focus' && !s.interrupted && isToday(new Date(s.completedAt))
+    )
     .reduce((total, session) => total + session.duration, 0)
 }
 
@@ -65,7 +72,12 @@ export const calculateTodayFocusTime = (sessions: PomodoroSession[]): number => 
  */
 export const calculateWeekFocusTime = (sessions: PomodoroSession[]): number => {
   return sessions
-    .filter(s => s.mode === 'focus' && !s.interrupted && isThisWeek(new Date(s.completedAt)))
+    .filter(
+      (s) =>
+        s.mode === 'focus' &&
+        !s.interrupted &&
+        isThisWeek(new Date(s.completedAt))
+    )
     .reduce((total, session) => total + session.duration, 0)
 }
 
@@ -73,14 +85,18 @@ export const calculateWeekFocusTime = (sessions: PomodoroSession[]): number => {
  * Count sessions for today
  */
 export const countSessionsToday = (sessions: PomodoroSession[]): number => {
-  return sessions.filter(s => s.mode === 'focus' && isToday(new Date(s.completedAt))).length
+  return sessions.filter(
+    (s) => s.mode === 'focus' && isToday(new Date(s.completedAt))
+  ).length
 }
 
 /**
  * Count sessions for this week
  */
 export const countSessionsThisWeek = (sessions: PomodoroSession[]): number => {
-  return sessions.filter(s => s.mode === 'focus' && isThisWeek(new Date(s.completedAt))).length
+  return sessions.filter(
+    (s) => s.mode === 'focus' && isThisWeek(new Date(s.completedAt))
+  ).length
 }
 
 /**
@@ -89,8 +105,11 @@ export const countSessionsThisWeek = (sessions: PomodoroSession[]): number => {
 export const calculateCurrentStreak = (sessions: PomodoroSession[]): number => {
   let streak = 0
   const focusSessions = sessions
-    .filter(s => s.mode === 'focus')
-    .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime())
+    .filter((s) => s.mode === 'focus')
+    .sort(
+      (a, b) =>
+        new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+    )
 
   for (const session of focusSessions) {
     if (session.interrupted) {
@@ -110,8 +129,11 @@ export const calculateLongestStreak = (sessions: PomodoroSession[]): number => {
   let currentStreak = 0
 
   const focusSessions = sessions
-    .filter(s => s.mode === 'focus')
-    .sort((a, b) => new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime())
+    .filter((s) => s.mode === 'focus')
+    .sort(
+      (a, b) =>
+        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
+    )
 
   for (const session of focusSessions) {
     if (session.interrupted) {
@@ -146,17 +168,19 @@ export const formatRelativeTime = (date: Date): string => {
     day: 'numeric',
     month: 'short',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 
 /**
  * Group sessions by day for history display
  */
-export const groupSessionsByDay = (sessions: PomodoroSession[]): Map<string, PomodoroSession[]> => {
+export const groupSessionsByDay = (
+  sessions: PomodoroSession[]
+): Map<string, PomodoroSession[]> => {
   const grouped = new Map<string, PomodoroSession[]>()
 
-  sessions.forEach(session => {
+  sessions.forEach((session) => {
     const date = new Date(session.completedAt)
     let key: string
 
@@ -175,7 +199,7 @@ export const groupSessionsByDay = (sessions: PomodoroSession[]): Map<string, Pom
         key = date.toLocaleDateString('fr-FR', {
           weekday: 'long',
           day: 'numeric',
-          month: 'long'
+          month: 'long',
         })
       }
     }

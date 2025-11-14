@@ -324,8 +324,7 @@ interface DraggableCardProps {
 }
 
 function DraggableCard({ id, icon, label, href }: DraggableCardProps) {
-  const { attributes, listeners, setNodeRef, transform } =
-    useDraggable({ id })
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
   const style = {
     transform: transform
       ? `translate(${transform.x}px, ${transform.y}px)`

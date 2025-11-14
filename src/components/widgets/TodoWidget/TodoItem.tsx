@@ -9,13 +9,19 @@ interface TodoItemProps {
   onEdit: (taskId: string, newText: string) => void
 }
 
-export const TodoItem: React.FC<TodoItemProps> = ({ task, onToggle, onDelete, onRemoveTag, onEdit }) => {
+export const TodoItem: React.FC<TodoItemProps> = ({
+  task,
+  onToggle,
+  onDelete,
+  onRemoveTag,
+  onEdit,
+}) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editText, setEditText] = useState(task.text)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const getTagColor = (tagName: string) => {
-    const tag = AVAILABLE_TAGS.find(t => t.name === tagName)
+    const tag = AVAILABLE_TAGS.find((t) => t.name === tagName)
     return tag?.color || '#999'
   }
 
@@ -60,10 +66,20 @@ export const TodoItem: React.FC<TodoItemProps> = ({ task, onToggle, onDelete, on
   }
 
   return (
-    <div className="todo-item" style={{ borderLeftColor: priorityConfig.color }} role="listitem">
+    <div
+      className="todo-item"
+      style={{ borderLeftColor: priorityConfig.color }}
+      role="listitem"
+    >
       {task.priority !== 'none' && (
-        <div className="todo-item__priority" title={`Priorité: ${priorityConfig.label}`} aria-label={`Priorité: ${priorityConfig.label}`}>
-          <span className="todo-item__priority-icon">{priorityConfig.icon}</span>
+        <div
+          className="todo-item__priority"
+          title={`Priorité: ${priorityConfig.label}`}
+          aria-label={`Priorité: ${priorityConfig.label}`}
+        >
+          <span className="todo-item__priority-icon">
+            {priorityConfig.icon}
+          </span>
         </div>
       )}
       <label className="todo-item__label">
@@ -96,7 +112,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ task, onToggle, onDelete, on
           )}
           {task.tags.length > 0 && (
             <div className="todo-item__tags">
-              {task.tags.map(tagName => (
+              {task.tags.map((tagName) => (
                 <span
                   key={tagName}
                   className="todo-item__tag"

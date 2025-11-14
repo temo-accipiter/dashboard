@@ -25,15 +25,19 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
   }
 
   const handleTagToggle = (tagName: string) => {
-    setSelectedTags(prev =>
+    setSelectedTags((prev) =>
       prev.includes(tagName)
-        ? prev.filter(t => t !== tagName)
+        ? prev.filter((t) => t !== tagName)
         : [...prev, tagName]
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="todo-form" aria-label="Formulaire d'ajout de tâche">
+    <form
+      onSubmit={handleSubmit}
+      className="todo-form"
+      aria-label="Formulaire d'ajout de tâche"
+    >
       <div className="todo-form__input-row">
         <input
           type="text"
@@ -55,7 +59,10 @@ export const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
         </button>
       </div>
       <TagSelector selectedTags={selectedTags} onTagToggle={handleTagToggle} />
-      <PrioritySelector selectedPriority={selectedPriority} onPriorityChange={setSelectedPriority} />
+      <PrioritySelector
+        selectedPriority={selectedPriority}
+        onPriorityChange={setSelectedPriority}
+      />
     </form>
   )
 }
