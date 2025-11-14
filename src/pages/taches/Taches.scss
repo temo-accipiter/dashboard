@@ -10,3 +10,24 @@
     margin-bottom: 1rem;
   }
 }
+
+// Layout for widgets side by side
+.widgets-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (min-width: 1400px) {
+    grid-template-columns: 3fr 2fr;
+  }
+
+  .widget-section {
+    display: flex;
+    flex-direction: column;
+  }
+}
