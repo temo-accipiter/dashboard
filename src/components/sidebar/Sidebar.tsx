@@ -1,7 +1,15 @@
 'use client'
 
 import NavLink from '@/components/common/NavLink'
-import { Home, Calendar, Settings, List, Globe, Newspaper } from 'lucide-react'
+import {
+  Home,
+  Calendar,
+  Settings,
+  List,
+  Globe,
+  Newspaper,
+  Blocks,
+} from 'lucide-react'
 import './Sidebar.scss'
 
 export default function Sidebar() {
@@ -24,6 +32,12 @@ export default function Sidebar() {
           <>
             <Newspaper size={20} />
             <span>Actualités</span>
+          </>
+        </NavLink>
+        <NavLink to="/widgets" className="nav-item">
+          <>
+            <Blocks size={20} />
+            <span>Widgets</span>
           </>
         </NavLink>
         <NavLink to="/calendar" className="nav-item">

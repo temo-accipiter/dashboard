@@ -1,0 +1,246 @@
+.widgets-page {
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    font-size: 1.125rem;
+    color: var(--text-secondary, #6b7280);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  &__title-section {
+    flex: 1;
+
+    h1 {
+      margin: 0 0 0.5rem 0;
+    }
+  }
+
+  &__subtitle {
+    color: var(--text-secondary, #6b7280);
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  &__add-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--primary-dark, #2563eb);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-secondary, #f9fafb);
+    border-radius: 1rem;
+    border: 2px dashed var(--border-color, #e5e7eb);
+  }
+
+  &__empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  &__empty {
+    h2 {
+      color: var(--text-primary, #1f2937);
+      margin: 0 0 0.75rem 0;
+      font-size: 1.5rem;
+    }
+
+    p {
+      color: var(--text-secondary, #6b7280);
+      margin: 0 0 2rem 0;
+      font-size: 1rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__empty-btn {
+    padding: 1rem 2rem;
+    background: var(--primary-color, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background: var(--primary-dark, #2563eb);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+  }
+
+  &__section-header {
+    margin-bottom: 1.5rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: var(--text-primary, #1f2937);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+.widget-container {
+  background: var(--bg-primary, white);
+  border: 2px solid var(--border-color, #e5e7eb);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--primary-color, #3b82f6);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-secondary, #f9fafb);
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+  }
+
+  &__drag {
+    color: var(--text-tertiary, #9ca3af);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    font-size: 1.25rem;
+  }
+
+  &__name {
+    font-weight: 600;
+    color: var(--text-primary, #1f2937);
+    font-size: 0.875rem;
+  }
+
+  &__remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: var(--text-secondary, #6b7280);
+    transition: all 0.2s;
+
+    &:hover {
+      background: var(--danger-bg, #fee2e2);
+      color: var(--danger-color, #ef4444);
+    }
+  }
+
+  &__content {
+    // Widget content container
+    // The actual widget component will be rendered here
+    // We remove any extra padding since widgets have their own styling
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .widgets-page {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .widgets-page {
+    &__header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__add-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    &__empty {
+      padding: 3rem 1.5rem;
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .widgets-page {
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-tertiary: #9ca3af;
+    --border-color: #374151;
+    --danger-bg: #7f1d1d;
+    --danger-color: #fca5a5;
+  }
+
+  .widget-container {
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
