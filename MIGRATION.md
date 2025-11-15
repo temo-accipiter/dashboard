@@ -33,6 +33,7 @@
 ### Technologies
 
 **Avant migration:**
+
 - React 19.0.0
 - Vite 6.3.0
 - react-router-dom 7.5.0
@@ -40,6 +41,7 @@
 - SCSS
 
 **Après migration:**
+
 - React 19.0.0 (inchangé)
 - Next.js 15.5.6
 - next/navigation (App Router)
@@ -53,6 +55,7 @@
 ### Modifications apportées
 
 #### Installation
+
 ```bash
 pnpm add next@15.5.6 next-intl@4.5.3
 ```
@@ -60,6 +63,7 @@ pnpm add next@15.5.6 next-intl@4.5.3
 #### Configuration Next.js
 
 **`next.config.mjs`** (nouveau)
+
 ```javascript
 import createNextIntlPlugin from 'next-intl/plugin'
 
@@ -85,6 +89,7 @@ export default withNextIntl(nextConfig)
 ```
 
 **`tsconfig.json`** (modifié)
+
 ```json
 {
   "compilerOptions": {
@@ -96,6 +101,7 @@ export default withNextIntl(nextConfig)
 ```
 
 **`package.json`** (modifié)
+
 ```json
 {
   "scripts": {
@@ -111,6 +117,7 @@ export default withNextIntl(nextConfig)
 #### Structure Next.js
 
 **`src/app/layout.tsx`** (nouveau)
+
 ```tsx
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
@@ -124,7 +131,11 @@ export const metadata: Metadata = {
   description: 'Dashboard personnalisé',
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const cookieStore = await cookies()
   const locale = cookieStore.get('NEXT_LOCALE')?.value || 'fr'
   const messages = await getMessages()
@@ -145,6 +156,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 ```
 
 **`src/app/page.tsx`** (nouveau)
+
 ```tsx
 import Home from '@/views/home/Home'
 
@@ -177,6 +189,7 @@ export default function HomePage() {
 **Configuration i18n**
 
 **`src/i18n/config.ts`** (nouveau)
+
 ```typescript
 import { getRequestConfig } from 'next-intl/server'
 import { cookies } from 'next/headers'
@@ -187,16 +200,18 @@ export const defaultLocale: Locale = 'fr'
 
 export default getRequestConfig(async () => {
   const cookieStore = await cookies()
-  const locale = (cookieStore.get('NEXT_LOCALE')?.value as Locale) || defaultLocale
+  const locale =
+    (cookieStore.get('NEXT_LOCALE')?.value as Locale) || defaultLocale
 
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default
+    messages: (await import(`../../messages/${locale}.json`)).default,
   }
 })
 ```
 
 **`src/i18n/client-utils.ts`** (nouveau)
+
 ```typescript
 'use client'
 
@@ -213,6 +228,7 @@ export function useChangeLocale() {
 ```
 
 **`middleware.ts`** (nouveau)
+
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { defaultLocale, locales } from './src/i18n/config'
@@ -230,7 +246,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.png|.*\\..*).*)']
+  matcher: ['/((?!api|_next/static|_next/image|favicon.png|.*\\..*).*)'],
 }
 ```
 
@@ -242,6 +258,7 @@ export const config = {
 #### Composants migrés
 
 **LangSelector** (`src/components/langSelector/LangSelector.tsx`)
+
 ```tsx
 'use client'
 
@@ -284,6 +301,7 @@ export default function LangSelector() {
 **Structure des pages**
 
 Créé dans `src/app/`:
+
 ```
 src/app/
 ├── layout.tsx
@@ -297,6 +315,7 @@ src/app/
 ```
 
 **AppLayout** (`src/components/layout/AppLayout.tsx` - nouveau)
+
 ```tsx
 'use client'
 
@@ -317,13 +336,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 ```
 
 **NavLink personnalisé** (`src/components/common/NavLink.tsx` - nouveau)
+
 ```tsx
 'use client'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-export default function NavLink({ to, className = '', children }: NavLinkProps) {
+export default function NavLink({
+  to,
+  className = '',
+  children,
+}: NavLinkProps) {
   const pathname = usePathname()
   const isActive = pathname === to
 
@@ -338,6 +362,7 @@ export default function NavLink({ to, className = '', children }: NavLinkProps) 
 #### Composants migrés
 
 **Card** - Navigation
+
 ```tsx
 'use client'
 
@@ -350,6 +375,7 @@ const handleClick = () => {
 ```
 
 **Sidebar & Header**
+
 - `<NavLink>` (react-router) → `<NavLink>` (custom)
 - Détection active state avec `usePathname()`
 
@@ -374,6 +400,7 @@ const handleClick = () => {
 ### Modifications
 
 **ThemeToggle** - Ajout directive
+
 ```tsx
 'use client'
 
@@ -398,6 +425,7 @@ import { useEffect, useState } from 'react'
 Ajout de `'use client'` à tous les composants utilisant des hooks:
 
 #### TodoList
+
 ```tsx
 'use client'
 
@@ -406,12 +434,14 @@ import { useState } from 'react'
 ```
 
 #### PomodoroWidget + sous-composants
+
 - `PomodoroWidget.tsx`
 - `Controls.tsx`
 - `SettingsPanel.tsx`
 - `StatsPanel.tsx`
 
 #### TodoWidget + sous-composants
+
 - `TodoWidget.tsx`
 - `TodoForm.tsx`
 - `TodoItem.tsx`
@@ -433,6 +463,7 @@ import { useState } from 'react'
 ### Tests migrés
 
 #### `src/tests/test-utils.tsx`
+
 ```tsx
 import { NextIntlClientProvider } from 'next-intl'
 import messages from '../../messages/fr.json'
@@ -448,11 +479,13 @@ const AllTheProviders = ({ children }: AllTheProvidersProps) => {
 ```
 
 #### `src/tests/setup.ts`
+
 Mocks Next.js déjà en place (Phase 2)
 
 #### Tests unitaires mis à jour
 
 **Card.test.tsx**
+
 ```tsx
 // Mock Next.js router
 const mockPush = vi.fn()
@@ -467,6 +500,7 @@ vi.mock('next/navigation', () => ({
 ```
 
 **LangSelector.test.tsx**
+
 ```tsx
 // Mock next-intl
 const mockUseLocale = vi.fn()
@@ -483,11 +517,13 @@ expect(document.cookie).toContain('NEXT_LOCALE=en')
 ```
 
 **Home.test.tsx, navigation-workflow.test.tsx, theme-language.test.tsx**
+
 - Même approche: mocks Next.js + vérification cookies
 
 ### Finalisation
 
 #### TypeScript strict réactivé
+
 ```javascript
 typescript: {
   ignoreBuildErrors: false,  // ✅
@@ -495,6 +531,7 @@ typescript: {
 ```
 
 #### Nettoyage
+
 - ✅ Supprimé import `getCurrentLocale` non utilisé
 
 ### Résultat Phase 6
@@ -512,14 +549,14 @@ typescript: {
 
 ### Métriques
 
-| Métrique | Valeur |
-|----------|--------|
-| **Tests** | 135/135 passing (100%) |
-| **Pages générées** | 9 pages |
-| **Bundle size** | 102 kB (shared) |
-| **Build time** | ~10s |
-| **TypeScript** | 0 erreurs |
-| **ESLint** | 5 warnings |
+| Métrique           | Valeur                 |
+| ------------------ | ---------------------- |
+| **Tests**          | 135/135 passing (100%) |
+| **Pages générées** | 9 pages                |
+| **Bundle size**    | 102 kB (shared)        |
+| **Build time**     | ~10s                   |
+| **TypeScript**     | 0 erreurs              |
+| **ESLint**         | 5 warnings             |
 
 ### Fichiers modifiés
 
@@ -557,6 +594,7 @@ d69071e Phase 2 - Migration i18n vers next-intl
 ### Nettoyage optionnel
 
 Fichiers Vite legacy à supprimer (si migration définitive):
+
 ```bash
 rm src/main.tsx
 rm vite.config.ts
@@ -564,6 +602,7 @@ rm index.html
 ```
 
 Scripts package.json à supprimer:
+
 ```json
 "dev:vite": "vite",
 "build:vite": "tsc --noEmit && vite build"
@@ -572,33 +611,32 @@ Scripts package.json à supprimer:
 ### Optimisations Next.js
 
 #### Server Components
+
 Convertir les composants sans hooks en Server Components:
+
 ```tsx
 // Supprimer 'use client' de:
-- src/components/footer/Footer.tsx
-- src/components/sectionTitle/SectionTitle.tsx
-- src/components/pageContainer/PageContainer.tsx
+;-src / components / footer / Footer.tsx -
+  src / components / sectionTitle / SectionTitle.tsx -
+  src / components / pageContainer / PageContainer.tsx
 ```
 
 #### Metadata dynamiques
+
 ```tsx
 // src/app/about/page.tsx
 export const metadata = {
   title: 'À propos | Dashboard',
-  description: 'Page à propos du dashboard'
+  description: 'Page à propos du dashboard',
 }
 ```
 
 #### Images optimisées
+
 ```tsx
 import Image from 'next/image'
 
-<Image
-  src="/path/to/image.png"
-  alt="Description"
-  width={500}
-  height={300}
-/>
+;<Image src="/path/to/image.png" alt="Description" width={500} height={300} />
 ```
 
 ### ESLint warnings restants

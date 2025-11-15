@@ -1,0 +1,14 @@
+.actualites-page {
+  max-width: 1400px;
+  margin: 0 auto;
+
+  &__widget {
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    &__widget {
+      margin-top: 1rem;
+    }
+  }
+}
