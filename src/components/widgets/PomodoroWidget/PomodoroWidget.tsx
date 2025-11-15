@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect, useCallback } from 'react'
 import { Timer } from './Timer'
 import { Controls } from './Controls'

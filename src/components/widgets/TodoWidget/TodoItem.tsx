@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useRef, useEffect } from 'react'
 import { Task, AVAILABLE_TAGS, PRIORITY_CONFIG } from './types'
 

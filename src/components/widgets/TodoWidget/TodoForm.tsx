@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { Priority } from './types'
 import { TagSelector } from './TagSelector'

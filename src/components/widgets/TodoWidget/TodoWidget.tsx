@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { Task, Priority } from './types'
 import { TodoForm } from './TodoForm'
