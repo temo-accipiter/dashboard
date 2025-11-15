@@ -1,0 +1,18 @@
+{
+  "header": {
+    "title": "My Dashboard",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "accessibility": "Accessibility"
+  },
+  "footer": {
+    "copyright": "© 2025 - All rights reserved"
+  },
+  "common": {
+    "demoPageTitle": "Demo Page",
+    "demoPageDescription": "Here is a preview of the interactive components available in this template.",
+    "exampleTextTitle": "Example text",
+    "welcome": "Welcome to your dashboard"
+  }
+}

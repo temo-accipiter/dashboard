@@ -55,20 +55,20 @@ src/
 ### Structure d'un test
 
 ```typescript
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest'
 
 describe('nomDeLaFonction', () => {
   it('should [comportement attendu]', () => {
     // Arrange - Préparer les données
-    const input = 'test';
+    const input = 'test'
 
     // Act - Exécuter la fonction
-    const result = maFonction(input);
+    const result = maFonction(input)
 
     // Assert - Vérifier le résultat
-    expect(result).toBe('expected');
-  });
-});
+    expect(result).toBe('expected')
+  })
+})
 ```
 
 ### Bonnes pratiques
@@ -83,70 +83,70 @@ describe('nomDeLaFonction', () => {
 ```typescript
 // src/utils/string.ts
 export function truncate(str: string, maxLength: number): string {
-  if (maxLength <= 0) throw new Error('maxLength must be positive');
-  if (str.length <= maxLength) return str;
-  return str.slice(0, maxLength) + '...';
+  if (maxLength <= 0) throw new Error('maxLength must be positive')
+  if (str.length <= maxLength) return str
+  return str.slice(0, maxLength) + '...'
 }
 
 // src/utils/__tests__/string.test.ts
-import { describe, it, expect } from 'vitest';
-import { truncate } from '../string';
+import { describe, it, expect } from 'vitest'
+import { truncate } from '../string'
 
 describe('truncate', () => {
   it('should return original string when shorter than maxLength', () => {
-    expect(truncate('hello', 10)).toBe('hello');
-  });
+    expect(truncate('hello', 10)).toBe('hello')
+  })
 
   it('should truncate long strings with ellipsis', () => {
-    expect(truncate('hello world', 5)).toBe('hello...');
-  });
+    expect(truncate('hello world', 5)).toBe('hello...')
+  })
 
   it('should throw error for negative maxLength', () => {
-    expect(() => truncate('test', -1)).toThrow('maxLength must be positive');
-  });
+    expect(() => truncate('test', -1)).toThrow('maxLength must be positive')
+  })
 
   it('should handle empty strings', () => {
-    expect(truncate('', 5)).toBe('');
-  });
-});
+    expect(truncate('', 5)).toBe('')
+  })
+})
 ```
 
 ### Exemple complet - Hook
 
 ```typescript
 // src/hooks/__tests__/useCounter.test.tsx
-import { describe, it, expect } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import { useCounter } from '../useCounter';
+import { describe, it, expect } from 'vitest'
+import { renderHook, act } from '@testing-library/react'
+import { useCounter } from '../useCounter'
 
 describe('useCounter', () => {
   it('should initialize with default value', () => {
-    const { result } = renderHook(() => useCounter(0));
-    expect(result.current.count).toBe(0);
-  });
+    const { result } = renderHook(() => useCounter(0))
+    expect(result.current.count).toBe(0)
+  })
 
   it('should increment counter', () => {
-    const { result } = renderHook(() => useCounter(0));
+    const { result } = renderHook(() => useCounter(0))
 
     act(() => {
-      result.current.increment();
-    });
+      result.current.increment()
+    })
 
-    expect(result.current.count).toBe(1);
-  });
+    expect(result.current.count).toBe(1)
+  })
 
   it('should reset counter to initial value', () => {
-    const { result } = renderHook(() => useCounter(5));
+    const { result } = renderHook(() => useCounter(5))
 
     act(() => {
-      result.current.increment();
-      result.current.increment();
-      result.current.reset();
-    });
+      result.current.increment()
+      result.current.increment()
+      result.current.reset()
+    })
 
-    expect(result.current.count).toBe(5);
-  });
-});
+    expect(result.current.count).toBe(5)
+  })
+})
 ```
 
 ### Exemple complet - Composant (si nécessaire)
@@ -184,80 +184,80 @@ describe('SearchBox', () => {
 
 ```typescript
 it('should throw error for invalid input', () => {
-  expect(() => divide(10, 0)).toThrow('Cannot divide by zero');
-});
+  expect(() => divide(10, 0)).toThrow('Cannot divide by zero')
+})
 ```
 
 ### Testing async/await
 
 ```typescript
 it('should fetch data successfully', async () => {
-  const data = await fetchUser(1);
-  expect(data).toEqual({ id: 1, name: 'John' });
-});
+  const data = await fetchUser(1)
+  expect(data).toEqual({ id: 1, name: 'John' })
+})
 ```
 
 ### Testing avec timers
 
 ```typescript
-import { vi, beforeEach, afterEach } from 'vitest';
+import { vi, beforeEach, afterEach } from 'vitest'
 
 beforeEach(() => {
-  vi.useFakeTimers();
-});
+  vi.useFakeTimers()
+})
 
 afterEach(() => {
-  vi.useRealTimers();
-});
+  vi.useRealTimers()
+})
 
 it('should debounce function calls', () => {
-  const callback = vi.fn();
-  const debounced = debounce(callback, 500);
+  const callback = vi.fn()
+  const debounced = debounce(callback, 500)
 
-  debounced();
-  debounced();
-  debounced();
+  debounced()
+  debounced()
+  debounced()
 
-  expect(callback).not.toHaveBeenCalled();
+  expect(callback).not.toHaveBeenCalled()
 
-  vi.advanceTimersByTime(500);
+  vi.advanceTimersByTime(500)
 
-  expect(callback).toHaveBeenCalledTimes(1);
-});
+  expect(callback).toHaveBeenCalledTimes(1)
+})
 ```
 
 ### Testing localStorage
 
 ```typescript
 beforeEach(() => {
-  localStorage.clear();
-});
+  localStorage.clear()
+})
 
 it('should save to localStorage', () => {
-  saveUserPreference('theme', 'dark');
-  expect(localStorage.getItem('theme')).toBe('dark');
-});
+  saveUserPreference('theme', 'dark')
+  expect(localStorage.getItem('theme')).toBe('dark')
+})
 ```
 
 ### Mocking modules
 
 ```typescript
-import { vi } from 'vitest';
+import { vi } from 'vitest'
 
 // Mock d'un module entier
 vi.mock('@/api/client', () => ({
-  fetchData: vi.fn(() => Promise.resolve({ data: 'mocked' }))
-}));
+  fetchData: vi.fn(() => Promise.resolve({ data: 'mocked' })),
+}))
 
 // Mock d'une fonction spécifique
-const mockNavigate = vi.fn();
+const mockNavigate = vi.fn()
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+  const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,
     useNavigate: () => mockNavigate,
-  };
-});
+  }
+})
 ```
 
 ---
@@ -286,9 +286,11 @@ npm run check
 ## 🎨 Tests Manuels
 
 Pour les composants UI et les widgets, utilisez la checklist manuelle :
+
 - Voir `.github/MANUAL_TEST_CHECKLIST.md`
 
 **Quand utiliser la checklist ?**
+
 - Nouveau widget ajouté
 - Changement CSS/Style significatif
 - Avant chaque release
@@ -314,6 +316,7 @@ Cela génère un rapport dans `coverage/index.html` que vous pouvez consulter.
 Les tests tournent automatiquement sur chaque PR via GitHub Actions.
 
 Si les tests échouent :
+
 1. Vérifier l'erreur dans les logs CI
 2. Reproduire localement avec `npm test`
 3. Corriger le test ou le code
@@ -349,17 +352,16 @@ it('should display translated text', () => {
 Mockez la fonction d'API :
 
 ```typescript
-import { vi } from 'vitest';
-import * as api from '@/api/client';
+import { vi } from 'vitest'
+import * as api from '@/api/client'
 
-vi.spyOn(api, 'fetchUsers').mockResolvedValue([
-  { id: 1, name: 'John' }
-]);
+vi.spyOn(api, 'fetchUsers').mockResolvedValue([{ id: 1, name: 'John' }])
 ```
 
 ### Mon test est flaky, que faire ?
 
 Les tests flaky (qui passent/échouent aléatoirement) sont souvent dus à :
+
 - Timers non-mockés → utilisez `vi.useFakeTimers()`
 - Async non-attendu → utilisez `await waitFor()`
 - État partagé entre tests → nettoyez dans `beforeEach()`

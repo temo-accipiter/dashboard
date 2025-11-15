@@ -12,13 +12,15 @@
  * Ne pas inclure cette page dans la version publique du site.
  */
 
-import { useTranslation } from 'react-i18next'
+'use client'
+
+import { useTranslations } from 'next-intl'
 import ThemeToggle from '@/components/theme/ThemeToggle'
 import LangSelector from '@/components/langSelector/LangSelector'
 import './DemoPage.scss'
 
 export default function DemoPage() {
-  const { t } = useTranslation('common')
+  const t = useTranslations('common')
 
   return (
     <section className="demo-page">

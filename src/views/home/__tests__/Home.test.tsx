@@ -20,7 +20,7 @@ describe('Home Page', () => {
 
   it('should render welcome message', () => {
     render(<Home />)
-    expect(screen.getByText('welcome')).toBeInTheDocument()
+    expect(screen.getByText(/Bienvenue sur ton dashboard/i)).toBeInTheDocument()
   })
 
   it('should render Organisation section', () => {

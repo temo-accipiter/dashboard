@@ -1,4 +1,6 @@
-import { useTranslation } from 'react-i18next'
+'use client'
+
+import { useTranslations } from 'next-intl'
 import PageContainer from '@/components/pageContainer/PageContainer'
 import SectionTitle from '@/components/sectionTitle/SectionTitle'
 import CardGroup from '@/components/cardGroup/CardGroup'
@@ -6,7 +8,7 @@ import Card from '@/components/card/Card'
 import './Home.scss'
 
 export default function Home() {
-  const { t } = useTranslation()
+  const t = useTranslations('common')
 
   return (
     <PageContainer>

@@ -1,23 +1,36 @@
 import type { Metadata } from 'next'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
+import { cookies } from 'next/headers'
 import '@/styles/main.scss'
+import { defaultLocale } from '@/i18n/config'
 
 export const metadata: Metadata = {
   title: 'dashboard',
   description: 'Dashboard personnalisé',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Récupérer la locale depuis les cookies
+  const cookieStore = await cookies()
+  const locale = cookieStore.get('NEXT_LOCALE')?.value || defaultLocale
+
+  // Charger les messages pour la locale actuelle
+  const messages = await getMessages()
+
   return (
-    <html lang="fr">
+    <html lang={locale}>
       <head>
         <meta name="color-scheme" content="light dark" />
       </head>
       <body>
-        <div id="root">{children}</div>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <div id="root">{children}</div>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

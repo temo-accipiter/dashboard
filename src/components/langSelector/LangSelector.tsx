@@ -2,17 +2,20 @@
 // 🌍 Sélecteur de langue (fr / en)
 // ==============================
 
-import { useTranslation } from 'react-i18next'
+'use client'
+
+import { useLocale } from 'next-intl'
+import { useChangeLocale, getCurrentLocale } from '@/i18n/client-utils'
+import type { Locale } from '@/i18n/config'
 import './LangSelector.scss'
 
 export default function LangSelector() {
-  const { i18n } = useTranslation()
-  const currentLang = i18n.language // Langue actuelle (ex: 'fr')
+  const locale = useLocale()
+  const changeLocale = useChangeLocale()
 
   // 🔁 Fonction pour changer de langue
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang) // Mise à jour via i18next
-    localStorage.setItem('lang', lang) // Sauvegarde dans le localStorage
+  const changeLanguage = (lang: Locale) => {
+    changeLocale(lang)
   }
 
   return (
@@ -23,7 +26,7 @@ export default function LangSelector() {
     >
       {/* 🇫🇷 Bouton pour le français */}
       <button
-        className={currentLang === 'fr' ? 'active' : ''}
+        className={locale === 'fr' ? 'active' : ''}
         onClick={() => changeLanguage('fr')}
         aria-label="Passer le site en français"
       >
@@ -32,7 +35,7 @@ export default function LangSelector() {
 
       {/* 🇬🇧 Bouton pour l'anglais */}
       <button
-        className={currentLang === 'en' ? 'active' : ''}
+        className={locale === 'en' ? 'active' : ''}
         onClick={() => changeLanguage('en')}
         aria-label="Switch site to English"
       >
