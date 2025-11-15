@@ -247,7 +247,7 @@ export default function LiensGrid() {
         <h2>
           {' '}
           <img
-            src={SocialNetworkLogo.src}
+            src={SocialNetworkLogo}
             alt="Réseaux sociaux"
             className="icon-title"
           />{' '}
@@ -285,7 +285,7 @@ export default function LiensGrid() {
         <h2>
           {' '}
           <img
-            src={ToolsLogo.src}
+            src={ToolsLogo}
             alt="Services & Outils"
             className="icon-title"
           />{' '}
