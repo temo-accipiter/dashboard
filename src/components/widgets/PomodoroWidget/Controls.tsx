@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { TimerStatus } from './types'
 import { Play, Pause, RotateCcw, SkipForward } from 'lucide-react'

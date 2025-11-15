@@ -42,3 +42,17 @@ global.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
 } as unknown as typeof ResizeObserver
+
+// Mock Next.js router
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))

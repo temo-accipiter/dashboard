@@ -2,21 +2,26 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@/tests/test-utils'
 import userEvent from '@testing-library/user-event'
 import Card from '@/components/card/Card'
-import Home from '@/pages/home/Home'
+import Home from '@/views/home/Home'
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual =
-    await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
+// Mock Next.js router
+const mockPush = vi.fn()
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))
 
 describe('Integration: Navigation Workflow', () => {
   beforeEach(() => {
-    mockNavigate.mockClear()
+    mockPush.mockClear()
   })
 
   it('should navigate through cards using click and keyboard', async () => {
@@ -36,13 +41,13 @@ describe('Integration: Navigation Workflow', () => {
     // Click navigation
     const settingsCard = screen.getByRole('button', { name: /settings/i })
     await user.click(settingsCard)
-    expect(mockNavigate).toHaveBeenCalledWith('/settings')
+    expect(mockPush).toHaveBeenCalledWith('/settings')
 
     // Keyboard navigation
     const profileCard = screen.getByRole('button', { name: /profile/i })
     profileCard.focus()
     await user.keyboard('{Enter}')
-    expect(mockNavigate).toHaveBeenCalledWith('/profile')
+    expect(mockPush).toHaveBeenCalledWith('/profile')
   })
 
   it('should handle navigation from Home page cards', async () => {
@@ -53,12 +58,12 @@ describe('Integration: Navigation Workflow', () => {
     // Navigate to language settings
     const langCard = screen.getByText('Langue').closest('[role="button"]')
     await user.click(langCard!)
-    expect(mockNavigate).toHaveBeenCalledWith('/settings/langue')
+    expect(mockPush).toHaveBeenCalledWith('/settings/langue')
 
     // Navigate to theme settings
     const themeCard = screen.getByText('Thème').closest('[role="button"]')
     await user.click(themeCard!)
-    expect(mockNavigate).toHaveBeenCalledWith('/settings/theme')
+    expect(mockPush).toHaveBeenCalledWith('/settings/theme')
   })
 
   it('should support keyboard navigation with Tab and Enter', async () => {
@@ -74,7 +79,7 @@ describe('Integration: Navigation Workflow', () => {
     await user.keyboard('{Enter}')
 
     // Should have navigated to one of the settings pages
-    expect(mockNavigate).toHaveBeenCalled()
+    expect(mockPush).toHaveBeenCalled()
   })
 
   it('should support Space key for activation', async () => {
@@ -90,7 +95,7 @@ describe('Integration: Navigation Workflow', () => {
     card.focus()
     await user.keyboard(' ')
 
-    expect(mockNavigate).toHaveBeenCalledWith('/test')
+    expect(mockPush).toHaveBeenCalledWith('/test')
   })
 
   it('should not interfere with non-clickable cards', async () => {
@@ -108,11 +113,11 @@ describe('Integration: Navigation Workflow', () => {
     // Click static card (should not navigate)
     const staticCard = screen.getByText('Static Card').closest('div')
     await user.click(staticCard!)
-    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(mockPush).not.toHaveBeenCalled()
 
     // Click clickable card (should navigate)
     const clickableCard = screen.getByRole('button')
     await user.click(clickableCard)
-    expect(mockNavigate).toHaveBeenCalledWith('/click')
+    expect(mockPush).toHaveBeenCalledWith('/click')
   })
 })

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { PomodoroSettings, SoundType } from './types'
 import { DEFAULT_SETTINGS } from './constants'

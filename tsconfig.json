@@ -5,15 +5,19 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "jsx": "react-jsx",
-
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     /* Strict mode et tous les checks associés */
     "strict": true,
     "noUnusedLocals": true,
@@ -26,15 +30,17 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
-
     /* Linting */
     "forceConsistentCasingInFileNames": true,
-
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
-  "include": ["src"]
+  "include": ["src", "app", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

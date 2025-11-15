@@ -1,8 +1,10 @@
-import { useTranslation } from 'react-i18next'
+'use client'
+
+import { useTranslations } from 'next-intl'
 import './Footer.scss'
 
 export default function Footer() {
-  const { t } = useTranslation('footer') // <- namespace "footer.json"
+  const t = useTranslations('footer')
 
   return (
     <footer className="site-footer">

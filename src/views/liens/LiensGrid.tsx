@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import {
   DndContext,
@@ -245,7 +247,7 @@ export default function LiensGrid() {
         <h2>
           {' '}
           <img
-            src={SocialNetworkLogo}
+            src={SocialNetworkLogo.src}
             alt="Réseaux sociaux"
             className="icon-title"
           />{' '}
@@ -283,7 +285,7 @@ export default function LiensGrid() {
         <h2>
           {' '}
           <img
-            src={ToolsLogo}
+            src={ToolsLogo.src}
             alt="Services & Outils"
             className="icon-title"
           />{' '}
