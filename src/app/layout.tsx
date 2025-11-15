@@ -7,8 +7,23 @@ import '@/styles/main.scss'
 import { defaultLocale } from '@/i18n/config'
 
 export const metadata: Metadata = {
-  title: 'dashboard',
-  description: 'Dashboard personnalisé',
+  title: 'Dashboard Personnel',
+  description: 'Dashboard personnalisé - accès rapide et offline-friendly',
+  manifest: '/manifest.json',
+  themeColor: '#0070f3',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Dashboard',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
 }
 
 export default async function RootLayout({
@@ -27,6 +42,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <head>
         <meta name="color-scheme" content="light dark" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>
