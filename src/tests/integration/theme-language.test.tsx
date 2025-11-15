@@ -3,33 +3,45 @@ import { render, screen } from '@/tests/test-utils'
 import userEvent from '@testing-library/user-event'
 import ThemeToggle from '@/components/theme/ThemeToggle'
 import LangSelector from '@/components/langSelector/LangSelector'
-import { useTranslation } from 'react-i18next'
 
-vi.mock('react-i18next', async () => {
-  const actual =
-    await vi.importActual<typeof import('react-i18next')>('react-i18next')
+// Mock Next.js router
+const mockRefresh = vi.fn()
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: mockRefresh,
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))
+
+// Mock next-intl useLocale
+const mockUseLocale = vi.fn()
+vi.mock('next-intl', async () => {
+  const actual = await vi.importActual<typeof import('next-intl')>('next-intl')
   return {
     ...actual,
-    useTranslation: vi.fn(),
+    useLocale: () => mockUseLocale(),
   }
 })
 
 describe('Integration: Theme and Language Switching', () => {
-  const mockChangeLanguage = vi.fn()
-
   beforeEach(() => {
     localStorage.clear()
     document.documentElement.removeAttribute('data-theme')
-    mockChangeLanguage.mockClear()
+    mockRefresh.mockClear()
+    mockUseLocale.mockReturnValue('fr')
 
-    vi.mocked(useTranslation).mockReturnValue({
-      i18n: {
-        changeLanguage: mockChangeLanguage,
-        language: 'fr',
-      } as any,
-      t: Object.assign((key: string) => key, { $TFunctionBrand: Symbol() }),
-      ready: true,
-    } as any)
+    // Clear cookies
+    document.cookie.split(';').forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+    })
   })
 
   it('should persist theme and language preferences together', async () => {
@@ -49,12 +61,13 @@ describe('Integration: Theme and Language Switching', () => {
     expect(localStorage.getItem('theme')).toBe('dark')
 
     // Switch to English
-    await user.click(screen.getByRole('button', { name: /english/i }))
-    expect(localStorage.getItem('lang')).toBe('en')
+    const buttons = screen.getAllByRole('button')
+    const enButton = buttons.find((btn) => btn.textContent?.includes('🇬🇧'))
+    await user.click(enButton!)
+    expect(document.cookie).toContain('NEXT_LOCALE=en')
 
-    // Verify both are persisted
+    // Verify theme is still persisted
     expect(localStorage.getItem('theme')).toBe('dark')
-    expect(localStorage.getItem('lang')).toBe('en')
 
     // Simulate page reload
     rerender(
@@ -88,12 +101,15 @@ describe('Integration: Theme and Language Switching', () => {
     )
 
     // Multiple language changes
-    await user.click(screen.getByRole('button', { name: /english/i }))
-    await user.click(screen.getByRole('button', { name: /français/i }))
+    const buttons = screen.getAllByRole('button')
+    const enButton = buttons.find((btn) => btn.textContent?.includes('🇬🇧'))
+    const frButton = buttons.find((btn) => btn.textContent?.includes('🇫🇷'))
+    await user.click(enButton!)
+    await user.click(frButton!)
 
     // Verify final state
     expect(localStorage.getItem('theme')).toBe('light')
-    expect(localStorage.getItem('lang')).toBe('fr')
+    expect(document.cookie).toContain('NEXT_LOCALE=fr')
   })
 
   it('should maintain independent state for theme and language', async () => {
@@ -112,12 +128,15 @@ describe('Integration: Theme and Language Switching', () => {
     )
 
     expect(localStorage.getItem('theme')).toBe('dark')
-    expect(localStorage.getItem('lang')).toBeNull() // Language not set yet
+    // Cookie for language should not be set yet
+    expect(document.cookie).not.toContain('NEXT_LOCALE=en')
 
     // Now change language
-    await user.click(screen.getByRole('button', { name: /english/i }))
+    const buttons = screen.getAllByRole('button')
+    const enButton = buttons.find((btn) => btn.textContent?.includes('🇬🇧'))
+    await user.click(enButton!)
 
     expect(localStorage.getItem('theme')).toBe('dark') // Theme unchanged
-    expect(localStorage.getItem('lang')).toBe('en')
+    expect(document.cookie).toContain('NEXT_LOCALE=en')
   })
 })

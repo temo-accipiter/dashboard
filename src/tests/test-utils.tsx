@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
 import { NextIntlClientProvider } from 'next-intl'
 import messages from '../../messages/fr.json'
 
@@ -10,11 +9,9 @@ interface AllTheProvidersProps {
 
 const AllTheProviders = ({ children }: AllTheProvidersProps) => {
   return (
-    <BrowserRouter>
-      <NextIntlClientProvider locale="fr" messages={messages}>
-        {children}
-      </NextIntlClientProvider>
-    </BrowserRouter>
+    <NextIntlClientProvider locale="fr" messages={messages}>
+      {children}
+    </NextIntlClientProvider>
   )
 }
 

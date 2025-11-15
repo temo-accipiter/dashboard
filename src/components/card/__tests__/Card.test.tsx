@@ -3,20 +3,24 @@ import { render, screen } from '@/tests/test-utils'
 import userEvent from '@testing-library/user-event'
 import Card from '../Card'
 
-// Mock useNavigate
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual =
-    await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
+// Mock Next.js router
+const mockPush = vi.fn()
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))
 
 describe('Card', () => {
   beforeEach(() => {
-    mockNavigate.mockClear()
+    mockPush.mockClear()
   })
 
   it('should render card with title and children', () => {
@@ -67,8 +71,8 @@ describe('Card', () => {
     const card = screen.getByRole('button')
     await user.click(card)
 
-    expect(mockNavigate).toHaveBeenCalledWith('/dashboard')
-    expect(mockNavigate).toHaveBeenCalledTimes(1)
+    expect(mockPush).toHaveBeenCalledWith('/dashboard')
+    expect(mockPush).toHaveBeenCalledTimes(1)
   })
 
   it('should not navigate when clicked without "to" prop', async () => {
@@ -82,7 +86,7 @@ describe('Card', () => {
     const card = screen.getByText('Static Card').closest('div')
     await user.click(card!)
 
-    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(mockPush).not.toHaveBeenCalled()
   })
 
   it('should navigate on Enter key press', async () => {
@@ -97,7 +101,7 @@ describe('Card', () => {
     card.focus()
     await user.keyboard('{Enter}')
 
-    expect(mockNavigate).toHaveBeenCalledWith('/keyboard-test')
+    expect(mockPush).toHaveBeenCalledWith('/keyboard-test')
   })
 
   it('should navigate on Space key press', async () => {
@@ -112,7 +116,7 @@ describe('Card', () => {
     card.focus()
     await user.keyboard(' ')
 
-    expect(mockNavigate).toHaveBeenCalledWith('/space-test')
+    expect(mockPush).toHaveBeenCalledWith('/space-test')
   })
 
   it('should not navigate on other key press', async () => {
@@ -127,7 +131,7 @@ describe('Card', () => {
     card.focus()
     await user.keyboard('a')
 
-    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(mockPush).not.toHaveBeenCalled()
   })
 
   it('should not handle keyboard events without "to" prop', async () => {
@@ -146,7 +150,7 @@ describe('Card', () => {
       new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })
     )
 
-    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(mockPush).not.toHaveBeenCalled()
   })
 
   it('should render complex children content', () => {

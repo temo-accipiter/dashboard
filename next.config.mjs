@@ -9,10 +9,9 @@ const nextConfig = {
     includePaths: ['./src/styles'],
   },
 
-  // ⚠️ Configuration TypeScript (Phase 1: ignorer temporairement les erreurs du dossier src/pages/ Vite)
-  // Sera réactivé une fois la migration des pages terminée
+  // ✅ Configuration TypeScript
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
 
   // ✅ ESLint pendant le build

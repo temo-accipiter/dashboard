@@ -3,19 +3,24 @@ import { render, screen } from '@/tests/test-utils'
 import userEvent from '@testing-library/user-event'
 import Home from '../Home'
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual =
-    await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
+// Mock Next.js router
+const mockPush = vi.fn()
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))
 
 describe('Home Page', () => {
   beforeEach(() => {
-    mockNavigate.mockClear()
+    mockPush.mockClear()
   })
 
   it('should render welcome message', () => {
@@ -78,7 +83,7 @@ describe('Home Page', () => {
     expect(langCard).toBeInTheDocument()
 
     await user.click(langCard!)
-    expect(mockNavigate).toHaveBeenCalledWith('/settings/langue')
+    expect(mockPush).toHaveBeenCalledWith('/settings/langue')
   })
 
   it('should have navigation link for Thème settings', async () => {
@@ -89,7 +94,7 @@ describe('Home Page', () => {
     expect(themeCard).toBeInTheDocument()
 
     await user.click(themeCard!)
-    expect(mockNavigate).toHaveBeenCalledWith('/settings/theme')
+    expect(mockPush).toHaveBeenCalledWith('/settings/theme')
   })
 
   it('should display settings descriptions', () => {

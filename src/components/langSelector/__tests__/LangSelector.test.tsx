@@ -2,97 +2,108 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen } from '@/tests/test-utils'
 import userEvent from '@testing-library/user-event'
 import LangSelector from '../LangSelector'
-import { useTranslation } from 'react-i18next'
 
-vi.mock('react-i18next', async () => {
-  const actual =
-    await vi.importActual<typeof import('react-i18next')>('react-i18next')
+// Mock Next.js router
+const mockRefresh = vi.fn()
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: mockRefresh,
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))
+
+// Mock next-intl useLocale
+const mockUseLocale = vi.fn()
+vi.mock('next-intl', async () => {
+  const actual = await vi.importActual<typeof import('next-intl')>('next-intl')
   return {
     ...actual,
-    useTranslation: vi.fn(),
+    useLocale: () => mockUseLocale(),
   }
 })
 
 describe('LangSelector', () => {
-  const mockChangeLanguage = vi.fn()
-
   beforeEach(() => {
-    localStorage.clear()
-    mockChangeLanguage.mockClear()
-
-    vi.mocked(useTranslation).mockReturnValue({
-      i18n: {
-        changeLanguage: mockChangeLanguage,
-        language: 'fr',
-      } as any,
-      t: Object.assign((key: string) => key, { $TFunctionBrand: Symbol() }),
-      ready: true,
-    } as any)
+    mockUseLocale.mockReturnValue('fr')
+    mockRefresh.mockClear()
+    // Clear cookies
+    document.cookie.split(';').forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+    })
   })
 
   it('should render language buttons', () => {
     render(<LangSelector />)
 
-    expect(
-      screen.getByRole('button', { name: /français/i })
-    ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /english/i })).toBeInTheDocument()
+    const buttons = screen.getAllByRole('button')
+    expect(buttons).toHaveLength(2)
+    expect(buttons[0]).toHaveTextContent('🇫🇷')
+    expect(buttons[1]).toHaveTextContent('🇬🇧')
   })
 
   it('should highlight current language (fr)', () => {
+    mockUseLocale.mockReturnValue('fr')
     render(<LangSelector />)
 
-    const frButton = screen.getByRole('button', { name: /français/i })
-    expect(frButton).toHaveClass('active')
+    const buttons = screen.getAllByRole('button')
+    expect(buttons[0]).toHaveClass('active')
+    expect(buttons[1]).not.toHaveClass('active')
   })
 
   it('should highlight current language (en)', () => {
-    vi.mocked(useTranslation).mockReturnValue({
-      i18n: {
-        changeLanguage: mockChangeLanguage,
-        language: 'en',
-      } as any,
-      t: Object.assign((key: string) => key, { $TFunctionBrand: Symbol() }),
-      ready: true,
-    } as any)
-
+    mockUseLocale.mockReturnValue('en')
     render(<LangSelector />)
 
-    const enButton = screen.getByRole('button', { name: /english/i })
-    expect(enButton).toHaveClass('active')
+    const buttons = screen.getAllByRole('button')
+    expect(buttons[0]).not.toHaveClass('active')
+    expect(buttons[1]).toHaveClass('active')
   })
 
   it('should change language to French when FR button is clicked', async () => {
     const user = userEvent.setup()
     render(<LangSelector />)
 
-    const frButton = screen.getByRole('button', { name: /français/i })
+    const frButton = screen.getAllByRole('button')[0]
     await user.click(frButton)
 
-    expect(mockChangeLanguage).toHaveBeenCalledWith('fr')
-    expect(localStorage.getItem('lang')).toBe('fr')
+    // Check that cookie was set
+    expect(document.cookie).toContain('NEXT_LOCALE=fr')
+    // Check that router.refresh was called
+    expect(mockRefresh).toHaveBeenCalled()
   })
 
   it('should change language to English when EN button is clicked', async () => {
     const user = userEvent.setup()
     render(<LangSelector />)
 
-    const enButton = screen.getByRole('button', { name: /english/i })
+    const enButton = screen.getAllByRole('button')[1]
     await user.click(enButton)
 
-    expect(mockChangeLanguage).toHaveBeenCalledWith('en')
-    expect(localStorage.getItem('lang')).toBe('en')
+    // Check that cookie was set
+    expect(document.cookie).toContain('NEXT_LOCALE=en')
+    // Check that router.refresh was called
+    expect(mockRefresh).toHaveBeenCalled()
   })
 
-  it('should persist language selection in localStorage', async () => {
+  it('should persist language selection in cookies', async () => {
     const user = userEvent.setup()
     render(<LangSelector />)
 
-    await user.click(screen.getByRole('button', { name: /english/i }))
-    expect(localStorage.getItem('lang')).toBe('en')
+    // Change to English
+    await user.click(screen.getAllByRole('button')[1])
+    expect(document.cookie).toContain('NEXT_LOCALE=en')
 
-    await user.click(screen.getByRole('button', { name: /français/i }))
-    expect(localStorage.getItem('lang')).toBe('fr')
+    // Change to French
+    await user.click(screen.getAllByRole('button')[0])
+    expect(document.cookie).toContain('NEXT_LOCALE=fr')
   })
 
   it('should have proper accessibility attributes', () => {
@@ -101,21 +112,16 @@ describe('LangSelector', () => {
     const group = screen.getByRole('group', { name: /sélecteur de langue/i })
     expect(group).toBeInTheDocument()
 
-    expect(screen.getByRole('button', { name: /français/i })).toHaveAttribute(
-      'aria-label'
-    )
-    expect(screen.getByRole('button', { name: /english/i })).toHaveAttribute(
-      'aria-label'
-    )
+    const buttons = screen.getAllByRole('button')
+    expect(buttons[0]).toHaveAttribute('aria-label')
+    expect(buttons[1]).toHaveAttribute('aria-label')
   })
 
   it('should display flag emojis', () => {
     render(<LangSelector />)
 
-    const frButton = screen.getByRole('button', { name: /français/i })
-    const enButton = screen.getByRole('button', { name: /english/i })
-
-    expect(frButton).toHaveTextContent('🇫🇷')
-    expect(enButton).toHaveTextContent('🇬🇧')
+    const buttons = screen.getAllByRole('button')
+    expect(buttons[0]).toHaveTextContent('🇫🇷')
+    expect(buttons[1]).toHaveTextContent('🇬🇧')
   })
 })

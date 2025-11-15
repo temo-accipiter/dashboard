@@ -5,7 +5,7 @@
 'use client'
 
 import { useLocale } from 'next-intl'
-import { useChangeLocale, getCurrentLocale } from '@/i18n/client-utils'
+import { useChangeLocale } from '@/i18n/client-utils'
 import type { Locale } from '@/i18n/config'
 import './LangSelector.scss'
 
