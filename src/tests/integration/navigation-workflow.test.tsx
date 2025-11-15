@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@/tests/test-utils'
 import userEvent from '@testing-library/user-event'
 import Card from '@/components/card/Card'
-import Home from '@/pages/home/Home'
+import Home from '@/views/home/Home'
 
 const mockNavigate = vi.fn()
 vi.mock('react-router-dom', async () => {

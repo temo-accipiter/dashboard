@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import Layout from '@/components/layout/Layout'
-import Home from '@/pages/home/Home'
-import About from '@/pages/about/About'
-import Taches from '@/pages/taches/Taches'
-import Rdv from '@/pages/rdv/Rdv'
-import LiensGrid from '@/pages/liens/LiensGrid'
-import NotFound from '@/pages/notFound/NotFound'
-import DemoPage from '@/pages/demo/DemoPage'
+import Home from '@/views/home/Home'
+import About from '@/views/about/About'
+import Taches from '@/views/taches/Taches'
+import Rdv from '@/views/rdv/Rdv'
+import LiensGrid from '@/views/liens/LiensGrid'
+import NotFound from '@/views/notFound/NotFound'
+import DemoPage from '@/views/demo/DemoPage'
 import '@/i18n/i18n' // 🌍 Initialisation i18n
 import '@/styles/main.scss' // 🎨 Styles globaux
 
