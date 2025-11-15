@@ -1,8 +1,5 @@
+import Home from '@/views/home/Home'
+
 export default function HomePage() {
-  return (
-    <div>
-      <h1>Migration Next.js - Phase 1</h1>
-      <p>Setup Next.js réussi ✅</p>
-    </div>
-  )
+  return <Home />
 }

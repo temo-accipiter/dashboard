@@ -1,3 +1,5 @@
+'use client'
+
 import PageContainer from '@/components/pageContainer/PageContainer'
 import { TodoWidget } from '@/components/widgets/TodoWidget/TodoWidget'
 import { PomodoroWidget } from '@/components/widgets/PomodoroWidget/PomodoroWidget'

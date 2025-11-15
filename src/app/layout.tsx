@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { cookies } from 'next/headers'
+import AppLayout from '@/components/layout/AppLayout'
 import '@/styles/main.scss'
 import { defaultLocale } from '@/i18n/config'
 
@@ -29,7 +30,7 @@ export default async function RootLayout({
       </head>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <div id="root">{children}</div>
+          <AppLayout>{children}</AppLayout>
         </NextIntlClientProvider>
       </body>
     </html>

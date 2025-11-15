@@ -19,9 +19,9 @@ Copiez cette section pour chaque nouveau widget à tester.
 
 ### Widget : [NOM_DU_WIDGET]
 
-**Date du test :** ****\_\_\_****
-**Testeur :** ****\_\_\_****
-**Version :** ****\_\_\_****
+**Date du test :** \***\*\_\_\_\*\***
+**Testeur :** \***\*\_\_\_\*\***
+**Version :** \***\*\_\_\_\*\***
 
 #### 1. Rendu Visuel
 
