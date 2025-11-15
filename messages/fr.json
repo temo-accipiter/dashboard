@@ -14,5 +14,41 @@
     "demoPageDescription": "Voici un aperçu des composants interactifs disponibles dans ce template.",
     "exampleTextTitle": "Exemple de texte",
     "welcome": "Bienvenue sur ton dashboard"
+  },
+  "integrations": {
+    "github": {
+      "title": "GitHub Pull Requests",
+      "description": "Visualisez vos pull requests GitHub en temps réel",
+      "loading": "Chargement des pull requests...",
+      "error": "Erreur lors du chargement",
+      "empty": "Aucune pull request trouvée",
+      "emptyHint": "Essayez d'ajuster vos filtres",
+      "refresh": "Rafraîchir",
+      "settings": "Paramètres",
+      "lastUpdated": "Dernière mise à jour",
+      "filterState": "Filtrer par état",
+      "maxPRs": "Nombre maximum de PRs à afficher",
+      "refreshInterval": "Intervalle de rafraîchissement (minutes, 0 = désactivé)",
+      "showOnlyReviewRequests": "Afficher uniquement les PRs où je suis demandé en revue",
+      "states": {
+        "all": "Toutes",
+        "open": "Ouvertes",
+        "closed": "Fermées",
+        "merged": "Fusionnées"
+      },
+      "status": {
+        "draft": "Brouillon",
+        "pending": "En attente",
+        "success": "Vérifications réussies",
+        "failure": "Vérifications échouées",
+        "merged": "Fusionnée",
+        "closed": "Fermée"
+      },
+      "stats": {
+        "comments": "Commentaires",
+        "reviewComments": "Commentaires de revue",
+        "requestedReviewers": "Relecteurs demandés"
+      }
+    }
   }
 }

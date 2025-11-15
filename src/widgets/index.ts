@@ -2,6 +2,7 @@ import { ComponentType } from 'react'
 import { TodoWidget } from '@/components/widgets/TodoWidget/TodoWidget'
 import { PomodoroWidget } from '@/components/widgets/PomodoroWidget/PomodoroWidget'
 import { NewsWidget } from '@/components/widgets/NewsWidget/NewsWidget'
+import { GitHubPRsWidget } from '@/components/widgets/GitHubPRsWidget'
 
 export interface WidgetManifest {
   id: string
@@ -55,6 +56,19 @@ export const WIDGET_REGISTRY: WidgetManifest[] = [
     tags: ['news', 'rss', 'actualités', 'information'],
     preview:
       "Suivez vos sources d'actualités préférées via RSS dans une interface épurée.",
+  },
+  {
+    id: 'github-prs-widget',
+    name: 'GitHub Pull Requests',
+    description: 'Visualisez vos pull requests GitHub en temps réel',
+    icon: '🔀',
+    category: 'productivity',
+    component: GitHubPRsWidget,
+    version: '1.0.0',
+    author: 'Dashboard Team',
+    tags: ['github', 'pull requests', 'git', 'code review', 'développement', 'integration'],
+    preview:
+      "Suivez l'état de vos pull requests GitHub avec mise à jour automatique et filtres personnalisables.",
   },
 ]
 
