@@ -1,3 +1,5 @@
+'use client'
+
 // ==============================
 // 🎨 Bouton de bascule entre thème clair et sombre
 // ==============================
