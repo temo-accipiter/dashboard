@@ -71,7 +71,7 @@ describe('LangSelector', () => {
     const user = userEvent.setup()
     render(<LangSelector />)
 
-    const frButton = screen.getAllByRole('button')[0]
+    const frButton = screen.getAllByRole('button')[0]!
     await user.click(frButton)
 
     // Check that cookie was set
@@ -84,7 +84,7 @@ describe('LangSelector', () => {
     const user = userEvent.setup()
     render(<LangSelector />)
 
-    const enButton = screen.getAllByRole('button')[1]
+    const enButton = screen.getAllByRole('button')[1]!
     await user.click(enButton)
 
     // Check that cookie was set
@@ -98,11 +98,11 @@ describe('LangSelector', () => {
     render(<LangSelector />)
 
     // Change to English
-    await user.click(screen.getAllByRole('button')[1])
+    await user.click(screen.getAllByRole('button')[1]!)
     expect(document.cookie).toContain('NEXT_LOCALE=en')
 
     // Change to French
-    await user.click(screen.getAllByRole('button')[0])
+    await user.click(screen.getAllByRole('button')[0]!)
     expect(document.cookie).toContain('NEXT_LOCALE=fr')
   })
 

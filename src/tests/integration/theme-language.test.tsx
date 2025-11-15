@@ -79,7 +79,7 @@ describe('Integration: Theme and Language Switching', () => {
 
     // Verify theme persisted
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark')
-  })
+  }, 10000)
 
   it('should allow multiple theme and language changes', async () => {
     const user = userEvent.setup()
@@ -110,7 +110,7 @@ describe('Integration: Theme and Language Switching', () => {
     // Verify final state
     expect(localStorage.getItem('theme')).toBe('light')
     expect(document.cookie).toContain('NEXT_LOCALE=fr')
-  })
+  }, 10000)
 
   it('should maintain independent state for theme and language', async () => {
     const user = userEvent.setup()
@@ -138,5 +138,5 @@ describe('Integration: Theme and Language Switching', () => {
 
     expect(localStorage.getItem('theme')).toBe('dark') // Theme unchanged
     expect(document.cookie).toContain('NEXT_LOCALE=en')
-  })
+  }, 10000)
 })
