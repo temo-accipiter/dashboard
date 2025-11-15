@@ -3,6 +3,33 @@ import { Task } from './types'
 
 const STORAGE_KEY = 'personal-dashboard-todos'
 
+const DEFAULT_TASKS: Task[] = [
+  {
+    id: '1',
+    text: "Configurer l'authentification",
+    done: false,
+    createdAt: new Date('2024-01-01'),
+    tags: [],
+    priority: 'none',
+  },
+  {
+    id: '2',
+    text: 'Connecter Todoist',
+    done: false,
+    createdAt: new Date('2024-01-02'),
+    tags: [],
+    priority: 'none',
+  },
+  {
+    id: '3',
+    text: 'Créer une sauvegarde automatique',
+    done: true,
+    createdAt: new Date('2024-01-03'),
+    tags: [],
+    priority: 'none',
+  },
+]
+
 /**
  * Hook custom pour gérer la persistence des tâches dans localStorage
  * @returns [tasks, setTasks] - État des tâches et setter
@@ -32,7 +59,7 @@ export function useTodoStorage(): [
         error
       )
     }
-    return []
+    return DEFAULT_TASKS
   })
 
   // Sauvegarder automatiquement à chaque changement

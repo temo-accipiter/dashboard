@@ -67,7 +67,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
 
   return (
     <div
-      className="todo-item"
+      className={`todo-item ${task.done ? 'done' : ''}`}
       style={{ borderLeftColor: priorityConfig.color }}
       role="listitem"
     >

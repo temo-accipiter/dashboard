@@ -1,8 +1,8 @@
 .todo-list {
-  background: var(--c-bg);
+  background: var(--color-bg);
   padding: 1.5rem;
   border-radius: 1rem;
-  box-shadow: var(--shadow);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   h2 {
     margin-bottom: 1rem;
   }
@@ -20,7 +20,7 @@
       &.done {
         label {
           text-decoration: line-through;
-          color: var(--c-text-muted);
+          color: var(--color-secondary);
         }
       }
     }

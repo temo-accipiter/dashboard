@@ -53,7 +53,7 @@ describe('Home Page', () => {
     expect(
       screen.getByText("Configurer l'authentification")
     ).toBeInTheDocument()
-    expect(screen.getByText('Connecter Notion ou Todoist')).toBeInTheDocument()
+    expect(screen.getByText('Connecter Todoist')).toBeInTheDocument()
   })
 
   it('should display notes content', () => {

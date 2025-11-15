@@ -18,7 +18,7 @@ export default function Home() {
         <Card title="Tâches à faire">
           <ul>
             <li>Configurer l&apos;authentification</li>
-            <li>Connecter Notion ou Todoist</li>
+            <li>Connecter Todoist</li>
           </ul>
         </Card>
         <Card title="Notes">

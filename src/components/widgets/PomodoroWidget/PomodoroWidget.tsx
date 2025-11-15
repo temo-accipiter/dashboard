@@ -11,6 +11,7 @@ import { usePomodoroSound } from './usePomodoroSound'
 import { useNotification } from './useNotification'
 import { MODE_LABELS, MODE_EMOJI } from './constants'
 import { formatDuration } from './utils'
+import { PomodoroSession, TimerMode } from './types'
 import { Settings, BarChart3 } from 'lucide-react'
 import './PomodoroWidget.scss'
 
@@ -46,14 +47,14 @@ export const PomodoroWidget: React.FC = () => {
 
   // Timer callbacks
   const handleSessionComplete = useCallback(
-    (session: any) => {
+    (session: PomodoroSession) => {
       saveSession(session)
     },
     [saveSession]
   )
 
   const handleTimerEnd = useCallback(
-    (mode: any) => {
+    (mode: TimerMode) => {
       // Play sound
       if (mode === 'focus') {
         playSound(settings.sounds.focusEnd)
@@ -82,7 +83,7 @@ export const PomodoroWidget: React.FC = () => {
   )
 
   const handleHalfway = useCallback(
-    (mode: any, timeLeft: number) => {
+    (mode: TimerMode, timeLeft: number) => {
       if (
         settings.notifications.enabled &&
         settings.notifications.showAtHalfway

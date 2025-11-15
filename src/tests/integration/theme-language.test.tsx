@@ -26,10 +26,12 @@ describe('Integration: Theme and Language Switching', () => {
       i18n: {
         changeLanguage: mockChangeLanguage,
         language: 'fr',
-      } as any,
-      t: Object.assign((key: string) => key, { $TFunctionBrand: Symbol() }),
+      } as unknown as ReturnType<typeof useTranslation>['i18n'],
+      t: Object.assign((key: string) => key, {
+        $TFunctionBrand: Symbol(),
+      }) as unknown as ReturnType<typeof useTranslation>['t'],
       ready: true,
-    } as any)
+    } as ReturnType<typeof useTranslation>)
   })
 
   it('should persist theme and language preferences together', async () => {

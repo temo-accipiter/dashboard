@@ -98,7 +98,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
         } else {
           setImportError('Fichier JSON invalide')
         }
-      } catch (_error) {
+      } catch {
         setImportError('Erreur lors de la lecture du fichier')
       }
     }

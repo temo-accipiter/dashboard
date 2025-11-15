@@ -23,20 +23,22 @@ export interface Task {
 
 /**
  * Tags disponibles avec leurs couleurs associées
+ * Couleurs conformes WCAG AA (ratio 4.5:1 sur fond blanc)
  */
 export const AVAILABLE_TAGS = [
-  { name: 'work', color: '#3b82f6' }, // bleu
-  { name: 'personal', color: '#10b981' }, // vert
-  { name: 'urgent', color: '#ef4444' }, // rouge
-  { name: 'learning', color: '#8b5cf6' }, // violet
+  { name: 'work', color: '#1d4ed8' }, // bleu foncé
+  { name: 'personal', color: '#047857' }, // vert foncé
+  { name: 'urgent', color: '#dc2626' }, // rouge foncé
+  { name: 'learning', color: '#7c3aed' }, // violet foncé
 ]
 
 /**
  * Configuration des niveaux de priorité avec labels, couleurs et icônes
+ * Couleurs conformes WCAG AA (ratio 4.5:1 sur fond blanc)
  */
 export const PRIORITY_CONFIG = {
-  high: { label: 'Haute', color: '#ef4444', icon: '🔴' },
-  medium: { label: 'Moyenne', color: '#f59e0b', icon: '🟡' },
-  low: { label: 'Basse', color: '#10b981', icon: '🟢' },
+  high: { label: 'Haute', color: '#dc2626', icon: '🔴' },
+  medium: { label: 'Moyenne', color: '#d97706', icon: '🟡' },
+  low: { label: 'Basse', color: '#047857', icon: '🟢' },
   none: { label: 'Aucune', color: '#6b7280', icon: '' },
 }

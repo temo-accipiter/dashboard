@@ -12,9 +12,9 @@ describe('Taches Page', () => {
 
   it('should render TodoWidget component', () => {
     render(<Taches />)
-    // TodoWidget has its own heading "Mes Tâches"
+    // TodoWidget has its own heading "Liste de tâches"
     expect(
-      screen.getByRole('heading', { level: 2, name: /^mes tâches$/i })
+      screen.getByRole('heading', { level: 2, name: /^liste de tâches$/i })
     ).toBeInTheDocument()
   })
 
@@ -36,10 +36,13 @@ describe('Taches Page', () => {
     expect(mainHeading).toBeInTheDocument()
   })
 
-  it('should display TodoWidget with empty state', () => {
+  it('should display TodoWidget task count', () => {
     render(<Taches />)
-    // TodoWidget starts empty
-    expect(screen.getByText(/aucune tâche pour le moment/i)).toBeInTheDocument()
+    // TodoWidget shows task count in header
+    const taskCountLabel = screen.getByLabelText(
+      /tâches actives sur .* au total/i
+    )
+    expect(taskCountLabel).toBeInTheDocument()
   })
 
   it('should render task input form', () => {

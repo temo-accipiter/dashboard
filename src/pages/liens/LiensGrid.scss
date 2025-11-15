@@ -1,5 +1,13 @@
 .liens-grid-two {
   padding: 2rem;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--text-primary, #333);
+  }
 }
 
 .icon-title {

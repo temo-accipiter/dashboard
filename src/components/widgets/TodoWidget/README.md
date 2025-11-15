@@ -33,19 +33,19 @@ TodoWidget/
 type Priority = 'high' | 'medium' | 'low' | 'none'
 
 interface Task {
-  id: string          // UUID généré avec crypto.randomUUID()
-  text: string        // Texte de la tâche
-  done: boolean       // État de complétion
-  createdAt: Date     // Date de création
-  tags: string[]      // Tags associés à la tâche
-  priority: Priority  // Niveau de priorité
+  id: string // UUID généré avec crypto.randomUUID()
+  text: string // Texte de la tâche
+  done: boolean // État de complétion
+  createdAt: Date // Date de création
+  tags: string[] // Tags associés à la tâche
+  priority: Priority // Niveau de priorité
 }
 
 const AVAILABLE_TAGS = [
-  { name: 'work', color: '#3b82f6' },      // bleu
-  { name: 'personal', color: '#10b981' },  // vert
-  { name: 'urgent', color: '#ef4444' },    // rouge
-  { name: 'learning', color: '#8b5cf6' },  // violet
+  { name: 'work', color: '#3b82f6' }, // bleu
+  { name: 'personal', color: '#10b981' }, // vert
+  { name: 'urgent', color: '#ef4444' }, // rouge
+  { name: 'learning', color: '#8b5cf6' }, // violet
 ]
 
 const PRIORITY_CONFIG = {
@@ -123,6 +123,7 @@ Le système de tags permet de catégoriser les tâches avec des badges colorés 
 #### `TagSelector.tsx`
 
 Composant de sélection multi-tags intégré dans le formulaire :
+
 - Boutons toggle pour chaque tag disponible
 - État sélectionné visible avec couleur de fond
 - État non-sélectionné avec bordure colorée
@@ -162,6 +163,7 @@ Le système de priorités permet d'assigner un niveau d'importance aux tâches :
 #### `PrioritySelector.tsx`
 
 Composant de sélection de priorité intégré dans le formulaire :
+
 - Boutons toggle pour chaque niveau de priorité
 - Icône colorée pour identification visuelle rapide
 - État sélectionné visible avec couleur de fond
@@ -218,11 +220,13 @@ Le système de filtres permet de visualiser différentes vues des tâches :
 Composant de filtrage avec deux sections :
 
 **Filtres de statut** :
+
 - 3 boutons : Toutes / Actives / Complétées
 - Bouton actif avec fond bleu
 - Compteurs de tâches actives et complétées (badges)
 
 **Filtres par tags** :
+
 - Sélection multiple de tags
 - Boutons colorés selon le tag (cohérent avec TagSelector)
 - Bouton "Effacer" pour réinitialiser les filtres de tags
@@ -304,11 +308,13 @@ Permet de modifier le texte d'une tâche directement dans la liste :
 Le widget intègre désormais des animations fluides pour améliorer l'expérience utilisateur :
 
 #### Animations globales
+
 - **fadeIn** : Animation d'apparition pour le widget, filtres et éléments
 - **slideIn** : Animation de glissement pour l'ajout de tâches
 - **Transitions** : Toutes les interactions utilisent `cubic-bezier(0.4, 0, 0.2, 1)` pour des animations naturelles
 
 #### Animations spécifiques
+
 - **Boutons** :
   - Élévation au hover avec `translateY(-2px)`
   - Box-shadow dynamique pour effet de profondeur
@@ -326,6 +332,7 @@ Le widget intègre désormais des animations fluides pour améliorer l'expérien
   - Box-shadow avec couleur primaire
 
 #### Performance
+
 - Durée des animations : 0.2s à 0.3s pour fluidité sans latence
 - Utilisation de `transform` et `opacity` pour performances GPU
 - Animations désactivables via `prefers-reduced-motion` (à implémenter)
@@ -335,12 +342,14 @@ Le widget intègre désormais des animations fluides pour améliorer l'expérien
 Le widget respecte les standards d'accessibilité modernes :
 
 #### ARIA Labels
+
 - **Rôles sémantiques** : `section`, `header`, `list`, `listitem`, `region`, `group`
 - **Labels descriptifs** : Tous les boutons et contrôles ont des `aria-label` clairs
 - **États dynamiques** : `aria-pressed` pour les boutons toggle (tags, priorités, filtres)
 - **Annonces** : `role="status"` pour les messages d'état vide
 
 #### Navigation clavier
+
 - **Tab** : Navigation séquentielle à travers tous les contrôles interactifs
 - **Enter** : Activation des boutons et validation du formulaire
 - **Escape** : Annulation de l'édition inline
@@ -350,12 +359,14 @@ Le widget respecte les standards d'accessibilité modernes :
   - Couleur de l'élément actif pour badges
 
 #### États visuels
+
 - **:focus-visible** : Outline visible uniquement lors de navigation clavier
 - **:hover** : Feedback visuel distinct du focus
 - **:active** : Feedback tactile au clic/tap
 - **:disabled** : État désactivé avec opacité 0.5 et cursor not-allowed
 
 #### Formulaires accessibles
+
 - Bouton "Ajouter" désactivé si input vide
 - Labels associés aux contrôles via `id` et `aria-labelledby`
 - Autocomplete désactivé pour éviter suggestions non pertinentes
@@ -365,11 +376,14 @@ Le widget respecte les standards d'accessibilité modernes :
 Le widget s'adapte parfaitement aux petits écrans :
 
 #### Breakpoints
+
 - **768px** : Tablette (ajustements padding, tailles touch)
 - **480px** : Mobile (layout colonnes, boutons full-width)
 
 #### Tailles touch-friendly (Mobile)
+
 Toutes les cibles tactiles respectent le minimum WCAG de 44x44px :
+
 - **Checkbox** : 1.5rem (24px) → Facile à taper
 - **Boutons principaux** : 2.75rem min-height (44px)
 - **Badges tags/priorité** : 2.75rem min-height (44px)
@@ -377,29 +391,34 @@ Toutes les cibles tactiles respectent le minimum WCAG de 44x44px :
 - **Filtres** : 2.75rem min-height (44px)
 
 #### Adaptations layout
+
 - **Formulaire** : Colonne unique sur mobile pour meilleure lisibilité
 - **Filtres** : Wrap automatique des boutons
 - **Tags/Priorités** : Wrap avec espacement adaptatif
 - **Padding** : Réduit sur petits écrans pour maximiser l'espace
 
 #### Typographie responsive
+
 - **Font-size** : Augmentation légère sur mobile pour lisibilité
 - **Line-height** : Espacement adapté au contexte tactile
 
 ### Qualité du code
 
 #### Documentation
+
 - **JSDoc** : Commentaires sur types, interfaces et fonctions clés
 - **Commentaires inline** : Explications pour logique complexe (filtrage, tri)
 - **Types TypeScript** : Interfaces strictes pour toutes les données
 
 #### Architecture
+
 - **Composants réutilisables** : Séparation claire des responsabilités
 - **Custom hooks** : `useTodoStorage` pour logique de persistence
 - **SCSS BEM** : Nomenclature cohérente et maintenable
 - **Props typées** : Toutes les props avec interfaces TypeScript
 
 #### Gestion d'erreurs
+
 - **localStorage** : Try-catch avec console.error pour debugging
 - **Migration données** : Ajout automatique des champs manquants (tags, priority)
 - **Validation** : Input trimé, vérification avant sauvegarde
@@ -407,6 +426,7 @@ Toutes les cibles tactiles respectent le minimum WCAG de 44x44px :
 ### Guide de test manuel
 
 #### Tests de base
+
 1. **Ajout de tâche** : Ajouter plusieurs tâches avec texte varié
 2. **Complétion** : Cocher/décocher plusieurs tâches
 3. **Suppression** : Supprimer une tâche active et une complétée
@@ -416,23 +436,27 @@ Toutes les cibles tactiles respectent le minimum WCAG de 44x44px :
 7. **Filtres** : Tester tous/actives/complétées et filtres par tags
 
 #### Tests de persistence
+
 1. Ajouter des tâches → Rafraîchir la page → Vérifier présence
 2. DevTools → Application → Local Storage → Vérifier structure JSON
 3. Supprimer localStorage → Rafraîchir → Vérifier état vide
 
 #### Tests d'accessibilité
+
 1. **Navigation clavier** : Tab à travers tous les éléments
 2. **Focus visible** : Vérifier outline sur focus clavier
 3. **Screen reader** : Tester avec NVDA/JAWS (labels descriptifs)
 4. **Désactivation JS** : Widget doit afficher message gracieux
 
 #### Tests responsive
+
 1. **Desktop** : Vérifier layout horizontal, hover states
 2. **Tablette (768px)** : Vérifier tailles touch, wrap
 3. **Mobile (480px)** : Vérifier colonne unique, boutons full-width
 4. **Touch** : Tester tous les taps sur appareil mobile réel
 
 #### Tests de performance
+
 1. **100+ tâches** : Ajouter beaucoup de tâches, vérifier fluidité
 2. **Filtrage rapide** : Changer filtres rapidement
 3. **Animations** : Vérifier 60fps sur interactions (DevTools Performance)
@@ -440,6 +464,7 @@ Toutes les cibles tactiles respectent le minimum WCAG de 44x44px :
 ### Améliorations futures
 
 #### Phase 2 : Fonctionnalités avancées
+
 - **Recherche textuelle** : Barre de recherche avec highlight
 - **Drag & drop** : Réorganisation manuelle des tâches
 - **Sous-tâches** : Hiérarchie de tâches imbriquées
@@ -447,18 +472,21 @@ Toutes les cibles tactiles respectent le minimum WCAG de 44x44px :
 - **Récurrence** : Tâches répétitives (quotidien, hebdo, mensuel)
 
 #### Phase 3 : Design et UX
+
 - **Thèmes** : Mode sombre / clair avec switch
 - **Couleurs custom** : Personnalisation des couleurs de tags
 - **Icônes** : Remplacement des émojis par icons SVG
 - **Animations avancées** : Framer Motion pour transitions complexes
 
 #### Phase 4 : Analytics et statistiques
+
 - **Graphiques** : Visualisation de la productivité
 - **Streaks** : Compteur de jours consécutifs
 - **Temps estimé** : Pomodoro timer intégré
 - **Export** : CSV, JSON, iCal pour backup
 
 #### Phase 5 : Intégration
+
 - **Synchronisation cloud** : Firebase / Supabase
 - **Collaboration** : Partage de listes avec d'autres utilisateurs
 - **Notifications** : Push notifications pour rappels
@@ -476,6 +504,7 @@ Toutes les cibles tactiles respectent le minimum WCAG de 44x44px :
 ### Contribution
 
 Pour ajouter des fonctionnalités :
+
 1. Créer une nouvelle branche depuis `main`
 2. Ajouter les types dans `types.ts` si nécessaire
 3. Créer les composants dans le dossier TodoWidget

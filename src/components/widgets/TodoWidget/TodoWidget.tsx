@@ -89,7 +89,7 @@ export const TodoWidget: React.FC = () => {
   return (
     <section className="todo-widget" aria-label="Widget de gestion de tâches">
       <header className="todo-widget__header">
-        <h2 className="todo-widget__title">Mes Tâches</h2>
+        <h2 className="todo-widget__title">Liste de tâches</h2>
         <span
           className="todo-widget__count"
           aria-label={`${activeCount} tâches actives sur ${tasks.length} au total`}
@@ -109,21 +109,21 @@ export const TodoWidget: React.FC = () => {
         onTagFilterChange={setSelectedTagFilters}
       />
 
-      <div
-        className="todo-widget__list"
-        role="list"
-        aria-label="Liste des tâches"
-      >
-        {tasks.length === 0 ? (
-          <p className="todo-widget__empty" role="status">
-            Aucune tâche pour le moment
-          </p>
-        ) : filteredTasks.length === 0 ? (
-          <p className="todo-widget__empty" role="status">
-            Aucune tâche ne correspond aux filtres
-          </p>
-        ) : (
-          filteredTasks.map((task) => (
+      {tasks.length === 0 ? (
+        <p className="todo-widget__empty" role="status">
+          Aucune tâche pour le moment
+        </p>
+      ) : filteredTasks.length === 0 ? (
+        <p className="todo-widget__empty" role="status">
+          Aucune tâche ne correspond aux filtres
+        </p>
+      ) : (
+        <div
+          className="todo-widget__list"
+          role="list"
+          aria-label="Liste des tâches"
+        >
+          {filteredTasks.map((task) => (
             <TodoItem
               key={task.id}
               task={task}
@@ -132,9 +132,9 @@ export const TodoWidget: React.FC = () => {
               onRemoveTag={handleRemoveTag}
               onEdit={handleEditTask}
             />
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   )
 }

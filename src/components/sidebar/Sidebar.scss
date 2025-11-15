@@ -1,11 +1,12 @@
 .sidebar {
   width: 220px;
-  background-color: var(--c-bg-secondary);
+  background-color: var(--color-accent);
   padding: 2rem 1rem;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
+  border-right: 1px solid var(--color-border);
 
   nav {
     display: flex;
@@ -18,14 +19,14 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    color: var(--c-text);
+    color: var(--color-text);
     border-radius: 0.5rem;
     text-decoration: none;
 
     &:hover,
     &.active {
-      background-color: var(--c-accent-light);
-      color: var(--c-accent);
+      background-color: var(--color-hover);
+      color: var(--color-primary);
     }
   }
 }

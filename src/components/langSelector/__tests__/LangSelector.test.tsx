@@ -24,10 +24,12 @@ describe('LangSelector', () => {
       i18n: {
         changeLanguage: mockChangeLanguage,
         language: 'fr',
-      } as any,
-      t: Object.assign((key: string) => key, { $TFunctionBrand: Symbol() }),
+      } as unknown as ReturnType<typeof useTranslation>['i18n'],
+      t: Object.assign((key: string) => key, {
+        $TFunctionBrand: Symbol(),
+      }) as unknown as ReturnType<typeof useTranslation>['t'],
       ready: true,
-    } as any)
+    } as ReturnType<typeof useTranslation>)
   })
 
   it('should render language buttons', () => {
@@ -51,10 +53,12 @@ describe('LangSelector', () => {
       i18n: {
         changeLanguage: mockChangeLanguage,
         language: 'en',
-      } as any,
-      t: Object.assign((key: string) => key, { $TFunctionBrand: Symbol() }),
+      } as unknown as ReturnType<typeof useTranslation>['i18n'],
+      t: Object.assign((key: string) => key, {
+        $TFunctionBrand: Symbol(),
+      }) as unknown as ReturnType<typeof useTranslation>['t'],
       ready: true,
-    } as any)
+    } as ReturnType<typeof useTranslation>)
 
     render(<LangSelector />)
 

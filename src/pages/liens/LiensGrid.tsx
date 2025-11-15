@@ -5,6 +5,7 @@ import {
   useSensor,
   useSensors,
   PointerSensor,
+  DragEndEvent,
 } from '@dnd-kit/core'
 import { useDroppable, useDraggable } from '@dnd-kit/core'
 import IconCard from '@/components/iconCard/IconCard'
@@ -214,7 +215,7 @@ export default function LiensGrid() {
   const [layout, setLayout] = useState<Layout>(initialLayout)
   const sensors = useSensors(useSensor(PointerSensor))
 
-  const handleDragEnd = (event: any, section: keyof Layout) => {
+  const handleDragEnd = (event: DragEndEvent, section: keyof Layout) => {
     const { active, over } = event
     if (!over || active.id === over.id) return
 
@@ -239,6 +240,7 @@ export default function LiensGrid() {
 
   return (
     <section className="liens-grid-two">
+      <h1 className="liens-grid-two__title">🔗 Mes Liens</h1>
       <div className="section social-section">
         <h2>
           {' '}

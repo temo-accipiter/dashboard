@@ -5,6 +5,7 @@ Ce document fournit un template pour tester manuellement les widgets et composan
 ## Pourquoi des tests manuels ?
 
 Les composants UI simples ne nécessitent pas de tests automatisés systématiques. Les tests manuels permettent de :
+
 - Vérifier l'apparence visuelle et l'UX
 - Tester les interactions utilisateur complexes
 - Valider le comportement responsive
@@ -18,9 +19,9 @@ Copiez cette section pour chaque nouveau widget à tester.
 
 ### Widget : [NOM_DU_WIDGET]
 
-**Date du test :** ___________
-**Testeur :** ___________
-**Version :** ___________
+**Date du test :** \***\*\_\_\_\*\***
+**Testeur :** \***\*\_\_\_\*\***
+**Version :** \***\*\_\_\_\*\***
 
 #### 1. Rendu Visuel
 
@@ -151,20 +152,25 @@ Si vous trouvez un bug durant les tests manuels :
 **Device :** [Desktop/Mobile/Tablet]
 
 ### Description
+
 [Description claire du problème]
 
 ### Étapes pour reproduire
+
 1. [Étape 1]
 2. [Étape 2]
 3. [Étape 3]
 
 ### Comportement attendu
+
 [Ce qui devrait se passer]
 
 ### Comportement actuel
+
 [Ce qui se passe réellement]
 
 ### Screenshots
+
 [Si applicable]
 ```
 
@@ -198,6 +204,7 @@ Si vous trouvez un bug durant les tests manuels :
 ## Automatisation Future
 
 Si un test manuel devient répétitif et critique, considérer l'automatisation via :
+
 - Tests E2E (Playwright) - pour les workflows complets
 - Tests visuels de régression - pour les problèmes de layout
 
