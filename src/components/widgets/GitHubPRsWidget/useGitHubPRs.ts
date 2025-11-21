@@ -4,10 +4,10 @@
  * Manages fetching and caching of GitHub pull requests
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { getGitHubAdapter } from '@/features/integrations/github';
-import type { GitHubPullRequest, PullRequestState } from '@/features/integrations/github';
-import type { GitHubPRsWidgetState, GitHubPRsWidgetSettings } from './types';
+import { useState, useEffect, useCallback } from 'react'
+import { getGitHubAdapter } from '@/features/integrations/github'
+import type { PullRequestState } from '@/features/integrations/github'
+import type { GitHubPRsWidgetState, GitHubPRsWidgetSettings } from './types'
 
 export function useGitHubPRs(settings: GitHubPRsWidgetSettings) {
   const [state, setState] = useState<GitHubPRsWidgetState>({
@@ -15,30 +15,33 @@ export function useGitHubPRs(settings: GitHubPRsWidgetSettings) {
     isLoading: true,
     error: null,
     lastUpdated: null,
-  });
+  })
 
   const fetchPullRequests = useCallback(async () => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+    setState((prev) => ({ ...prev, isLoading: true, error: null }))
 
     try {
-      const adapter = getGitHubAdapter();
+      const adapter = getGitHubAdapter()
 
       if (!adapter.isConfigured()) {
-        throw new Error('GitHub adapter is not configured');
+        throw new Error('GitHub adapter is not configured')
       }
 
       // Fetch PRs based on filter state
-      const state: PullRequestState | undefined =
-        settings.filterState === 'all' ? undefined : settings.filterState;
+      const options:
+        | { state?: PullRequestState; perPage?: number; page?: number }
+        | { perPage?: number; page?: number } =
+        settings.filterState === 'all'
+          ? { perPage: settings.maxPRs }
+          : { state: settings.filterState, perPage: settings.maxPRs }
 
-      let prs = await adapter.getPullRequests({
-        state,
-        perPage: settings.maxPRs,
-      });
+      let prs = await adapter.getPullRequests(options)
 
       // Filter by review requests if enabled
       if (settings.showOnlyReviewRequests) {
-        prs = prs.filter(pr => pr.requested_reviewers && pr.requested_reviewers.length > 0);
+        prs = prs.filter(
+          (pr) => pr.requested_reviewers && pr.requested_reviewers.length > 0
+        )
       }
 
       setState({
@@ -46,38 +49,41 @@ export function useGitHubPRs(settings: GitHubPRsWidgetSettings) {
         isLoading: false,
         error: null,
         lastUpdated: new Date(),
-      });
+      })
     } catch (error) {
       setState({
         pullRequests: [],
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Failed to fetch pull requests',
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Failed to fetch pull requests',
         lastUpdated: null,
-      });
+      })
     }
-  }, [settings]);
+  }, [settings])
 
   // Initial fetch
   useEffect(() => {
-    fetchPullRequests();
-  }, [fetchPullRequests]);
+    fetchPullRequests()
+  }, [fetchPullRequests])
 
   // Auto-refresh
   useEffect(() => {
     if (settings.refreshInterval <= 0) {
-      return;
+      return
     }
 
     const intervalId = setInterval(
       fetchPullRequests,
       settings.refreshInterval * 60 * 1000 // Convert minutes to milliseconds
-    );
+    )
 
-    return () => clearInterval(intervalId);
-  }, [settings.refreshInterval, fetchPullRequests]);
+    return () => clearInterval(intervalId)
+  }, [settings.refreshInterval, fetchPullRequests])
 
   return {
     ...state,
     refresh: fetchPullRequests,
-  };
+  }
 }

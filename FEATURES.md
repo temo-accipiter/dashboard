@@ -7,22 +7,26 @@ This dashboard provides a customizable, widget-based interface with support for 
 ## Core Features
 
 ### Widget System
+
 - **Modular Architecture**: Each widget is self-contained with its own state management
 - **Drag & Drop**: Rearrange widgets on your dashboard
 - **Widget Registry**: Central marketplace for discovering and activating widgets
 - **Persistent State**: Widget configurations saved to localStorage
 
 ### Internationalization (i18n)
+
 - **Languages**: French (FR) and English (EN)
 - **Framework**: next-intl with automatic locale detection
 - **Cookie Persistence**: User language preference saved across sessions
 
 ### Theming
+
 - **Dark/Light Mode**: System-wide theme toggle
 - **CSS Variables**: Consistent theming across all components
 - **Persistent Preference**: Theme saved to localStorage
 
 ### PWA Support
+
 - **Offline Capability**: Works without internet connection
 - **Service Worker**: Asset caching and offline fallback
 - **Installable**: Add to home screen on mobile devices
@@ -30,10 +34,12 @@ This dashboard provides a customizable, widget-based interface with support for 
 ## Available Widgets
 
 ### 1. Todo List Widget
+
 **Status**: ✅ Available
 **Category**: Productivity
 
 **Features**:
+
 - Create, edit, and delete tasks
 - Priority levels (high, medium, low, none)
 - Tag-based organization with color coding
@@ -41,10 +47,12 @@ This dashboard provides a customizable, widget-based interface with support for 
 - localStorage persistence
 
 ### 2. Pomodoro Timer Widget
+
 **Status**: ✅ Available
 **Category**: Productivity
 
 **Features**:
+
 - Configurable work/break durations
 - Multiple timer modes (focus, short break, long break)
 - Sound notifications (customizable)
@@ -53,10 +61,12 @@ This dashboard provides a customizable, widget-based interface with support for 
 - Export/import session data
 
 ### 3. News Feed Widget
+
 **Status**: ✅ Available
 **Category**: Information
 
 **Features**:
+
 - RSS feed reader
 - Pre-configured feeds (TechCrunch, DEV Community, Hacker News, CSS-Tricks)
 - Custom feed management
@@ -65,10 +75,12 @@ This dashboard provides a customizable, widget-based interface with support for 
 - Category filtering
 
 ### 4. GitHub Pull Requests Widget
+
 **Status**: ✅ Available
 **Category**: Productivity
 
 **Features**:
+
 - View pull requests for authenticated user
 - Filter by state (open, closed, merged)
 - Status indicators (pending, success, failure)
@@ -77,6 +89,7 @@ This dashboard provides a customizable, widget-based interface with support for 
 - Mock data for development (OAuth behind feature flag)
 
 **Configuration**:
+
 - Filter PRs by state
 - Limit number of displayed PRs
 - Auto-refresh interval
@@ -85,12 +98,14 @@ This dashboard provides a customizable, widget-based interface with support for 
 ## Integrations
 
 ### GitHub Integration
+
 **Status**: ✅ Available
 **OAuth**: Behind feature flag (disabled by default)
 
 The GitHub integration uses an adapter pattern to provide a clean interface for GitHub API interactions.
 
 **Features**:
+
 - Pull request listing
 - Repository-specific PR views
 - Mock data support for development
@@ -108,6 +123,7 @@ The GitHub integration uses an adapter pattern to provide a clean interface for 
    ```
 
 **Architecture**:
+
 ```
 src/features/integrations/github/
 ├── adapter.ts        # GitHub API adapter
@@ -118,9 +134,11 @@ src/features/integrations/github/
 ```
 
 ### Google Calendar Integration
+
 **Status**: 🚧 Planned
 
 ### RSS Integration
+
 **Status**: 🚧 Planned
 
 ## Feature Flags
@@ -157,11 +175,13 @@ See [Integrations README](src/features/integrations/README.md) for detailed inst
 ## Testing
 
 ### Run All Tests
+
 ```bash
 npm test
 ```
 
 ### Run Specific Tests
+
 ```bash
 # Widget tests
 npm test src/components/widgets
@@ -198,17 +218,20 @@ npm test src/features/integrations/github
 ## Roadmap
 
 ### Short Term
+
 - [ ] Google Calendar integration
 - [ ] Enhanced RSS feed management
 - [ ] Widget export/import functionality
 
 ### Medium Term
+
 - [ ] Weather widget
 - [ ] Calendar widget
 - [ ] Notes widget with Markdown support
 - [ ] Custom widget creation UI
 
 ### Long Term
+
 - [ ] Backend API for data sync
 - [ ] User authentication
 - [ ] Cloud storage for widget data

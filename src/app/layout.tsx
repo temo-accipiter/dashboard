@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { cookies } from 'next/headers'
@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   title: 'Dashboard Personnel',
   description: 'Dashboard personnalisé - accès rapide et offline-friendly',
   manifest: '/manifest.json',
-  themeColor: '#0070f3',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -19,11 +18,13 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#0070f3',
 }
 
 export default async function RootLayout({

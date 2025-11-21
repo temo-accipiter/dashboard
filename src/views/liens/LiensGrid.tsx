@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   DndContext,
   closestCenter,
@@ -45,7 +45,7 @@ import './LiensGrid.scss'
 interface CardInfo {
   id: string
   label: string
-  icon: string
+  icon: { src: string; height: number; width: number }
   href: string
 }
 
@@ -215,9 +215,24 @@ const initialLayout: Layout = {
 
 export default function LiensGrid() {
   const [layout, setLayout] = useState<Layout>(initialLayout)
-  const sensors = useSensors(useSensor(PointerSensor))
+  const [isDragging, setIsDragging] = useState(false)
+  const lastDragEndTimeRef = useRef<number>(0)
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Drag détecté après 8px de mouvement
+      },
+    })
+  )
+
+  const handleDragStart = () => {
+    setIsDragging(true)
+  }
 
   const handleDragEnd = (event: DragEndEvent, section: keyof Layout) => {
+    setIsDragging(false)
+    // Use ref instead of state for immediate access without re-render delay
+    lastDragEndTimeRef.current = Date.now()
     const { active, over } = event
     if (!over || active.id === over.id) return
 
@@ -231,9 +246,10 @@ export default function LiensGrid() {
 
     setLayout((prev) => {
       const updated = { ...prev }
+      const cardAtDestination = currentSection[toSlot] ?? null
       updated[section] = {
         ...updated[section],
-        [fromSlot]: null,
+        [fromSlot]: cardAtDestination,
         [toSlot]: active.id as string,
       }
       return updated
@@ -247,7 +263,7 @@ export default function LiensGrid() {
         <h2>
           {' '}
           <img
-            src={SocialNetworkLogo}
+            src={SocialNetworkLogo.src}
             alt="Réseaux sociaux"
             className="icon-title"
           />{' '}
@@ -256,6 +272,7 @@ export default function LiensGrid() {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
           onDragEnd={(e) => handleDragEnd(e, 'social')}
         >
           <div className="grid">
@@ -270,6 +287,8 @@ export default function LiensGrid() {
                       icon={card.icon}
                       label={card.label}
                       href={card.href}
+                      isDragging={isDragging}
+                      lastDragEndTimeRef={lastDragEndTimeRef}
                     />
                   )}
                 </DroppableSlot>
@@ -285,7 +304,7 @@ export default function LiensGrid() {
         <h2>
           {' '}
           <img
-            src={ToolsLogo}
+            src={ToolsLogo.src}
             alt="Services & Outils"
             className="icon-title"
           />{' '}
@@ -294,6 +313,7 @@ export default function LiensGrid() {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
           onDragEnd={(e) => handleDragEnd(e, 'services')}
         >
           <div className="grid">
@@ -308,6 +328,8 @@ export default function LiensGrid() {
                       icon={card.icon}
                       label={card.label}
                       href={card.href}
+                      isDragging={isDragging}
+                      lastDragEndTimeRef={lastDragEndTimeRef}
                     />
                   )}
                 </DroppableSlot>
@@ -322,13 +344,23 @@ export default function LiensGrid() {
 
 interface DraggableCardProps {
   id: string
-  icon: string
+  icon: { src: string; height: number; width: number }
   label: string
   href: string
+  isDragging: boolean
+  lastDragEndTimeRef: { current: number }
 }
 
-function DraggableCard({ id, icon, label, href }: DraggableCardProps) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
+function DraggableCard({
+  id,
+  icon,
+  label,
+  href,
+  isDragging: isDraggingGlobal,
+  lastDragEndTimeRef,
+}: DraggableCardProps) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({ id })
   const style = {
     transform: transform
       ? `translate(${transform.x}px, ${transform.y}px)`
@@ -336,9 +368,31 @@ function DraggableCard({ id, icon, label, href }: DraggableCardProps) {
     touchAction: 'manipulation' as const,
   }
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Always prevent default link behavior
+    e.preventDefault()
+    e.stopPropagation()
+
+    // Prevent clicks within 300ms after drag end (prevents accidental clicks after swap)
+    const timeSinceDragEnd = Date.now() - lastDragEndTimeRef.current
+    if (timeSinceDragEnd < 300) {
+      return
+    }
+
+    // Only open link if not currently dragging
+    if (!isDraggingGlobal && !isDragging) {
+      window.open(href, '_blank', 'noreferrer')
+    }
+  }
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <IconCard icon={icon} label={label} href={href} />
+      <IconCard
+        icon={icon}
+        label={label}
+        href={href}
+        onClick={handleCardClick}
+      />
     </div>
   )
 }

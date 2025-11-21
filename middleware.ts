@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   const locale = request.cookies.get('NEXT_LOCALE')?.value || defaultLocale
 
   // Vérifier que la locale est valide
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as (typeof locales)[number])) {
     const response = NextResponse.next()
     response.cookies.set('NEXT_LOCALE', defaultLocale)
     return response

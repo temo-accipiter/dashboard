@@ -6,12 +6,27 @@ import tseslint from 'typescript-eslint'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
+  // Global ignores - applies to all configurations
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.yarn/**',
+      '**/.pnp.*',
+      '**/.next/**',
+      '**/build/**',
+      '**/public/sw.js',
+      '**/public/workbox-*.js',
+      '**/public/fallback-*.js',
+      '**/public/swe-worker-*.js',
+      'next-env.d.ts',
+      'next.config.mjs',
+    ],
+  },
+
   // Configuration pour les fichiers JavaScript
   {
     files: ['**/*.{js,mjs,cjs,jsx}'],
-
-    // 🛑 Ignore les fichiers/folders qu'on ne veut pas analyser
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.yarn/**', '**/.pnp.*'],
 
     languageOptions: {
       ecmaVersion: 2020,
@@ -48,12 +63,10 @@ export default defineConfig([
   ...tseslint.configs.recommended.map((config) => ({
     ...config,
     files: ['**/*.{ts,tsx}'],
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.yarn/**', '**/.pnp.*'],
   })),
 
   {
     files: ['**/*.{ts,tsx}'],
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.yarn/**', '**/.pnp.*'],
 
     languageOptions: {
       ecmaVersion: 2020,

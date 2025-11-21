@@ -16,7 +16,7 @@ export type {
   GitHubAdapterConfig,
   PullRequestState,
   PullRequestStatus,
-} from './types';
+} from './types'
 
 // Adapter
 export {
@@ -24,7 +24,7 @@ export {
   getGitHubAdapter,
   resetGitHubAdapter,
   GitHubAdapterImpl,
-} from './adapter';
+} from './adapter'
 
 // Mock data (for testing and development)
-export { getMockPullRequests, getMockRepositoryPullRequests } from './mockData';
+export { getMockPullRequests, getMockRepositoryPullRequests } from './mockData'

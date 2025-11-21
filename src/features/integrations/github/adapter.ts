@@ -10,9 +10,9 @@ import type {
   GitHubAdapterConfig,
   GitHubPullRequest,
   PullRequestState,
-} from './types';
-import { getMockPullRequests, getMockRepositoryPullRequests } from './mockData';
-import { isFeatureEnabled } from '@/utils/featureFlags';
+} from './types'
+import { getMockPullRequests, getMockRepositoryPullRequests } from './mockData'
+import { isFeatureEnabled } from '@/utils/featureFlags'
 
 /**
  * GitHub API Adapter Implementation
@@ -21,26 +21,26 @@ import { isFeatureEnabled } from '@/utils/featureFlags';
  * When OAuth is enabled via feature flag, can use real GitHub API.
  */
 export class GitHubAdapterImpl implements GitHubAdapter {
-  private config: GitHubAdapterConfig;
+  private config: GitHubAdapterConfig
 
   constructor(config: GitHubAdapterConfig = {}) {
     this.config = {
       useMockData: config.useMockData ?? true, // Mock by default
       ...config,
-    };
+    }
   }
 
   /**
    * Get pull requests for the authenticated user
    */
   async getPullRequests(options?: {
-    state?: PullRequestState;
-    perPage?: number;
-    page?: number;
+    state?: PullRequestState
+    perPage?: number
+    page?: number
   }): Promise<GitHubPullRequest[]> {
     // Use mock data if configured or OAuth is disabled
     if (this.config.useMockData || !this.isOAuthEnabled()) {
-      return Promise.resolve(getMockPullRequests(options));
+      return Promise.resolve(getMockPullRequests(options))
     }
 
     // Real API implementation (when OAuth is enabled)
@@ -49,7 +49,7 @@ export class GitHubAdapterImpl implements GitHubAdapter {
       state: options?.state,
       per_page: options?.perPage,
       page: options?.page,
-    });
+    })
   }
 
   /**
@@ -59,14 +59,16 @@ export class GitHubAdapterImpl implements GitHubAdapter {
     owner: string,
     repo: string,
     options?: {
-      state?: PullRequestState;
-      perPage?: number;
-      page?: number;
+      state?: PullRequestState
+      perPage?: number
+      page?: number
     }
   ): Promise<GitHubPullRequest[]> {
     // Use mock data if configured or OAuth is disabled
     if (this.config.useMockData || !this.isOAuthEnabled()) {
-      return Promise.resolve(getMockRepositoryPullRequests(owner, repo, options));
+      return Promise.resolve(
+        getMockRepositoryPullRequests(owner, repo, options)
+      )
     }
 
     // Real API implementation (when OAuth is enabled)
@@ -74,7 +76,7 @@ export class GitHubAdapterImpl implements GitHubAdapter {
       state: options?.state,
       per_page: options?.perPage,
       page: options?.page,
-    });
+    })
   }
 
   /**
@@ -83,18 +85,18 @@ export class GitHubAdapterImpl implements GitHubAdapter {
   isConfigured(): boolean {
     // With mock data, always configured
     if (this.config.useMockData) {
-      return true;
+      return true
     }
 
     // With real API, need OAuth token
-    return this.isOAuthEnabled() && !!this.config.oauthToken;
+    return this.isOAuthEnabled() && !!this.config.oauthToken
   }
 
   /**
    * Check if OAuth is enabled via feature flag
    */
   private isOAuthEnabled(): boolean {
-    return isFeatureEnabled('enableGitHubOAuth');
+    return isFeatureEnabled('enableGitHubOAuth')
   }
 
   /**
@@ -104,45 +106,47 @@ export class GitHubAdapterImpl implements GitHubAdapter {
     endpoint: string,
     params?: Record<string, unknown>
   ): Promise<GitHubPullRequest[]> {
-    const baseUrl = 'https://api.github.com';
-    const url = new URL(endpoint, baseUrl);
+    const baseUrl = 'https://api.github.com'
+    const url = new URL(endpoint, baseUrl)
 
     // Add query parameters
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
-          url.searchParams.append(key, String(value));
+          url.searchParams.append(key, String(value))
         }
-      });
+      })
     }
 
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       Accept: 'application/vnd.github.v3+json',
-    };
+    }
 
     // Add authorization if token is available
     if (this.config.oauthToken) {
-      headers.Authorization = `Bearer ${this.config.oauthToken}`;
+      headers['Authorization'] = `Bearer ${this.config.oauthToken}`
     } else if (this.config.token) {
-      headers.Authorization = `token ${this.config.token}`;
+      headers['Authorization'] = `token ${this.config.token}`
     }
 
     try {
-      const response = await fetch(url.toString(), { headers });
+      const response = await fetch(url.toString(), { headers })
 
       if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `GitHub API error: ${response.status} ${response.statusText}`
+        )
       }
 
-      const data = await response.json();
+      const data = await response.json()
 
       // Transform API response to our format
       // Note: This is a simplified transformation
       // Real implementation would need to handle pagination, rate limits, etc.
-      return Array.isArray(data) ? data : data.items || [];
+      return Array.isArray(data) ? data : data.items || []
     } catch (error) {
-      console.error('GitHub API fetch failed:', error);
-      throw error;
+      console.error('GitHub API fetch failed:', error)
+      throw error
     }
   }
 }
@@ -150,28 +154,30 @@ export class GitHubAdapterImpl implements GitHubAdapter {
 /**
  * Create a new GitHub adapter instance
  */
-export function createGitHubAdapter(config?: GitHubAdapterConfig): GitHubAdapter {
-  return new GitHubAdapterImpl(config);
+export function createGitHubAdapter(
+  config?: GitHubAdapterConfig
+): GitHubAdapter {
+  return new GitHubAdapterImpl(config)
 }
 
 /**
  * Singleton instance for default usage
  */
-let defaultAdapter: GitHubAdapter | null = null;
+let defaultAdapter: GitHubAdapter | null = null
 
 /**
  * Get the default GitHub adapter instance
  */
 export function getGitHubAdapter(): GitHubAdapter {
   if (!defaultAdapter) {
-    defaultAdapter = createGitHubAdapter();
+    defaultAdapter = createGitHubAdapter()
   }
-  return defaultAdapter;
+  return defaultAdapter
 }
 
 /**
  * Reset the default adapter (useful for testing)
  */
 export function resetGitHubAdapter(): void {
-  defaultAdapter = null;
+  defaultAdapter = null
 }

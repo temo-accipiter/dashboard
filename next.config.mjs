@@ -6,7 +6,9 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/config.ts')
 const withPWA = withPWAInit({
   dest: 'public',
   // Feature toggle: disable PWA in development or via env variable
-  disable: process.env.NODE_ENV === 'development' || process.env.DISABLE_PWA === 'true',
+  disable:
+    process.env.NODE_ENV === 'development' ||
+    process.env.DISABLE_PWA === 'true',
   register: true,
   skipWaiting: true,
   sw: 'sw.js',

@@ -66,7 +66,14 @@ export const WIDGET_REGISTRY: WidgetManifest[] = [
     component: GitHubPRsWidget,
     version: '1.0.0',
     author: 'Dashboard Team',
-    tags: ['github', 'pull requests', 'git', 'code review', 'développement', 'integration'],
+    tags: [
+      'github',
+      'pull requests',
+      'git',
+      'code review',
+      'développement',
+      'integration',
+    ],
     preview:
       "Suivez l'état de vos pull requests GitHub avec mise à jour automatique et filtres personnalisables.",
   },

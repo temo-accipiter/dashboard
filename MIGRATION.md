@@ -591,21 +591,63 @@ d69071e Phase 2 - Migration i18n vers next-intl
 3. **SEO**: Ajouter metadata pour chaque page
 4. **Déploiement**: Tester en production (Vercel recommandé)
 
-### Nettoyage optionnel
+### Nettoyage optionnel (COMPLÉTÉ ✅)
 
-Fichiers Vite legacy à supprimer (si migration définitive):
+**Date:** 2025-11-20
+
+Tous les fichiers et dépendances Vite legacy ont été supprimés:
+
+✅ **Fichiers supprimés:**
 
 ```bash
-rm src/main.tsx
-rm vite.config.ts
-rm index.html
+✓ vite.config.ts
+✓ index.html
+✓ src/vite-env.d.ts
+✓ src/main.tsx
+✓ src/i18n/i18n.ts (ancien système i18next)
+✓ src/locales/ (ancien dossier de traductions)
+✓ src/components/layout/Layout.tsx (ancien layout React Router)
+✓ src/views/notFound/NotFound.tsx (ancien composant 404)
 ```
 
-Scripts package.json à supprimer:
+✅ **Scripts package.json supprimés:**
 
 ```json
-"dev:vite": "vite",
-"build:vite": "tsc --noEmit && vite build"
+✓ "dev:vite": "vite"
+✓ "build:vite": "tsc --noEmit && vite build"
+✓ "preview": "vite preview"
+```
+
+✅ **Dépendances supprimées:**
+
+```json
+✓ "react-router-dom": "^7.5.0"
+✓ "@vitejs/plugin-react": "^4.3.4"
+✓ "vite": "^6.3.0"
+```
+
+✅ **Fichiers créés:**
+
+```bash
+✓ src/types/assets.d.ts (déclarations TypeScript pour SVG/PNG/etc.)
+✓ src/app/not-found.tsx (nouveau composant 404 Next.js)
+✓ src/app/not-found.scss (styles pour la page 404)
+```
+
+✅ **Traductions ajoutées:**
+
+```json
+✓ messages/fr.json (ajout section "notFound")
+✓ messages/en.json (ajout section "notFound")
+```
+
+**Résultat:**
+
+```
+✓ pnpm typecheck: SUCCESS
+✓ pnpm build: SUCCESS
+✓ Migration 100% complète
+✓ Aucun code Vite/React Router restant
 ```
 
 ### Optimisations Next.js
@@ -635,7 +677,6 @@ export const metadata = {
 
 ```tsx
 import Image from 'next/image'
-
 ;<Image src="/path/to/image.png" alt="Description" width={500} height={300} />
 ```
 
@@ -656,6 +697,9 @@ LiensGrid.tsx: 1x @typescript-eslint/no-explicit-any
 ✅ **Migration réussie** de React + Vite vers Next.js 15.5.6
 ✅ **Aucune régression** - 135/135 tests passants
 ✅ **Structure préservée** - Composants TSX inchangés
+✅ **Nettoyage complet** - 100% du code legacy supprimé (2025-11-20)
 ✅ **Prêt pour production**
 
 La migration a été effectuée de manière méthodique en 6 phases, avec validation à chaque étape. Le projet est maintenant entièrement fonctionnel sous Next.js avec App Router, tout en conservant la compatibilité React 19 et toutes les fonctionnalités existantes.
+
+**Phase finale de nettoyage (2025-11-20):** Tous les fichiers, dépendances et configurations Vite/React Router ont été supprimés. Le projet est maintenant 100% Next.js sans aucun code legacy.

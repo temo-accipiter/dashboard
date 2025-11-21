@@ -15,6 +15,10 @@
     "exampleTextTitle": "Example text",
     "welcome": "Welcome to your dashboard"
   },
+  "notFound": {
+    "message": "Oops! The page you're looking for cannot be found.",
+    "backHome": "Back to home"
+  },
   "integrations": {
     "github": {
       "title": "GitHub Pull Requests",

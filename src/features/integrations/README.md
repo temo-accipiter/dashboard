@@ -43,6 +43,7 @@ NEXT_PUBLIC_ENABLE_RSS_INTEGRATION=true
 **Widget**: GitHub Pull Requests (`GitHubPRsWidget`)
 
 **Features**:
+
 - View pull requests for authenticated user
 - Filter by state (open/closed/merged)
 - View repository-specific pull requests
@@ -52,31 +53,32 @@ NEXT_PUBLIC_ENABLE_RSS_INTEGRATION=true
 **Usage**:
 
 ```typescript
-import { getGitHubAdapter } from '@/features/integrations/github';
+import { getGitHubAdapter } from '@/features/integrations/github'
 
-const adapter = getGitHubAdapter();
-const pullRequests = await adapter.getPullRequests({ state: 'open' });
+const adapter = getGitHubAdapter()
+const pullRequests = await adapter.getPullRequests({ state: 'open' })
 ```
 
 **Configuration**:
 
 ```typescript
-import { createGitHubAdapter } from '@/features/integrations/github';
+import { createGitHubAdapter } from '@/features/integrations/github'
 
 // Use mock data (default)
-const adapter = createGitHubAdapter();
+const adapter = createGitHubAdapter()
 
 // Use real API with OAuth (requires feature flag)
 const adapter = createGitHubAdapter({
   useMockData: false,
   oauthToken: 'your-oauth-token',
-});
+})
 ```
 
 ### Google Calendar
 
 **Status**: 🚧 Coming soon
 **Planned Features**:
+
 - View upcoming events
 - Create/edit events
 - Calendar sync
@@ -86,6 +88,7 @@ const adapter = createGitHubAdapter({
 
 **Status**: 🚧 Coming soon
 **Planned Features**:
+
 - RSS feed reader
 - Custom feed management
 - Article caching
@@ -93,11 +96,13 @@ const adapter = createGitHubAdapter({
 ## Creating a New Integration
 
 1. **Create directory structure**:
+
    ```bash
    mkdir -p src/features/integrations/<provider>/__tests__
    ```
 
 2. **Define types** (`types.ts`):
+
    ```typescript
    export interface <Provider>Adapter {
      // Define adapter interface
@@ -111,6 +116,7 @@ const adapter = createGitHubAdapter({
    ```
 
 3. **Create mock data** (`mockData.ts`):
+
    ```typescript
    export const mock<Entity>: <Entity>[] = [
      // Mock data for development
@@ -118,6 +124,7 @@ const adapter = createGitHubAdapter({
    ```
 
 4. **Implement adapter** (`adapter.ts`):
+
    ```typescript
    import { isFeatureEnabled } from '@/utils/featureFlags';
 
@@ -136,6 +143,7 @@ const adapter = createGitHubAdapter({
    ```
 
 5. **Add feature flag** (`.env.example`):
+
    ```bash
    NEXT_PUBLIC_ENABLE_<PROVIDER>_OAUTH=false
    ```
@@ -146,6 +154,7 @@ const adapter = createGitHubAdapter({
    - Test feature flag integration
 
 7. **Create widget component**:
+
    ```
    src/components/widgets/<Provider>Widget/
    ├── <Provider>Widget.tsx
@@ -155,6 +164,7 @@ const adapter = createGitHubAdapter({
    ```
 
 8. **Register widget** (`src/widgets/index.ts`):
+
    ```typescript
    import { <Provider>Widget } from '@/components/widgets/<Provider>Widget';
 

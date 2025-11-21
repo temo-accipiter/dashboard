@@ -7,11 +7,11 @@
 
 export interface FeatureFlags {
   /** Enable GitHub OAuth integration */
-  enableGitHubOAuth: boolean;
+  enableGitHubOAuth: boolean
   /** Enable Google Calendar OAuth integration */
-  enableGoogleCalendarOAuth: boolean;
+  enableGoogleCalendarOAuth: boolean
   /** Enable RSS feed integration */
-  enableRSSIntegration: boolean;
+  enableRSSIntegration: boolean
 }
 
 /**
@@ -19,16 +19,19 @@ export interface FeatureFlags {
  */
 export function getFeatureFlags(): FeatureFlags {
   return {
-    enableGitHubOAuth: process.env.NEXT_PUBLIC_ENABLE_GITHUB_OAUTH === 'true',
-    enableGoogleCalendarOAuth: process.env.NEXT_PUBLIC_ENABLE_GOOGLE_CALENDAR_OAUTH === 'true',
-    enableRSSIntegration: process.env.NEXT_PUBLIC_ENABLE_RSS_INTEGRATION === 'true',
-  };
+    enableGitHubOAuth:
+      process.env['NEXT_PUBLIC_ENABLE_GITHUB_OAUTH'] === 'true',
+    enableGoogleCalendarOAuth:
+      process.env['NEXT_PUBLIC_ENABLE_GOOGLE_CALENDAR_OAUTH'] === 'true',
+    enableRSSIntegration:
+      process.env['NEXT_PUBLIC_ENABLE_RSS_INTEGRATION'] === 'true',
+  }
 }
 
 /**
  * Check if a specific feature is enabled
  */
 export function isFeatureEnabled(feature: keyof FeatureFlags): boolean {
-  const flags = getFeatureFlags();
-  return flags[feature];
+  const flags = getFeatureFlags()
+  return flags[feature]
 }
